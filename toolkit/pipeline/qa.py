@@ -25,7 +25,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from config import brand, public_dir
-from voice import TAG, _norm, _pcm16k
+from voice import TAG, _norm, _pcm16k, whisper_model
 
 
 def probe(path):
@@ -48,14 +48,15 @@ def loudness(path):
     return i, tp
 
 
-def transcribe(path, hotwords=None, model_size="small.en"):
+def transcribe(path, hotwords=None, model_size=None):
     """`hotwords` names coined words the recogniser cannot spell; they bias
-    decoding, so a person still listens to them. For key words, also run
-    the largest model the machine can hold: a small model once passed a
-    misread proper noun that a larger one caught."""
+    decoding, so a person still listens to them. The model is medium.en
+    unless QA_WHISPER_MODEL or qa.model says otherwise (voice.whisper_model):
+    a small model once passed a misread proper noun that a larger one
+    caught."""
     from faster_whisper import WhisperModel
 
-    model = WhisperModel(model_size, device="cpu", compute_type="int8")
+    model = WhisperModel(model_size or whisper_model(), device="cpu", compute_type="int8")
     segs, _ = model.transcribe(_pcm16k(path), beam_size=5, hotwords=hotwords)
     return " ".join(s.text.strip() for s in segs)
 
@@ -234,7 +235,7 @@ def run(episode, timeline, final_mp4, out_dir, ep_dir):
     check("no stray sounds or clicks in the narration", not flaws, flaws)
     script = " ".join(s["text"] for s in episode["segments"])
     hotwords = episode.get("qa", {}).get("hotwords")
-    heard = transcribe(final_mp4, hotwords)
+    heard = transcribe(final_mp4, hotwords, whisper_model(episode))
     wer, diffs = word_errors(script, heard)
     check("narration matches script (WER <= 3%)", wer <= 0.03, {"wer": round(wer, 4), "diffs": diffs})
     unverified = [f["claim"] for f in episode.get("facts", []) if f.get("status") != "verified"]

@@ -10,7 +10,9 @@ The new text is read from episode.json, which must already hold it. Words
 are matched by their letters; a cue on a word that no longer exists moves
 to the first word that replaced it and is flagged, so it can be checked by
 eye. Without --apply it only prints the plan. The scene file and the
-episode's sound-effect cues are both rewritten.
+episode's sound-effect cues are both rewritten. Cues are found in double
+or single quotes ("seg@3", 'seg@3'); a cue built at run time (a template
+string) is not found, so write cues as literals.
 """
 
 import difflib
@@ -18,6 +20,8 @@ import json
 import re
 import sys
 from pathlib import Path
+
+TAG = re.compile(r"\[[^\]]*\]")
 
 
 def norm(w):
@@ -39,10 +43,13 @@ def mapping(old, new):
     return out, moved
 
 
+def cue_pattern(seg):
+    return re.compile(r"""(["'])""" + re.escape(seg) + r"@(\d+)\1")
+
+
 def rewrite(text, seg, m):
-    """Every "seg@k" in `text` with k mapped."""
-    pat = re.compile(r'"' + re.escape(seg) + r'@(\d+)"')
-    return pat.sub(lambda x: f'"{seg}@{m.get(int(x.group(1)), int(x.group(1)))}"', text)
+    """Every "seg@k" (or 'seg@k') in `text` with k mapped."""
+    return cue_pattern(seg).sub(lambda x: f"{x.group(1)}{seg}@{m.get(int(x.group(2)), int(x.group(2)))}{x.group(1)}", text)
 
 
 def main():
@@ -53,11 +60,12 @@ def main():
     ep_path = Path(ep_dir) / "episode.json"
     ep = json.loads(ep_path.read_text())
     new_text = next(s["text"] for s in ep["segments"] if s["id"] == seg)
-    old, new = old_text.split(), new_text.split()
+    # Audio tags ([curious]) are not caption words, so they hold no index.
+    old, new = TAG.sub(" ", old_text).split(), TAG.sub(" ", new_text).split()
     m, moved = mapping(old, new)
-    pat = re.compile(r'"' + re.escape(seg) + r'@(\d+)"')
+    pat = cue_pattern(seg)
     src = Path(tsx).read_text()
-    used = sorted({int(k) for k in pat.findall(src)} | {int(k) for k in pat.findall(ep_path.read_text())})
+    used = sorted({int(k) for _, k in pat.findall(src)} | {int(k) for _, k in pat.findall(ep_path.read_text())})
     for k in used:
         flag = "  <- word changed, check" if k in moved else ""
         j = m.get(k, k)

@@ -34,7 +34,7 @@
   "facts": [
     { "id": "F01", "claim": "<one fact said or shown, as worded on screen>", "source": "<primary source, or CALC with dataset and script>", "status": "unverified" }
   ],
-  "qa": { "hotwords": "<proper nouns the recogniser may not spell>" },
+  "qa": { "hotwords": "<proper nouns the recogniser may not spell>", "model": "medium.en" },
   "say": {
     "british": { "2,688": "two thousand six hundred and eighty-eight" },
     "american": { "2,688": "two thousand six hundred eighty-eight" }

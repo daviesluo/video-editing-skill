@@ -48,7 +48,7 @@ def eleven():
         for line in dotenv.read_text().splitlines():
             k, sep, v = line.partition("=")
             if sep and not line.startswith("#"):
-                env.setdefault(k.strip(), v.strip())
+                env.setdefault(k.strip(), v.strip().strip('"').strip("'"))
     if env.get("ELEVENLABS_API_KEY"):
         return API, {"xi-api-key": env["ELEVENLABS_API_KEY"]}
     if env.get("ELEVENLABS_PROXY_URL") and env.get("ELEVENLABS_PROXY_TOKEN"):
@@ -164,13 +164,21 @@ def _pcm16k(path):
     return np.frombuffer(raw, np.float32)
 
 
+def whisper_model(episode=None):
+    """The recogniser used for every check of what the voice says: medium.en
+    by default, because a small model once passed a misread proper noun that
+    a larger one caught. QA_WHISPER_MODEL (e.g. large-v3) or episode.json's
+    qa.model overrides it where the machine can hold a larger one."""
+    return (episode or {}).get("qa", {}).get("model") or os.environ.get("QA_WHISPER_MODEL", "medium.en")
+
+
 def align_whisper(wav_path):
     """Word timings recovered from finished audio, for a take whose own
     timings were lost. Less exact than forced alignment. faster-whisper is
     given decoded samples: its own file decoding fails on some systems."""
     from faster_whisper import WhisperModel
 
-    model = WhisperModel("small.en", device="cpu", compute_type="int8")
+    model = WhisperModel(whisper_model(), device="cpu", compute_type="int8")
     segs, _ = model.transcribe(_pcm16k(wav_path), beam_size=5, word_timestamps=True)
     return [{"text": w.word.strip(), "start": w.start, "end": w.end} for s in segs for w in s.words]
 
@@ -215,7 +223,9 @@ def align_forced(wav_path, text):
 def realign(episode, public_dir):
     """Re-times the committed narration's words by forced alignment, keeping
     the audio; writes timeline.json and returns the shift of each word's
-    start against the timeline it replaces. Splice records are kept."""
+    start against the timeline it replaces, or None when the number of
+    words changed. Splice records, caption keeps and the lead and tail are
+    kept."""
     public_dir = Path(public_dir)
     say = readings(episode)
     wav = public_dir / "voice.wav"
@@ -226,7 +236,14 @@ def realign(episode, public_dir):
     fricative_onsets(mapped, a, sr, say)
     timeline = build_timeline(mapped, wav)
     timeline["voice"] = dict(old["voice"], alignment="forced", unmatched_words=missing)
-    (public_dir / "timeline.json").write_text(json.dumps(timeline, indent=1))
+    for k in ("keep", "split", "lead", "tail"):
+        if k in old:
+            timeline[k] = old[k]
+    (public_dir / "timeline.json").write_text(json.dumps(timeline, indent=1, ensure_ascii=False))
+    # The shift per word means something only when the words are the same
+    # words: after a wording change the counts differ.
+    if len(mapped) != len(old["words"]):
+        return None
     return [round(n["start"] - o["start"], 3) for n, o in zip(mapped, old["words"])]
 
 
@@ -551,7 +568,7 @@ def measure_span(wav, t0, t1, transcribe=True):
 
         with tempfile.NamedTemporaryFile(suffix=".wav") as f:
             sf.write(f.name, seg, sr)
-            model = WhisperModel("small.en", device="cpu", compute_type="int8")
+            model = WhisperModel(whisper_model(), device="cpu", compute_type="int8")
             segs, _ = model.transcribe(_pcm16k(f.name), beam_size=5)
             rep["heard"] = " ".join(s.text.strip() for s in segs)
     return rep
@@ -587,11 +604,35 @@ def make(episode, public_dir, seed=None):
     return timeline
 
 
+USAGE = """usage:
+  python pipeline/voice.py measure  <voice.wav> <start s> <end s>
+  python pipeline/voice.py replace  episodes/<id> <seg> <first> <last> [seed]
+  python pipeline/voice.py add-line episodes/<id> <seg> [seed]
+Then run build.py <ep> realign. Copy voice.wav and timeline.json aside
+first when trying several seeds. Other steps run through pipeline/build.py."""
+
+
+def _episode(ep_dir):
+    from config import public_dir
+
+    ep = json.loads((Path(ep_dir) / "episode.json").read_text())
+    return ep, public_dir(ep)
+
+
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv) >= 5 and sys.argv[1] == "measure":
-        print(json.dumps(measure_span(sys.argv[2], float(sys.argv[3]), float(sys.argv[4])), indent=1))
+    a = sys.argv[1:]
+    if len(a) >= 4 and a[0] == "measure":
+        print(json.dumps(measure_span(a[1], float(a[2]), float(a[3])), indent=1))
+    elif len(a) >= 5 and a[0] == "replace":
+        ep, pub = _episode(a[1])
+        seed = int(a[5]) if len(a) > 5 else None
+        print("shift", replace_words(ep, pub, a[2], int(a[3]), int(a[4]), seed=seed), "s; now run build.py <ep> realign")
+    elif len(a) >= 3 and a[0] == "add-line":
+        ep, pub = _episode(a[1])
+        seg = next(s for s in ep["segments"] if s["id"] == a[2])
+        add_line(ep, pub, seg, seed=int(a[3]) if len(a) > 3 else None)
+        print("added", a[2], "; now run build.py <ep> realign")
     else:
-        raise SystemExit("usage: python pipeline/voice.py measure <voice.wav> <start s> <end s>\n"
-                         "Other steps run through pipeline/build.py.")
+        raise SystemExit(USAGE)

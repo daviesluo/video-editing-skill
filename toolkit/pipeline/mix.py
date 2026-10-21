@@ -218,6 +218,9 @@ def build(episode, timeline, voice_wav, out_wav, work):
     work = Path(work)
     work.mkdir(parents=True, exist_ok=True)
     public_dir = Path(voice_wav).parent
+    if not Path(voice_wav).exists():
+        raise SystemExit(f"no narration at {voice_wav}: run build.py <ep> voice first "
+                         "(VOICE_PROVIDER=kokoro gives a local test voice)")
     voice_norm = work / "voice-16.wav"
     _ffmpeg_loudnorm(voice_wav, voice_norm, {"I": VOICE_LUFS, "TP": -2.0, "LRA": 11.0})
     voice, _ = sf.read(voice_norm, dtype="float32")

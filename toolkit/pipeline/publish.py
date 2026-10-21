@@ -15,15 +15,13 @@ approval.
 Each release folder holds release.json, naming its source:
 
     {"type": "reel", "source": "episodes/01-slug", "cover": "covers/cover-01.png"}
-    {"type": "carousel", "source": "carousels/01-slug", "slides": 7}
 
 and post.md (templates/release/post.md), the single home of the text to
 post: fenced ```text blocks under the headings below, then the settings,
 the checklist, the reasons for each choice and the hashtag check table.
 
-`stage` copies the media in (a reel's final.mp4 and cover; a carousel's
-slides), records for a reel the commit its video was rendered from and the
-video's SHA-256, writes the .txt files from post.md and runs `check`.
+`stage` copies the media in (the reel's final.mp4 and cover), records the
+commit its video was rendered from and the video's SHA-256, writes the .txt files from post.md and runs `check`.
 `check` lints the text against the rules in references/14-release-and-
 publishing.md and each platform's limits, and the cover against the cover
 design. `when` reads a post's time out of its shortcode, for the read-back.
@@ -42,10 +40,8 @@ from config import LIVE, ROOT, WAITING, brand
 BLOCKS = {
     "Caption": "caption.txt",
     "Pinned comment": "pinned-comment.txt",
-    "Alt text": "alt-text.txt",
     "Series-link comment": "series-link-comment.txt",
     "TikTok caption": "tiktok-caption.txt",
-    "TikTok title": "tiktok-title.txt",
     "YouTube title": "youtube-title.txt",
     "YouTube description": "youtube-description.txt",
     "Short replies": "replies.txt",
@@ -56,14 +52,17 @@ BLOCKS = {
 # photo-post titles 90, comment replies 150; YouTube titles 100 and
 # descriptions 5,000, with no < or >.
 MAX_TIKTOK_CAPTION = 4000
-MAX_TIKTOK_TITLE = 90
 MAX_YT_TITLE = 100
 MAX_YT_DESCRIPTION = 5000
 # Typographic tells and ornaments the text never uses.
 BANNED = {"·": "middle dot", "—": "em dash", "–": "en dash", "→": "arrow", "←": "arrow", "->": "arrow"}
-# The text never mentions how the video was made; the platform's own label
-# setting does the disclosure.
-NO_AI = re.compile(r"\bA\.?I\b|artificial intelligence|machine.learning|generated", re.I)
+# The text never says how the video was made; the platform's own label does
+# the disclosure. A topic that is about AI, or revenue "generated", is fine.
+NO_AI = re.compile(
+    r"\b(made|created|generated|produced|narrated|voiced|written)\s+(with|by|using)\s+(an?\s+)?"
+    r"(AI|A\.I\.|artificial intelligence|text-to-speech|a synthetic voice)(?!\w)"
+    r"|\bAI[- ](generated|voice|narrat\w*|made)\b|\bsynthetic (voice|narrat\w*)\b|\btext-to-speech\b",
+    re.I)
 # Apostrophes are typed as ’ (U+2019). On the way from a pack to the app a
 # straight ' became an opening quote ‘ in about half the words of two live
 # captions ("world‘s", "It‘s"); a ’ arrives untouched.
@@ -97,29 +96,21 @@ def sha256(path):
     return h.hexdigest()
 
 
-def stage(release, rendered_from=None):
+def stage(release, rendered_from):
     folder = WAITING / release
     spec = json.loads((folder / "release.json").read_text())
-    src = ROOT / spec["source"]
-    if spec["type"] == "reel":
-        if not rendered_from:
-            raise SystemExit("name the commit the video was rendered from")
-        from PIL import Image
+    if spec.get("type", "reel") != "reel":
+        raise SystemExit(f"{release}: only reels are staged by this toolkit")
+    from PIL import Image
 
-        video = src / "out" / "final.mp4"
-        shutil.copy(video, folder / "video.mp4")
-        Image.open(ROOT / spec["cover"]).convert("RGB").save(folder / "cover.png", optimize=True)
-        commit = subprocess.run(["git", "rev-parse", "--verify", rendered_from + "^{commit}"], cwd=ROOT,
-                                capture_output=True, text=True, check=True).stdout.strip()
-        spec.update({"rendered_from": commit, "video_sha256": sha256(folder / "video.mp4")})
-        (folder / "release.json").write_text(json.dumps(spec, indent=2) + "\n")
-        print(f"video.mp4 {spec['video_sha256'][:12]}..., rendered from {commit}")
-    elif spec["type"] == "carousel":
-        for k in range(1, spec["slides"] + 1):
-            shutil.copy(src / "out" / f"slide-{k}.png", folder / f"slide-{k:02d}.png")
-        print(f"{spec['slides']} slides")
-    else:
-        raise SystemExit(f"unknown release type {spec['type']}")
+    video = ROOT / spec["source"] / "out" / "final.mp4"
+    shutil.copy(video, folder / "video.mp4")
+    Image.open(ROOT / spec["cover"]).convert("RGB").save(folder / "cover.png", optimize=True)
+    commit = subprocess.run(["git", "rev-parse", "--verify", rendered_from + "^{commit}"], cwd=ROOT,
+                            capture_output=True, text=True, check=True).stdout.strip()
+    spec.update({"rendered_from": commit, "video_sha256": sha256(folder / "video.mp4")})
+    (folder / "release.json").write_text(json.dumps(spec, indent=2) + "\n")
+    print(f"video.mp4 {spec['video_sha256'][:12]}..., rendered from {commit}")
     text(release)
 
 
@@ -135,18 +126,17 @@ def paragraphs(text):
     return [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
 
 
-def text_problems(md, kind="reel", live=False, cfg=None):
+def text_problems(md, live=False, cfg=None):
     """Every rule the text of a post.md breaks, as readable lines. `live`
     skips the rules for text already posted on the first platform, which is
     a record and is not linted again."""
     cfg = (cfg or brand())["release"]
     found = blocks_of(md)
     out = []
-    needed = ["Caption", "Pinned comment"] + (["Alt text"] if kind == "carousel" else [])
-    for title in needed:
+    for title in ("Caption", "Pinned comment"):
         if title not in found:
             out.append(f"post.md has no {title} block")
-    first = {"Caption", "Pinned comment", "Alt text", "Series-link comment"}
+    first = {"Caption", "Pinned comment", "Series-link comment"}
     cap = found.get("Caption", "")
     tags = TAG.findall(cap)
     for title, body in found.items():
@@ -158,7 +148,7 @@ def text_problems(md, kind="reel", live=False, cfg=None):
         for ch, name in QUOTES.items():
             if ch in body:
                 out.append(f"{title} contains a {name}")
-        if title != "Alt text" and NO_AI.search(body):
+        if NO_AI.search(body):
             out.append(f"{title} mentions how it was made ({NO_AI.search(body).group(0)})")
     if not live and cap:
         if len(cap) > cfg["maxCaption"]:
@@ -183,7 +173,7 @@ def text_problems(md, kind="reel", live=False, cfg=None):
             out.append("the pinned comment does not invite a follow")
         if TAG.search(pin):
             out.append("the pinned comment carries a hashtag (they count against the post's limit)")
-    if kind == "reel" and not live:
+    if not live:
         audio = re.search(r'Audio name: "([^"]+)"', md)
         if not audio:
             out.append("post.md names no audio (a line 'Audio name: \"...\"')")
@@ -194,11 +184,6 @@ def text_problems(md, kind="reel", live=False, cfg=None):
                 out.append("audio name contains a straight apostrophe or an opening quote mark; write ’")
         if not re.search(r"AI label: on\b", md):
             out.append("post.md's settings do not say 'AI label: on' (the voice is synthetic)")
-    if kind == "carousel" and "Alt text" in found:
-        n = re.search(r'"slides":\s*(\d+)', md)
-        lines = [ln for ln in found["Alt text"].splitlines() if ln.strip()]
-        if n and len(lines) != int(n.group(1)):
-            out.append(f"alt text has {len(lines)} lines for {n.group(1)} slides")
     out += platform_problems(found, cfg)
     return out
 
@@ -217,8 +202,6 @@ def platform_problems(found, cfg):
             out.append("the TikTok caption asks no question")
         if tiktok.strip() == found.get("Caption", "").strip():
             out.append("the TikTok caption is the first platform's caption unchanged; write it for TikTok")
-    if "TikTok title" in found and len(found["TikTok title"]) > MAX_TIKTOK_TITLE:
-        out.append(f"TikTok title is {len(found['TikTok title'])} characters, over {MAX_TIKTOK_TITLE}")
     title = found.get("YouTube title")
     if title is not None and ("\n" in title or len(title) > MAX_YT_TITLE):
         out.append(f"YouTube title must be one line of at most {MAX_YT_TITLE} characters")
@@ -253,26 +236,23 @@ def check(release):
     here = release_dir(release)
     spec = json.loads((here / "release.json").read_text())
     md = (here / "post.md").read_text()
-    if spec["type"] == "carousel":
-        md += f'\n<!-- "slides": {spec["slides"]} -->\n'
-    problems = text_problems(md, spec["type"], live=here.parent == LIVE)
-    if spec["type"] == "reel":
-        cover = ROOT / spec["cover"]
-        if (here / "cover.png").exists():
-            problems += [f"cover: {p}" for p in covercheck.problems(here / "cover.png", cover.with_suffix(".json"))]
-        else:
-            problems.append("not staged: no cover.png (run stage)")
-        if not (here / "video.mp4").exists():
-            problems.append("not staged: no video.mp4 (run stage)")
-        elif spec.get("video_sha256") and sha256(here / "video.mp4") != spec["video_sha256"]:
-            problems.append("video.mp4 does not match the SHA-256 recorded when it was staged")
+    problems = text_problems(md, live=here.parent == LIVE)
+    cover = ROOT / spec["cover"]
+    if (here / "cover.png").exists():
+        problems += [f"cover: {p}" for p in covercheck.problems(here / "cover.png", cover.with_suffix(".json"))]
+    else:
+        problems.append("not staged: no cover.png (run stage)")
+    if not (here / "video.mp4").exists():
+        problems.append("not staged: no video.mp4 (run stage)")
+    elif spec.get("video_sha256") and sha256(here / "video.mp4") != spec["video_sha256"]:
+        problems.append("video.mp4 does not match the SHA-256 recorded when it was staged")
     cap = blocks_of(md).get("Caption", "")
     print(f"{release}: caption {len(cap)} characters, {len(TAG.findall(cap))} hashtags {' '.join(TAG.findall(cap))}")
     for p in problems:
         print("FAIL", p)
     if problems:
         raise SystemExit(1)
-    print("text and cover OK" if spec["type"] == "reel" else "text OK")
+    print("text and cover OK")
 
 
 def done(release, date, url):

@@ -22,6 +22,7 @@ off under the last word, a hummed vocal).
 
 import datetime as dt
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -166,6 +167,8 @@ def check(ep_dir, take):
     # Vocals: speech detection on the take; an instrumental bed has none.
     from faster_whisper import WhisperModel
 
+    # Speech detection only: the small model is enough to hear a hum or a
+    # sung line, and it is fast.
     model = WhisperModel("small.en", device="cpu", compute_type="int8")
     x16, _ = _load(raw_take, 16000)
     segs, _ = model.transcribe(x16, vad_filter=True, language="en")
@@ -186,6 +189,7 @@ def check(ep_dir, take):
     }
     rep["failed"] = [k for k, ok in rules.items() if not ok]
     rep["passed"] = not rep["failed"]
+    os.unlink(tmp.name)
     return rep
 
 

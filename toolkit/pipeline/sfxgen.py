@@ -34,8 +34,8 @@ EFFECTS = {
     "tick": ("A single soft tick of a pencil tapping paper on a wooden desk, dry and close", 0.5, 0.18, 4),
     "pop": ("A small soft wooden click, like a pin pushed into cork, warm and subtle, dry", 0.5, 0.25, 4),
     "thud": ("A deep soft cinematic low boom with a short warm tail, subtle, no rumble at the end", 1.2, 1.0, 3),
+    # A riser is an effect under a reveal, never part of the music bed.
     "riser": ("A subtle airy tension riser that swells for a second and a half and stops, no hit at the end", 1.6, 1.5, 2),
-    "burn": ("A distant meteor streaking through the upper atmosphere, soft crackling burn and rushing air, fading out", 2.0, 1.8, 2),
 }
 
 

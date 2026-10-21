@@ -70,17 +70,26 @@ def step_remux(out):
 
 def keep_phrases(episode, public):
     """Copies episode.json's `caption_keep` (phrases a caption page must not
-    split, such as "a new one" or "Reno, Nevada") and `caption_split`
-    (hyphenated words the captions may break after the hyphen) into
-    timeline.json, where the captions read them."""
+    split, such as "a new one" or "Reno, Nevada"), `caption_split`
+    (hyphenated words the captions may break after the hyphen), and the
+    lead-in and tail into timeline.json, where the studio reads them."""
     path = public / "timeline.json"
     tl = json.loads(path.read_text())
     tl["keep"] = episode.get("caption_keep", [])
     tl["split"] = episode.get("caption_split", [])
+    # The lead-in and tail too, so stills and covers time the picture
+    # exactly as the render does.
+    tl["lead"] = episode.get("audio_lead", 0.0)
+    tl["tail"] = episode.get("tail", 1.2)
     path.write_text(json.dumps(tl, indent=1, ensure_ascii=False) + "\n")
 
 
+STEPS = ("all", "voice", "realign", "captions", "mix", "render", "mux", "qa", "remux")
+
+
 def main(ep_dir, step="all"):
+    if step not in STEPS:
+        raise SystemExit(f"unknown step {step!r}; the steps are {', '.join(STEPS)}")
     episode, public, out, ep_dir = load(ep_dir)
     steps = ["voice", "realign", "mix", "render", "mux", "qa"] if step == "all" else [step]
     timeline = None
@@ -88,10 +97,14 @@ def main(ep_dir, step="all"):
         timeline = voice.make(episode, public)
         print("voice:", timeline["voice"], f"{timeline['duration']} s")
     if "realign" in steps and episode["voice"].get("provider", "elevenlabs") == "elevenlabs":
-        shift = sorted(abs(d) for d in voice.realign(episode, public))
+        moved = voice.realign(episode, public)
         timeline = None
-        print(f"realign: {len(shift)} words, start moved median {shift[len(shift) // 2] * 1000:.0f} ms, "
-              f"max {shift[-1] * 1000:.0f} ms")
+        if moved is None:
+            print("realign: the word count changed, so no per-word shift is reported")
+        else:
+            shift = sorted(abs(d) for d in moved)
+            print(f"realign: {len(shift)} words, start moved median {shift[len(shift) // 2] * 1000:.0f} ms, "
+                  f"max {shift[-1] * 1000:.0f} ms")
     if "voice" in steps or "realign" in steps or step == "captions":
         keep_phrases(episode, public)
     if step == "captions":
