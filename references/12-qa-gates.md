@@ -31,7 +31,7 @@ any failure.
 
 | Gate | Command | Pass |
 |---|---|---|
-| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block whose last line holds one word, no visible text outside `SAFE` |
+| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block whose last line holds one word ("ORPHAN"), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH") |
 | caption pages | `node --experimental-strip-types scripts/caption-pages.ts <id>` | every page read; none flagged; no phrase the eye reads as one unit split |
 | music | `python pipeline/music.py check episodes/<id> <take>` on the take in use | `"passed": true` |
 | sound-effect plan | the `sfx:` lines `build.py ... mix` prints | none |

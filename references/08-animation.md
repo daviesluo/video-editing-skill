@@ -54,6 +54,10 @@ every time in them comes from a word cue.
 - Segments in `episode.json` carry ids; scenes read `cueAt(timeline, lead,
   "seg")` (its first word), `"seg@k"` (its k-th word, from 0) or `"seg$"`
   (the end of its last word). Sound-effect cues use the same strings.
+  Write cues as string literals, in double or single quotes, so
+  `recue.py` can find and move them; a cue built at run time (a template
+  string) is not moved and must be checked by hand after
+  any wording change.
 - **Never hard-code a second.** Every re-voice, re-time or added line
   moves words; a cue moves with its word, a second does not.
 - **After any wording change**, run `python pipeline/recue.py
@@ -70,7 +74,9 @@ material and edges: how it enters, what it does on its word, how it
 leaves. A thing that stands for a 3D object moves in the 3D scene with the
 camera and the light (a shaft through a planet opens in the surface and
 is seen in cut-away as the camera turns), never as a flat stroke sliding
-over the render. Judge every element on stills against two questions:
+over the render; the cut is fixed to the object, opened turned off square
+to the camera, and shut before the camera can look into it
+(`kit/CutAway3D.tsx`). Judge every element on stills against two questions:
 does it look designed, and does it look like what it represents?
 
 ## Lines and labels

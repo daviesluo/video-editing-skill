@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright 2026 The video-editing-skill authors. Licensed under the Apache
+# Copyright 2026 Zheng Luo (Davies Luo). Licensed under the Apache
 # License 2.0, whose text is the LICENSE file in this package. Keep this
 # notice when you copy the script.
 #
@@ -12,10 +12,14 @@
 #    exists and every one that exists is named; every relative link in the
 #    documents resolves.
 # 2. Hygiene: no e-mail address, session id, key, model identifier or
-#    commit trailer anywhere in the package, and none of the strings in a
-#    private deny-list, if one is given (VIDEO_SKILL_DENYLIST=<file>, or
-#    bin/denylist.local, which is gitignored), one string per line, so a
-#    fork can guard its own names without publishing them.
+#    commit trailer anywhere in the package; the owner's name only in the
+#    author credit ("Copyright 2026 Zheng Luo (Davies Luo)", on every file
+#    that carries the licence line, and CITATION.cff's author entry) and
+#    in the repository's own URL; and, outside those two, none of the
+#    strings in a private deny-list, if one is given
+#    (VIDEO_SKILL_DENYLIST=<file>, or bin/denylist.local, which is
+#    gitignored), one string per line, so a fork can guard its own names
+#    without publishing them.
 # 3. The toolkit builds: every Python file compiles, every JSON file
 #    parses, every Node script parses, and the studio type-checks when its
 #    packages are installed (cd toolkit/studio && npm ci).
@@ -101,12 +105,28 @@ scan "session id" 'session_[0-9a-z]{16,}'
 scan "key or token" '(sk|xi)[_-][a-z0-9]{24,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|api[_-]?key["'"'"' ]*[:=] *["'"'"']?[a-z0-9]{24,}'
 scan "model identifier" 'claude-[a-z]+-[0-9]|\bo[p]us\b|\bs[o]nnet\b|\bh[a]iku\b|\bgpt-[0-9]|\bgemini-[0-9]'
 scan "commit trailer" 'co-[a]uthored-by|claude-[s]ession'
+# The author's credit and the repository's own URL are the only personal
+# strings the package may carry; they are removed before the deny-list is
+# matched, and any other trace of the owner fails. The patterns are
+# split so that they cannot match this file.
+CREDIT='Copyright 2026 Zh''eng Luo \(Dav''ies Luo\)'
+REPO='https://github\.com/dav''iesluo/video-editing-skill'
+strip() { sed -E "s#$CREDIT##g; s#$REPO##g; /^ *(family-names: Luo|given-names: Zheng|alias: Dav[i]es Luo)$/d" "$1"; }
+hits=$(while read -r f; do strip "$f" | grep -n -I -i 'dav[i]esluo' | sed "s|^|$f:|"; done < "$T/text" | head -5)
+if [ -z "$hits" ]; then ok "the owner appears only in the credit line and the repository URL"
+else bad "an owner string outside the credit: $hits"; fi
+missing=""
+for f in NOTICE SKILL.md README.md LICENSE .claude/skills/video-editing/SKILL.md .agents/skills/video-editing/SKILL.md; do
+  grep -q 'Zh''eng Luo (Dav''ies Luo)' "$f" || missing="$missing $f"
+done
+if [ -z "$missing" ]; then ok "the author credit is on every file that carries the licence line"
+else bad "no author credit in:$missing"; fi
 DENY=${VIDEO_SKILL_DENYLIST:-$HERE/denylist.local}
 if [ -f "$DENY" ]; then
   grep -v -E '^[[:space:]]*(#|$)' "$DENY" > "$T/deny"
   n=$(wc -l < "$T/deny" | tr -d ' ')
-  hits=$(while read -r f; do grep -n -I -i -F -f "$T/deny" "$f" 2>/dev/null | sed "s|^|$f:|"; done < "$T/text" | head -5)
-  if [ -z "$hits" ]; then ok "none of the $n strings in the private deny-list"
+  hits=$(while read -r f; do strip "$f" | grep -n -I -i -F -f "$T/deny" | sed "s|^|$f:|"; done < "$T/text" | head -5)
+  if [ -z "$hits" ]; then ok "none of the $n strings in the private deny-list, outside the credit"
   else bad "a deny-listed string is in the package: $hits"; fi
 else
   ok "no private deny-list given, the generic patterns above apply"

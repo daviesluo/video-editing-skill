@@ -1,8 +1,9 @@
 # 11: Render
 
 Render stills first, look at them, fix, and only then render the video.
-A full render of a 60 s episode with a 3D globe takes about 27 minutes on
-four cores with no GPU; a still takes seconds.
+On four cores with no GPU, the example (54 s, a map plate and a 5 s globe
+beat) renders in about 9 minutes, and an episode with a 3D globe on screen
+for most of 60 s took about 27 minutes; a still takes seconds.
 
 ## Settings
 
@@ -41,6 +42,12 @@ Look at a still at each key word (the picture audit's rows) and at every
 scene change and camera move in 0.1 s steps before rendering. Stills
 render from one bundle and the bundle is deleted afterwards.
 
+Stills, covers and the render time the episode the same way: the lead-in
+and tail are read from the timeline, which `build.py` (`voice`, `realign`
+or `captions`) writes from `episode.json`'s `audio_lead` and `tail`, never
+from numbers in `Root.tsx`. After changing either in `episode.json`, run
+`build.py episodes/<id> captions` before taking stills.
+
 ## Render helper sessions
 
 To render several episodes at once, or while this session keeps working,
@@ -52,6 +59,15 @@ identical settings, so its frames are the same frames.
   message. Never spawn a new helper per render: a fresh one has to set up
   its machine again, costs a new context, and leaves another session to
   track. Record their session ids in the project's ledger.
+- **Creating them**, once per project: on a platform with remote sessions,
+  start two sessions on this repository titled exactly "video render
+  helper - 1" and "video render helper - 2", give each the machine setup
+  from the ledger as its first message, and record both session ids in the
+  ledger. Reuse them by message (the platform's send-message tool). Where
+  there are no remote sessions, a helper is a second machine or terminal
+  with the same checkout and setup, run with the same brief; and when no
+  helper is free, render here with the same `build.py` steps: the settings
+  are identical, so the frames are too.
 - **Brief by the full commit hash**, pushed first, never by a branch name
   that can move.
 - **The helper pushes its result to an orphan branch** named
@@ -67,7 +83,7 @@ The brief, sent as a message to an idle helper:
 Render request <NN> for <repository>.
 
 1. If this container is fresh, run the machine setup in the ledger
-   (setup.sh, the browser, the key in .env).
+   (setup.sh, which also builds the textures; the browser; the key in .env).
 2. git fetch origin && git checkout --detach <full 40-character commit hash>
 3. .venv/bin/python pipeline/build.py episodes/<id> mix
    .venv/bin/python pipeline/build.py episodes/<id> render

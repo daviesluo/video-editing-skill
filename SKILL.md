@@ -18,11 +18,14 @@ description: >-
 
 # Short-form explainer videos, post-ready
 
-Copyright 2026 The video-editing-skill authors. Licensed under the Apache
+Copyright 2026 Zheng Luo (Davies Luo). Licensed under the Apache
 License 2.0, whose text is the LICENSE file beside this one. Keep this
 line when you copy the file.
 
-Version 1.0, October 2026.
+Version 1.0, October 2026. Copies of this file drift once they are
+pasted into other repositories, so check this line against the
+source, https://github.com/daviesluo/video-editing-skill, before
+trusting a copy you did not install yourself.
 
 This skill makes faceless explainer videos for vertical short-form
 platforms: one everyday question per episode, answered with code-drawn
@@ -124,7 +127,7 @@ resume from the repository alone.
 - Choose among several seeds by measurement: the transcript reads as
   written, the pitch falls where a sentence ends, the length suits the
   cut (`voice.py measure`).
-- A changed sentence is re-voiced alone (`voice.replace_words`), from a
+- A changed sentence is re-voiced alone (`voice.py replace`), from a
   pause, cut only in true silence, every splice recorded and checked.
   No stray sound, breath fragment or click, ever (`qa.voice_flaws`).
 
@@ -195,8 +198,9 @@ resume from the repository alone.
 
 - Stills first (`stills.mjs`), then the render: H.264, CRF 16, yuv420p,
   `--gl=swangle`, concurrency 1 or 2, muted picture muxed with the mix.
-- Parallel renders go to two standing helper sessions, **"video render
-  helper - 1" and "video render helper - 2"**, reused by message for every
+- Parallel renders go, where the platform has remote sessions, to two
+  standing helper sessions, **"video render helper - 1" and "video render
+  helper - 2"**, reused by message for every
   render, briefed with the full commit hash, pushing `final.mp4` to an
   orphan branch `render/<NN>-<short hash>` and reporting its SHA-256.
 - Only the music changed: remux the new mix under the rendered picture.
@@ -228,7 +232,8 @@ All of these, on the delivered file, every time:
   pass asking **"what would the owner still notice?"**
 - Every problem with its time, evidence and exact fix (file, element,
   value, wording); blockers, nits, and "leave as is" with reasons; a "could
-  not check" list that must be empty.
+  not check" list that must be empty (listening aside, which a person does
+  before sending).
 - Fix everything, re-render, and send it back to the same reviewer, who
   confirms each fix and looks at what each fix touched. Repeat until a pass
   finds nothing.
@@ -260,15 +265,18 @@ not rebuilt each time; a new one only for a wholly new task.
 
 | Name | Job | Tier |
 |---|---|---|
-| video researcher | topics, fact sheets, data with provenance | strongest model, high effort |
-| video fact checker | every claim re-verified independently | strongest, high |
-| video script editor | the cold read, unslop, readings | strongest, high |
-| video designer | style frames, scenes, covers with exact values | strongest, high |
-| video reviewer - 1, video reviewer - 2 | the exhaustive review and re-checks | strongest, high |
-| video release writer | post text, hashtags with their checks, replies | strongest, high |
-| video chores | listing, counting, frames, file moves | low effort |
+| video researcher | topics, fact sheets, data with provenance | the main session's model, high effort |
+| video fact checker | every claim re-verified independently | the same model, high effort |
+| video script editor | the cold read, unslop, readings | the same model, high effort |
+| video designer | style frames, scenes, covers with exact values | the same model, high effort |
+| video reviewer - 1, video reviewer - 2 | the exhaustive review and re-checks | the same model, high effort |
+| video release writer | post text, hashtags with their checks, replies | the same model, high effort |
+| video chores | listing, counting, frames, file moves | the same model, low effort |
 
-At most three at a time. Agents write reports to files, never message the
+Every agent runs on the main session's own model, never a smaller one:
+high effort for anything that changes what ships, low effort only for
+chores. An agent opened before a rule changed finishes the task in hand;
+new work goes to an agent opened under the rule. At most three at a time. Agents write reports to files, never message the
 owner, never post and never push to the main branch on their own. The
 briefs and the report format are in `references/13-review-and-agents.md`.
 
@@ -279,17 +287,26 @@ briefs and the report format are in `references/13-review-and-agents.md`.
 | `brand.json` | series name, handle, avatar, palette, safe zone, layout, cover tile, release limits, music licence |
 | `episodes/<NN-slug>/` | `episode.json` (segments, cues, facts, readings, caption keeps, voice and music records), `music-plan.json`, `research.md`, `verification.md`, `picture-audit.md`, `analysis/`, `out/` |
 | `studio/src/episodes/EpNN.tsx` | the episode's scenes |
-| `studio/src/kit/`, `studio/src/lib/` | captions, type, bars, probes, follow beat; eases, cues, geography |
+| `studio/src/kit/` | captions, type, bars, map view, globe view, printed sheet, cut-away 3D object, document, quote, timeline, logo, probes, follow beat |
+| `studio/src/lib/` | eases, cues, geography, projections, plates, the globe's geometry |
 | `studio/public/episodes/<id>/` | the committed take, timeline and music |
+| `studio/public/textures/` | the globe textures and map plates, built by `textures.py fetch` and not committed; `SOURCES.md` records where each source came from |
 | `covers/` | covers and their measured layouts |
 | `releases/to-post/`, `releases/posted/` | release folders |
 | `pipeline/` | the Python steps |
 
 ## Commands
 
+Run from the project root with the pipeline's environment active
+(`. .venv/bin/activate`, which `setup.sh` creates), or write
+`.venv/bin/python` for `python`.
+
 ```sh
-python pipeline/scaffold.py episode 07-slug "Why ...?"      # new episode files
+python pipeline/textures.py fetch                            # globe textures and map plates, once
+python pipeline/scaffold.py episode 07-slug "Why ...?"      # new episode files and its scene file
 python pipeline/build.py episodes/07-slug voice             # one request, the whole narration
+python pipeline/voice.py replace episodes/07-slug <seg> <first> <last> [seed]   # re-voice one phrase
+python pipeline/voice.py add-line episodes/07-slug <seg> [seed]                  # voice an added line
 python pipeline/build.py episodes/07-slug realign           # forced alignment
 python pipeline/build.py episodes/07-slug captions          # keeps into the timeline
 python pipeline/music.py retime|make|check|use episodes/07-slug ...
@@ -299,14 +316,17 @@ cd studio && ORPHANS=1 node scripts/stills.mjs Ep07 /tmp/scan every:0.5
 cd studio && node scripts/covers.mjs
 python pipeline/build.py episodes/07-slug mix|render|mux|qa|remux
 python pipeline/scaffold.py release 09-reel-slug 07-slug
-python pipeline/publish.py stage|check|done|when ...
+python pipeline/publish.py stage|text|check|done|when ...
 ```
 
 ## Disclosure
 
-The narration and music are synthetic, so each post carries the
-platform's own label for realistic synthetic media (Instagram's "Add AI
-label"; each other platform's equivalent, per its current policy). Text
-on screen and in the caption does not discuss how the video was made. A
-generated reconstruction, if one is ever used, is marked "AI
-reconstruction" on screen.
+The narration and music are synthetic. Each platform's disclosure is
+answered from its current policy, read and dated in the release: on
+Instagram the "AI label" is on; YouTube's "altered or synthetic content"
+lists AI-generated music, so it is answered Yes; TikTok's AI-generated
+content label exempts generic text-to-speech that is no real person's
+voice, so it follows the owner's reading of that policy. Text on screen
+and in the caption never says how the video was made. A generated
+reconstruction, if one is ever used, is marked "AI reconstruction" on
+screen and always labelled.

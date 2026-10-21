@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 720" width="920" height="720" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">
-  <!-- video-editing skill diagram. Copyright 2026 The video-editing-skill
-       authors. Licensed under the Apache License 2.0, whose text is the
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 906 720" width="906" height="720" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">
+  <!-- video-editing skill diagram. Copyright 2026 Zheng Luo (Davies Luo). Licensed under the Apache License 2.0, whose text is the
        LICENSE file shipped beside this file. -->
-  <rect width="920" height="720" fill="#ffffff"/>
+  <rect width="906" height="720" fill="#ffffff"/>
   <defs>
     <marker id="ablue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#2a78d6"/>
@@ -13,18 +12,23 @@
     <marker id="ared" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#b3261e"/>
     </marker>
+    <marker id="agrey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8c959f"/>
+    </marker>
     <marker id="agreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a8a5f"/>
     </marker>
   </defs>
 
   <!-- the owner -->
-  <rect x="385" y="14" width="150" height="40" rx="20" fill="#f6f8fa" stroke="#57606a" stroke-width="1.5"/>
-  <text x="460" y="40" text-anchor="middle" font-size="17" font-weight="600" fill="#1f2328">owner</text>
-  <text x="460" y="76" text-anchor="middle" font-size="12.5" fill="#57606a">commissions the series, approves each release, and sees nothing before a review of that exact file finds nothing</text>
+  <rect x="20" y="14" width="96" height="40" rx="20" fill="#f6f8fa" stroke="#57606a" stroke-width="1.5"/>
+  <text x="68" y="40" text-anchor="middle" font-size="17" font-weight="600" fill="#1f2328">owner</text>
+  <text x="132" y="39" font-size="12.5" fill="#57606a">approves each release, and sees nothing before a review of that exact file finds nothing</text>
+  <line x1="68" y1="54" x2="68" y2="116" stroke="#8c959f" stroke-width="1.4" marker-end="url(#agrey)"/>
+  <text x="76" y="84" font-size="11.5" fill="#57606a">commissions</text>
 
   <!-- make -->
-  <text x="20" y="108" font-size="12.5" font-weight="600" fill="#0b3d7a">MAKE: every fact verified and logged, every time a word cue, never a second</text>
+  <text x="84" y="108" font-size="12.5" font-weight="600" fill="#0b3d7a">MAKE: every fact verified and logged, every time a word cue, never a second</text>
   <g font-size="14" font-weight="700" fill="#0b3d7a" text-anchor="middle">
     <rect x="20" y="118" width="96" height="58" rx="8" fill="#eaf2fd" stroke="#2a78d6" stroke-width="1.6"/>
     <rect x="130" y="118" width="96" height="58" rx="8" fill="#eaf2fd" stroke="#2a78d6" stroke-width="1.6"/>
@@ -108,7 +112,7 @@
   <!-- the agents -->
   <rect x="20" y="616" width="866" height="88" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1.2"/>
   <text x="38" y="640" font-size="12.5" font-weight="600" fill="#1f2328">named sub-agents, reused by message so their context is not rebuilt:</text>
-  <text x="38" y="660" font-size="12.5" fill="#1f2328">video researcher, video fact checker, video script editor, video designer, video release writer (strongest model, high effort);</text>
-  <text x="38" y="678" font-size="12.5" fill="#1f2328">video reviewer - 1 and - 2 (strongest, high effort); video chores (low effort). At most three at a time.</text>
-  <text x="38" y="696" font-size="12.5" fill="#57606a">Standing render sessions, created once and reused for every render: video render helper - 1 and - 2.</text>
+  <text x="38" y="660" font-size="12.5" fill="#1f2328">video researcher, video fact checker, video script editor, video designer, video release writer (the main session's model, high effort);</text>
+  <text x="38" y="678" font-size="12.5" fill="#1f2328">video reviewer - 1 and - 2 (same model, high effort); video chores (same model, low effort). At most three at a time.</text>
+  <text x="38" y="696" font-size="12.5" fill="#57606a">Standing render sessions, created once where the platform has them and reused for every render: video render helper - 1 and - 2.</text>
 </svg>

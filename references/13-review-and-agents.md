@@ -30,6 +30,15 @@ too. A rule written down is a rule every later review checks.
 apply what you agree with, disagree in writing with the reason when you
 do not, and say which findings you took.
 
+**When the owner says it is still wrong**, answer with a new measurement
+of the thing pointed at, not a defence of the old result. Layout words are
+literal: "delete" means gone, not hidden, and "split into two lines" means
+each item on its own line; where an instruction can be read two ways, the
+reading that moves things apart is the intended one. Fix what was pointed
+at and its class of problem, and nothing the owner did not point at. "Go
+with your recommendations" still means every recommendation is researched
+and verified before it is used.
+
 **Taste is not a bug report.** One attempt at a look the owner dislikes
 is fair; if the second misses, stop and agree the target first.
 
@@ -43,20 +52,24 @@ exhausted, and then brief it from the old one's report file.
 
 | Name | Job | When | Tier |
 |---|---|---|---|
-| video researcher | topic research and the fact sheet: demand evidence, primary sources, data downloads with provenance, analysis scripts | before a topic is approved; before a script | strongest model, high effort |
-| video fact checker | re-verifies every claim at its source or by re-running the computation, independently of the researcher | after the script is drafted; after any wording change | strongest, high |
-| video script editor | the cold read, the unslop pass, readings, spelling, the teaser chain | before voicing; before release | strongest, high |
-| video designer | style frames, scene designs, covers, layout fixes proposed with exact values | before a scene is built; on any change of look | strongest, high |
-| video reviewer - 1, video reviewer - 2 | the exhaustive review of a render; re-checks of its fixes | after every render that might ship | strongest, high |
-| video release writer | caption, pinned comment, replies, platform text, hashtag research with its check table | once the script is final; again after any change | strongest, high |
-| video chores | listing, counting, extracting frames, file moves, mechanical checks | whenever the answer is mechanical | low effort |
+| video researcher | topic research and the fact sheet: demand evidence, primary sources, data downloads with provenance, analysis scripts | before a topic is approved; before a script | the main session's model, high effort |
+| video fact checker | re-verifies every claim at its source or by re-running the computation, independently of the researcher | after the script is drafted; after any wording change | the same model, high effort |
+| video script editor | the cold read, the unslop pass, readings, spelling, the teaser chain | before voicing; before release | the same model, high effort |
+| video designer | style frames, scene designs, covers, layout fixes proposed with exact values | before a scene is built; on any change of look | the same model, high effort |
+| video reviewer - 1, video reviewer - 2 | the exhaustive review of a render; re-checks of its fixes | after every render that might ship | the same model, high effort |
+| video release writer | caption, pinned comment, replies, platform text, hashtag research with its check table | once the script is final; again after any change | the same model, high effort |
+| video chores | listing, counting, extracting frames, file moves, mechanical checks | whenever the answer is mechanical | the same model, low effort |
 
 - **Two reviewers** so two episodes can be reviewed at once; each episode
   keeps its reviewer for its re-checks.
-- **Set the model and the effort explicitly on every call**: the strongest
-  model available at high effort for anything that changes what ships
-  (research, fact checks, design, review, release text); low effort for
-  chores. A cheap review that misses a blocker costs a full render.
+- **Set the model and the effort explicitly on every call**: the main
+  session's own model (the strongest available) for every agent, at high
+  effort for anything that changes what ships (research, fact checks,
+  design, review, release text) and at low effort for chores. Never a
+  smaller model: a cheap review that misses a blocker costs a full
+  render. An agent opened before a rule changed finishes the task in
+  hand; new work goes to an agent opened under the rule, briefed from the
+  earlier agent's report file.
 - **At most three agents at a time**, a resumed one included: more
   overlap their file changes and their reports go unread.
 - **A sub-agent's number is a claim until recomputed.** Recompute the
@@ -64,6 +77,10 @@ exhausted, and then brief it from the old one's report file.
 - **Agents write their report to a file** (the scratchpad, or the
   episode's folder for a review worth keeping) and reply with a short
   summary and the path.
+- **Never poll from the main session.** Waiting on a render, a helper or
+  a long check goes to a background script that wakes the session only
+  when there is a result, or to the chores agent; quiet wake-ups that find
+  nothing spend the budget the reviews need.
 - **Agents never send anything to the owner, never push to the main
   branch on their own, and never post.**
 
@@ -168,7 +185,12 @@ its output.
 ```text
 You are "video reviewer - <1|2>" for <repository>. Review the render of
 episode <id> at commit <full hash>: <path to final.mp4>, SHA-256 <hash>.
-Check the hash first. This review must find every problem in one pass and
+Check the hash first, then that the render is still current: list the
+commits after <full hash> (`git log --stat <hash>..HEAD`) and confirm none
+touches studio/src/episodes/EpNN.tsx, the shared kit and lib, brand.json,
+or this episode's timeline, voice, music or episode.json; and that the
+staged video.mp4 and cover.png match the render and covers/cover-NN.png
+(SHA-256 and pixels). This review must find every problem in one pass and
 say exactly how to fix each one; a second round of findings that this pass
 could have caught is a failure of this review.
 
@@ -189,7 +211,8 @@ Pass one, every category, in this order:
    coasts, text over subjects, collisions, anything over the captions, key
    text outside x 90 to 960 / y 250 to 1,230, stray labels under end cards.
 5. Captions against the voice: list the pages; at every phrase start compare
-   the caption with the voiced onset (spectrogram for disputed words).
+   the caption with the voiced onset (spectrogram for disputed words; pass:
+   within 0.1 s).
 6. Sound, measured: splice records, pauses for clicks, the bed's level over
    time, the hole test, the level under the last words and the end card,
    loudness and true peak of the delivered file; say what you could not hear.
@@ -215,9 +238,11 @@ problem: the time (video seconds), what is wrong, the evidence (a still or a
 measurement, with its path), and the exact fix: file, element, value, new
 wording, and what to check after. Classify each as a blocker (it must change
 before the owner sees it), a nit (fix it), or "leave as is" (with the reason).
-List everything you could not check; that list must be empty for the
-episode to pass, except listening by ear, which you then name precisely
-(times) for a person to do. Do not edit any file.
+List everything you could not check. Only listening by ear may appear,
+named precisely (the times) for a person to do; the episode passes only
+when the main session has had that listen done and recorded it in the
+review file, so the list is empty when the episode ships. Do not edit any
+file.
 ```
 
 ### The review report format

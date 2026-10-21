@@ -84,6 +84,8 @@ new class of failure appears, in the same commit as the fix.
 | "The Julian / calendar" ended a headline on one word, and the probe missed it | the probe measures word-by-word headlines on their masks | `ORPHAN` scan |
 | "Follow for part" then "2." | no word alone on a page; a number keeps its next word | caption pages |
 | "Nevada," alone, because a keep could not cross the comma | a kept phrase runs across punctuation | caption pages |
+| a bar's "100", set inside a thin bar, rode over its top edge, white on the page | a bar's number is sized to the bar and centred on it, inside only where there is no room beside it | `barNumber` self-test; stills |
+| a name with a letter the face lacked (Łódź) would fall back to another face | the full font is vendored; every visible character is checked against it | `GLYPH` scan |
 
 ## Covers
 

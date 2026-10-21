@@ -2,7 +2,7 @@
 
 One problem's whole life: how the reviewer reports it, how it is fixed,
 how the fix is confirmed, and the rule it leaves behind. The episode is
-part 5 of a geography series; its teaser asks "Is Reno, Nevada, east or
+part 5 of an explainer series; its teaser asks "Is Reno, Nevada, east or
 west of Los Angeles?".
 
 **The review row** (`review-8a4e84e.md`, written by "video reviewer - 1"
@@ -69,5 +69,5 @@ it, and the class of problem became a rule and a test.
 
 ---
 
-Copyright 2026 The video-editing-skill authors. Licensed under the Apache
+Copyright 2026 Zheng Luo (Davies Luo). Licensed under the Apache
 License 2.0, whose text is the `LICENSE` file beside this one.

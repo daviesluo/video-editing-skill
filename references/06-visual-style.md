@@ -24,6 +24,9 @@ value below lives in `brand.json` (brand) or `studio/src/brand/tokens.ts`
 | `mark` | #FFFEFA | casings and marks on colour |
 | `pressed` | #DCE5E4 | the pressed Follow button |
 
+In a scene with no map, `ocean` and `land` are free: use `ink` for the
+page and `paper`, `accent`, `cool` and `warn` by role.
+
 - **Light and fresh, not dark.** A deep navy page with a warm glow (the
   look of most generated explainers) reads as machine-made.
 - **Light never means washed out**: no pale-grey sea, no grey land, no
@@ -47,6 +50,12 @@ value below lives in `brand.json` (brand) or `studio/src/brand/tokens.ts`
   (SIL OFL). No monospace, no wide or condensed variants, no second
   family: mixed faces read as a template.
 - **Sentence case** everywhere, no all-caps letter-spaced labels.
+- **Every character on screen is in the vendored face.** The vendored
+  file is the full Archivo variable font, Latin and Latin Extended
+  (Łódź, Dvořák, Erdoğan, Tōhoku, "≈" and "№" all set in it; no Greek or
+  Cyrillic). A name
+  with a letter the font lacks falls back to another face; the orphan
+  scan reports it ("GLYPH").
 
 | Use | Size, px | Weight | Notes |
 |---|---|---|---|
@@ -57,7 +66,7 @@ value below lives in `brand.json` (brand) or `studio/src/brand/tokens.ts`
 | caption | 76 (down to 61 when a page is scaled) | 800 | word by word, the spoken word in accent |
 | map and chart label | 40 | 720 | horizontal, beside what it names |
 | badge | 36 | 760 | series name, then "Part N" in accent |
-| chip (a kicker line) | 34 | 650 | |
+| kicker line (`Kicker`) | 34 | 650 | |
 | source line | 29 | 560 | `note` colour, "Source: …" |
 
 - **Small type is at least 29 px and wears the tight halo** in the page
@@ -90,11 +99,15 @@ once as unfinished, however right the rest is.
 
 - **Each element gets its own design pass**: its shape, light, material,
   edges and motion, decided and looked at on stills, not left at the
-  library default.
+  library default. The kit's components (`studio/src/kit/`) are each
+  designed once this way, so start from them: a document is a printed
+  page with a soft shadow, a quote is set large with its attribution, a
+  timeline is drawn to scale, a mark is shown as it is.
 - **Anything that stands for a 3D thing is built in the 3D scene**, lit and
   shaded with it, never a flat 2D stroke over the render. A shaft through
   a planet is a lit tube with a real opening in the surface and a cut-away
-  interior, not a red line on top of the picture.
+  interior, not a red line on top of the picture (`kit/CutAway3D.tsx`
+  is that pattern, worked through).
 - **It must look like what it represents.** A shaft looks dug, a route looks
   travelled, a document looks like paper.
 - **Any change of look is shown first** as stills of two or three finished
@@ -140,8 +153,10 @@ numbers sat under the tabs on the first post.
 A change of look (palette, globe skin, data texture, type) goes to the
 owner as two or three **finished** style frames first, each already
 beautiful on its own and designed to a named top-tier reference shown
-beside it, never "the technique roughly working". Pick from the frames,
-then rebuild. One attempt at a look the owner dislikes is fair; if the
+beside it, never "the technique roughly working"
+(`node scripts/variants.mjs <composition> <dir> '<[{name, props}, ...]>'
+<frame>` renders each option as a still from one bundle). Pick from the
+frames, then rebuild. One attempt at a look the owner dislikes is fair; if the
 second misses, stop and agree the target before a third.
 
 ## Making it your own

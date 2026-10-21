@@ -18,9 +18,9 @@ description: >-
 
 # Read `SKILL.md`, not this file
 
-Copyright 2026 The video-editing-skill authors, Apache License 2.0, whose
-text is the LICENSE file in this package. Keep this line when you copy the
-file.
+Copyright 2026 Zheng Luo (Davies Luo), Apache License 2.0, whose
+text is the LICENSE file in this package. Keep this line when you copy
+the file.
 
 This file is a POINTER, not the skill. The skill is ONE file, `SKILL.md`
 at the root of this package, with its stage references in `references/`

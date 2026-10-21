@@ -3,7 +3,11 @@ title: "video-editing: an agent skill for post-ready short-form explainer videos
 message: "If you use this skill or build on it, please cite it."
 type: software
 authors:
-  - name: "The video-editing-skill authors"
+  - family-names: Luo
+    given-names: Zheng
+    alias: Davies Luo
+    orcid: ""
+repository-code: "https://github.com/daviesluo/video-editing-skill"
 license: Apache-2.0
 version: "1.0"
 date-released: "2026-10-21"

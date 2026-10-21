@@ -9,7 +9,8 @@ with the voice, and never leave a word stranded on a page.
 - **Word by word in place**: each word appears as it is spoken, in its
   final position, so the line never runs ahead of the voice and never
   reflows. A page shows two frames before its first word; each later word
-  fades in over 0.07 s from two frames before its start.
+  fades in over 0.07 s from two frames before its start. A page does not
+  scale, slide or pop in: it is simply there.
 - **The spoken word in the accent colour**, the rest in the type colour,
   both with the tight halo, so a caption reads even over a tint of its own
   colour.
@@ -26,8 +27,9 @@ with the voice, and never leave a word stranded on a page.
 The timings come from forced alignment of the finished take
 (`build.py <id> realign`) plus the fricative-onset correction
 (`04-voice.md`), never from the synthesis timings alone, which run up to
-250 ms late after pauses. Measure disputed words on a spectrogram; a
-caption that lights 0.13 s late on "65%" is visible.
+250 ms late after pauses. Measure disputed words on a spectrogram. A word
+lights within 0.1 s of its voiced onset; later than that is a finding
+(0.13 s on "65%" was visible, 0.07 s on "km²" was not).
 
 ## Pages (`kit/paginate.ts`)
 

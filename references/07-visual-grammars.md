@@ -18,6 +18,11 @@ Common to all:
   source line.
 - **Mark the cover's subject** with `data-cover-subject`, so the cover
   check can measure it.
+- **Start from the kit.** `studio/src/kit/` has a designed component for
+  each grammar below (`MapView`, `GlobeView`, `Sheet`, `CutAway3D`,
+  `Bars`, `Stat`, `Timeline`, `Document`, `Quote`, `Logo`), and the
+  example episode (`studio/src/episodes/Example.tsx`) uses each, keyed to
+  its words.
 
 ## Maps and globes
 
@@ -25,7 +30,9 @@ Common to all:
   Mercator only when its distortion is the point; an equal-area conic or
   azimuthal for a country or a region, centred on it. Define every
   projection once, in one module, and use the same factory for vector
-  overlays and any raster plate, or they will not line up.
+  overlays and any raster plate, or they will not line up
+  (`lib/projections.ts`; `textures.py` builds a relief plate for each
+  projection in its `PLATES`).
 - **Locate before zooming in.** An episode about a place most viewers
   cannot place opens on a view wide enough to recognise (a hemisphere
   with its continents named), holds it while the hook is said, then moves
@@ -34,12 +41,15 @@ Common to all:
   map", "maps like this one"): the camera pulls straight back about one
   point, scale eased in log space, until the whole map sits as a printed
   sheet on the page with a soft shadow, and returns when the story moves
-  on.
+  on (`kit/Sheet.tsx`: `sheetRect`, `pullBack`, `SheetFrame`).
 - **A fixed plate for imagery.** Rasterise the basemap once (at most 4,096
   px wide) and move the image; zoom at most plate width ÷ 1,080; split a
   deep zoom into a second, higher-resolution plate rather than upscaling,
   and keep the wider plate drawn underneath so a plate edge can never
   slide into frame during a pull-back (one did, for five frames).
+  `kit/MapView.tsx` draws a plate and hands its children the projection
+  and the plate's transform, so overlays land on the raster to the pixel;
+  `lib/plateLook.ts` sets each plate's grading.
 - **Overlays in screen space** from the projection, with stroke widths
   constant through zooms. Blur only plate images, never live vector
   layers.
@@ -72,7 +82,9 @@ Common to all:
   borders.
 - **Any colour that encodes a quantity has a legend** saying what it
   measures and its scale, on screen from the first frame for as long as
-  the encoding is, never fading in later.
+  the encoding is, never fading in later. The encoding must be the
+  quantity the legend names: a glow computed per grid cell is not "people
+  per km²" until each cell is divided by its area on the sphere.
 - **Data texture must look pleasant at a glance**: a speckle of red dots
   reads as a rash. Choose the encoding from finished style frames.
 - **The globe** is a top-standard 3D object: real relief, sea and land
@@ -82,13 +94,34 @@ Common to all:
   animate altitude separately (out, travel, in); a 4K texture unless a
   close zoom needs 8K. In React Three Fiber under Remotion, a texture that
   arrives after the first frame is never drawn unless something advances
-  the frame loop.
+  the frame loop. `kit/GlobeView.tsx` is that globe, lit from
+  `THEME.globe` (`keyLight` gives its key light's direction for anything
+  else in the scene); it takes a camera (`lerpCam` between two), clipping
+  planes (`clip`, `clipIntersection`) and objects of its own (`scene`).
+- **Overlays on a globe use the camera's own projection.** Draw filled
+  shapes and lines with the vertical-perspective projection that matches
+  the 3D camera to the pixel (`makeGlobePath`, `makeGlobeProject`),
+  clipped at the camera's horizon; offset the view with the camera
+  (`shiftY`, which sets `setViewOffset`), never by moving the layer. A d3
+  projection fitted by its box polygon fits the whole world; fit by edge
+  points instead.
 - **Anything that stands for a 3D thing lives in the 3D scene.** A shaft or
   line through the planet is geometry in the scene (a lit tube with a real
   opening in the surface and a cut-away interior), occluded by the planet
   where it should be and lit by the same lights; a flat 2D stroke laid over
   the render has no depth and looks strange. Overlays drawn in screen space
   are for labels and marks on the surface, never for solid things.
+- **A cut-away 3D object** (`kit/CutAway3D.tsx`, worked through on a shaft
+  through a planet, and in the example's globe beat) shows the inside of
+  something solid: `wedge` gives the clipping planes and the two section
+  faces, `SectionFace` shades the layers under the scene's key light,
+  `Shaft` and `Opening` are the lit tube and the lit rim of the hole. Its
+  rules: the cut is fixed to the object, so it turns with it; it is
+  opened turned off square to the camera (about 0.6 rad), so one face
+  reads broad and the other foreshortened, which reads as depth; and it is
+  shut before the camera can look into it, by the middle of any turn
+  away. Seams stay a pixel wide at any distance, and a long object fades
+  out above the captions in screen space so no camera move crosses them.
 - **Moving a picture for a cover or layout** is done with a camera offset
   applied to the picture and its overlays alike, never by moving a layer,
   which shows a straight edge of empty page.
@@ -98,7 +131,9 @@ Common to all:
 - **A bar is as long as its value and nothing more** (`kit/Bars.tsx`): no
   empty track, box or frame runs past it, because an empty track makes a
   small value read as a big box. The longest value spans the scale. Every
-  row comes with its own number.
+  row comes with its own number, centred on its bar: beside the bar's end
+  where there is room, inside the bar in the mark colour where there is
+  not (`kit/barsLayout.ts`).
 - **A stat shows its final value at once** (`Stat`), with what it
   measures under it and its source line. No counting.
 - **Rows named before numbers when the voice does it** ("Here are three
@@ -125,6 +160,10 @@ Common to all:
   source does when the episode is about the difference.
 - **Eras as quiet bands**, labelled in sentence case; one "now" marker if
   the story needs it.
+- `kit/Timeline.tsx` draws the axis to scale (years to x, ticks at a
+  round step), places each event at its value on its word, alternates
+  labels above and below when they would collide, and takes eras and a
+  calendar label.
 
 ## Archival photographs, documents and portraits
 
@@ -134,7 +173,10 @@ Common to all:
   names, on its word; nothing drifts or breathes for its own sake.
 - **Documents**: show the page, then bring the quoted line forward by
   dimming the rest of the page; the line stays at full strength while it
-  is read. No boxes, no marker-pen overlays.
+  is read. No boxes, no marker-pen overlays. `kit/Document.tsx` sets a
+  page as a print with a soft shadow, either a scan (`src`, with the
+  line's box) or set text (`paragraphs`), pushes in gently on the line's
+  word and dims the rest; its credit is the source line.
 - **Portraits** carry the person's name and dates as a label, with the
   source line. No generated portraits of real people, no face-swaps, no
   "restoration" that invents detail.
@@ -151,7 +193,8 @@ Common to all:
   work, year; translator if any).
 - **Reveal it in sync with the voice**, word by word or line by line, and
   the narrator reads it exactly; an omission is marked with an ellipsis
-  and does not change the meaning.
+  and does not change the meaning. `kit/Quote.tsx` takes the words and the
+  time of each from the word cues.
 - **A book is shown by its title set in type**, or by a public-domain
   edition's page; in-copyright cover art is not decoration.
 - Long passages are never put on screen; a short quotation with a stated
@@ -161,7 +204,10 @@ Common to all:
 
 - **A logo identifies, never decorates or endorses**: shown unaltered, at
   its own colours, beside the company's name, from the press kit. No
-  morphing it, no placing it to imply a sponsorship.
+  morphing it, no placing it to imply a sponsorship. `kit/Logo.tsx`
+  shows a mark beside its name and moves it by opacity only; the toolkit
+  ships only a placeholder mark (`PlaceholderMark`), never a real
+  company's.
 - **Products** from press-kit images or our own photographs; competitors'
   marks only in a fair, factual comparison.
 - **Business figures** as charts in the house style, with the fiscal year

@@ -71,7 +71,9 @@ keep the one that measures best, not the one that happened first:
   needed at least 1.6 s.
 - **Key words are clear.** Check proper nouns and numbers with the
   largest recogniser the machine can hold: a small model once passed a
-  misread name that a larger one caught. Coined names go in
+  misread name that a larger one caught. `build.py qa` and `voice.py
+  measure` use `medium.en` by default; set `QA_WHISPER_MODEL=large-v3`
+  (or `qa.model` in `episode.json`) where the machine holds it. Coined names go in
   `qa.hotwords`, and a person still listens to them.
 
 ## Changing a finished take
@@ -79,8 +81,9 @@ keep the one that measures best, not the one that happened first:
 Never re-take a whole approved narration for one changed sentence: the
 new take changes every timing and every delivery around it.
 
-- **`voice.replace_words(episode, public_dir, seg, first, last)`**
-  re-voices one changed phrase after the new wording is in `episode.json`:
+- **`python pipeline/voice.py replace episodes/<id> <seg> <first> <last>
+  [seed]`** (`voice.replace_words`) re-voices one changed phrase, words
+  `first` to `last` of the segment, after the new wording is in `episode.json`:
   only that phrase is synthesised, with the narration before and after as
   context, trimmed to its sound, matched in loudness to the segment, and
   spliced in with 15 ms ramps. The extra length comes out of the pause
@@ -101,10 +104,11 @@ new take changes every timing and every delivery around it.
 - **Every splice is recorded** in the timeline (time, and which side is
   old audio), and QA fails a splice whose old side is not silent. Records
   inside a span that a later re-voice replaced are dropped.
-- **`voice.add_line(episode, public_dir, seg)`** appends a new last
+- **`python pipeline/voice.py add-line episodes/<id> <seg> [seed]`**
+  (`voice.add_line`) appends a new last
   segment (a call to action added after approval) the same way, placed
   after a pause.
-- Pass `seed=` to try several seeds of a replacement; copy `voice.wav`
+- Pass a seed to try several seeds of a replacement; copy `voice.wav`
   and `timeline.json` aside first and keep the best by the measures above.
 
 ## The take's QA

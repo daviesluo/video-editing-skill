@@ -8,17 +8,18 @@ the owner's approval, and every post is read back once it is live.
 
 `python pipeline/scaffold.py release 09-reel-<slug> <episode id>` writes
 it from `templates/release/`. Releases are numbered in posting order
-across all formats (`07-reel-...`, `08-carousel-...`).
+(`07-reel-...`).
 
 | File | What |
 |---|---|
-| `release.json` | type and source; for a reel the cover path, the commit the video was rendered from and its SHA-256 (written by `stage`); once live, the date and link |
+| `release.json` | type and source, the cover path, the commit the video was rendered from and its SHA-256 (written by `stage`); once live, the date and link |
 | `post.md` | the single home of the text: fenced `text` blocks under fixed headings, then the settings, the checklist, the reasons for each choice and the hashtag check table |
-| `video.mp4`, `cover.png` | the masters (reel); `slide-01.png`... for a carousel |
+| `video.mp4`, `cover.png` | the masters |
 | `caption.txt`, `pinned-comment.txt`, `series-link-comment.txt`, `tiktok-caption.txt`, `youtube-title.txt`, `youtube-description.txt`, `pinned-comment-tiktok-youtube.txt`, `replies.txt` | the blocks written out by `stage` and `text`, so what is pasted is what was reviewed |
 
 ```sh
 python pipeline/publish.py stage <release> <full commit hash>   # media in, hash recorded, .txt written, check
+python pipeline/publish.py text  <release>                      # rewrite the .txt files from post.md, then check
 python pipeline/publish.py check <release>                      # lint text and cover again
 python pipeline/publish.py done  <release> <YYYY-MM-DD> <url>   # moves it to releases/posted/
 python pipeline/publish.py when  <url or shortcode>             # the post time, for the read-back
@@ -34,13 +35,13 @@ apostrophes, audio name and cover had never been checked.
 |---|---|
 | apostrophes typed ’ (U+2019); no straight ' and no ‘ used as one | on the way from a pack to the app, straight apostrophes turned into alternating ‘ and ’ in about half the words of two live captions ("world‘s", "It‘s") |
 | no middle dots, em or en dashes, arrows | typographic tells of generated text |
-| the text never mentions how it was made | the platform's own label does the disclosure; a caption line about it reads as an apology and costs reach |
+| the text never says how it was made (a topic about AI is fine) | the platform's own label does the disclosure; a caption line about it reads as an apology and costs reach |
 | 3 to 5 hashtags, none repeated, each with a row in the Hashtag checks table | the platform allows at most five, caption and comments together; each tag must have been checked on its public page |
 | the caption's last paragraph before Sources is a question | one open question is what earns comments |
 | a Sources line | credit, as the data licences ask, and trust |
 | the pinned comment invites a follow and carries no hashtag | its one job is follows; tags in comments count against the five |
 | the audio name at most 50 characters | the platform refuses a longer one, and it can be set only once |
-| the settings say "AI label: on" for a reel | a realistic synthetic voice requires the platform's label |
+| the settings say "AI label: on" | a realistic synthetic voice requires the platform's label |
 | TikTok and YouTube limits (caption 4,000; title 100; description 5,000, no < or >; replies 150, no links) | each platform's own limits, read October 2026 |
 | the cover passes `covercheck.py`; the staged video matches its recorded SHA-256 | the folder is the master |
 
@@ -94,19 +95,34 @@ answer.
 The same release goes to TikTok and YouTube Shorts after the first
 platform, with text written for each, not pasted: a TikTok caption with
 its own first line; a YouTube title (the hook, at most 100 characters)
-and a description with the sources. Each platform's rules on synthetic
-media differ and change: read the current policy and answer its
-disclosure question accordingly. Any automation that runs an account
-uses only the platform's official API or, where the owner accepts it,
-slow hand-like steps; it never holds a password it does not need, does
-nothing that looks automated, and posts nothing the owner has not
-approved.
+and a description with the sources.
+
+- **YouTube only through the official YouTube Data API**, under the
+  owner's one-time OAuth consent: its Terms forbid accessing the service
+  "using any automated means", so a browser agent driving YouTube Studio
+  breaks them however human it looks. Upload the staged file (check its
+  SHA-256 against `release.json`), category Education, the language
+  set, "made for kids" No, the synthetic-content question answered, then
+  the first comment. The API cannot pin comments.
+- **TikTok** has no comment API for replies and its Content Posting API
+  needs an audited app; anything that works the website for the owner goes
+  slowly, by hand-like steps, and stops and calls the owner at any
+  verification prompt, CAPTCHA or warning. Replies are at most 150
+  characters.
+- Replies, on any platform, at most one every 45 s and 40 a day.
+- Any automation that runs an account never holds a password it does not
+  need, does nothing that looks automated, and posts nothing the owner
+  has not approved (a release the owner already posted on the first
+  platform counts as approved, as does a reply from its ready replies).
+- Read each platform's current rules and disclosure policy before the
+  first post, and date them in the release.
 
 ## The posting guide
 
 Each release that is ready goes to the owner as one pack: the guide, the
 video and cover as files, and the caption, audio name and pinned comment
-in the message itself, copied from the release's `.txt` files. Resend the
+in the message itself, copied from the release's `.txt` files, and the
+reviewer's listening times. Resend the
 whole pack when any part changes. The guide may be translated for the
 person who posts; the English below is the source.
 
@@ -114,6 +130,9 @@ person who posts; the English below is the source.
 Posting guide: release <release>, <series name> part <N>
 
 Before you start
+0. Listen once, end to end, on headphones: above all <times from the
+   review's "could not check" list>. Tell me anything you hear before
+   posting.
 1. Download video.mp4 and cover.png from the release folder to the phone.
    Use these files, not a saved draft: a draft is recompressed (one went
    from 2 MB to 800 KB).
@@ -126,12 +145,15 @@ Post
 5. Caption: paste caption.txt exactly. Check the apostrophes are ’.
 6. Audio: rename the original audio to: <audio name> (it can be set once).
 7. More options: Add AI label, on. Closed captions, off (the video has its
-   own). No location, no tagged people, no collaborators.
+   own). No location, no tagged people, no collaborators. Share to a
+   linked Page only as you have set it, never to a personal profile.
 8. Share.
 
 In the first minutes
 9. Paste pinned-comment.txt as a comment, then pin it.
 10. On the previous part: paste series-link-comment.txt and pin it.
+10a. Profile: open the post's menu and choose Pin to main grid, so the
+     parts sit in order on the profile.
 11. Answer early comments by hand; ready replies are in post.md.
 
 Then

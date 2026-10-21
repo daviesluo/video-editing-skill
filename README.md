@@ -2,17 +2,15 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0-brightgreen.svg)](#version)
-[![Self-test](https://img.shields.io/badge/self--test-67%20cases-brightgreen.svg)](#install-and-invoke)
+[![Self-test](https://img.shields.io/badge/self--test-73%20cases-brightgreen.svg)](#install-and-invoke)
 [![Tools](https://img.shields.io/badge/runs%20on-Claude%20Code%2C%20Cursor%2C%20Codex-lightgrey.svg)](#requirements)
 
-An agent skill that makes short-form vertical explainer videos (Instagram
-Reels, TikTok, YouTube Shorts; 1080x1920, 30 to 75 seconds) end to end,
-to a standard where the person who commissioned the video finds nothing
-to fix: topic, research with provenance, fact verification, script,
-synthetic narration timed to the word, a composed music bed, animation in
-Remotion, captions, cover, render, QA gates, one exhaustive independent
-review, the fix loop, release staging and the read-back after posting.
-It ships with the working pipeline and studio a project starts from.
+A short explainer should reach the person who commissioned it with
+nothing left to fix. This skill makes vertical explainer videos (Reels,
+TikTok, Shorts; 1080x1920, 30 to 75 seconds) end to end, from topic to
+the read-back after posting, and puts one exhaustive independent review
+between every render and that person. It ships with the working pipeline
+and studio a project starts from.
 
 ## The problem
 
@@ -30,8 +28,9 @@ and the person who has to approve it.
 
 ## How it works
 
-![The owner sits at the top: they commission the series, approve each
-release, and see nothing before a review of that exact file finds nothing.
+![The owner sits at the top left: they approve each release and see
+nothing before a review of that exact file finds nothing, and a grey
+arrow labelled "commissions" runs from them down to the first stage.
 The first row, MAKE, runs left to right through eight stages: topic (one
 question), research (primary sources), script (read cold), voice
 (force-aligned), music (a composed bed), scenes (which follow the words),
@@ -39,7 +38,8 @@ captions (word by word) and cover (designed for the 3:4 grid tile); every
 fact is verified and logged, and every time is a word cue, never a second.
 From the cover an arrow drops into the second row, PROVE, which runs right
 to left: render (stills first, then the video, on the two standing helper
-sessions "video render helper - 1" and "- 2"), then the QA gates
+sessions "video render helper - 1" and "- 2", where the platform has
+them), then the QA gates
 (loudness, alignment, stray sounds, facts, the orphan and safe-zone scan,
 the picture audit), then the exhaustive review (every category in one
 pass, with exact fixes, by "video reviewer - 1" or "- 2"). A red loop runs
@@ -53,8 +53,9 @@ every step leaves its record: episode.json, research.md, verification.md,
 picture-audit.md, the committed take and timeline, covers, release folders
 and a ledger. At the bottom, the named sub-agents reused by message:
 video researcher, fact checker, script editor, designer and release
-writer at the strongest model and high effort, the two reviewers likewise,
-and video chores at low effort, at most three at a time.](pipeline.svg)
+writer on the main session's own model at high effort, the two reviewers
+likewise, and video chores on the same model at low effort, at most three
+at a time.](pipeline.svg)
 
 **The loop.** Make, prove, ship. Nothing reaches the owner until an
 independent review of the exact file being sent, by SHA-256, finds no
@@ -92,17 +93,20 @@ list. The same reviewer confirms the fixes.
 |---|---|
 | `SKILL.md` | The skill, and the file a session reads first: the definition of post-ready, the pipeline in fourteen stages, the sub-agent roster, where things live, the commands. |
 | `references/` | One file per stage, with the depth: setup, topics, research and rights, script, voice, music and sound, visual style, visual grammars by genre, animation, captions, covers, render, QA gates, review and sub-agents (with every brief), release and posting (with the posting guide), and the failure catalogue. |
-| `toolkit/` | The project template: `pipeline/` (build, voice with re-voicing and alignment, mix, music, sound effects, QA, cover check, release staging, cue moving, scaffolding), `studio/` (the Remotion project: tokens, captions, kinetic type, bars, the orphan and cover probes, the follow beat, a small example episode), `templates/` (episode, research, verification, picture audit, music plan, release text), `brand.json`, `setup.sh`, pinned `requirements.txt` and `package.json`. |
+| `toolkit/` | The project template: `pipeline/` (build, voice with re-voicing and alignment, mix, music, sound effects, QA, cover check, release staging, cue moving, scaffolding, and `textures.py`, which fetches the public-domain relief and builds the globe textures and map plates), `studio/` (the Remotion project: tokens, captions, kinetic type, bars, a relief map plate, a lit 3D globe, the printed-sheet pull-back, a cut-away 3D object, a document, a quote, a timeline and a logo, the orphan and cover probes, the follow beat, a small example episode that uses each), `templates/` (episode, its scene file, research, verification, picture audit, music plan, release text), `brand.json`, `setup.sh`, pinned `requirements.txt` and `package.json`. |
 | `.claude/skills/video-editing/SKILL.md`, `.agents/skills/video-editing/SKILL.md` | Two identical pointers carrying `SKILL.md`'s own front matter, which make the skill load on every tool that scans either path, from one copy of the skill. |
 | `EXAMPLE.md` | One finding's whole life: the review row, the fix, the re-check, the rule it left behind. |
 | `bin/selftest.sh` | Checks the package (pointers, references, links), its hygiene (no address, key, session id or model identifier, plus an optional private deny-list), that the toolkit builds, and the pipeline's and studio's pure functions on cases with known answers. Prints its own counts. |
 | `pipeline.svg` | The diagram above. |
+| `README.md` | This page. |
 | `LICENSE`, `NOTICE`, `CITATION.cff` | Apache 2.0, the notice that travels with it, and how to cite it. |
 
 ## Install and invoke
 
-Clone this repository and open it with your tool: the two pointers sit at
-the paths the tools scan, and both name the same `SKILL.md`.
+**To try it, clone https://github.com/daviesluo/video-editing-skill and
+open it with your tool.** That repository is this folder and nothing
+else, so the two pointers below land at the paths the tools scan, and
+both name the same `SKILL.md` at the root beside them.
 
 | Tool | Path it scans | Invoke |
 |---|---|---|
@@ -136,7 +140,8 @@ It finishes in about ten seconds. The pipeline tests need numpy, soundfile
 and Pillow (`pip install -r toolkit/requirements.txt`, or point `PYTHON`
 at a Python that has them); the studio tests need Node 22.18 or newer;
 the type-check needs `npm ci` in `toolkit/studio`. A step whose tools are
-missing is reported as skipped, never as passed.
+missing is reported as skipped, never as passed (without numpy, the
+pipeline cases count as one skip, so the total reads lower).
 
 ## Using it
 
@@ -165,9 +170,10 @@ A shell and git; Python 3.12 with the packages in
 `toolkit/requirements.txt`; Node 22.18 or newer; ffmpeg with the
 rubberband filter; Remotion's headless browser (`npx remotion browser
 ensure`); an ElevenLabs key on a plan whose terms allow commercial use of
-voice, music and sound effects. No GPU: renders use software WebGL. Four
-cores render a 60 s episode with a 3D globe in about half an hour, and
-flat scenes in a few minutes.
+voice, music and sound effects. No GPU: renders use software WebGL. On
+four cores the example episode (54 s, with a map plate and a 5 s globe
+beat) renders in about 9 minutes; an episode that keeps a 3D globe on
+screen for most of 60 s takes about half an hour.
 
 ## Version
 
@@ -185,5 +191,8 @@ second explainers, posted as they were finished, where every rule here was
 paid for by a render that broke it. The numbers quoted (the safe zone,
 the timing errors, the music thresholds) were measured there.
 
-Licensed under the Apache License 2.0, whose text is the `LICENSE` file
-in this folder. Copyright 2026 The video-editing-skill authors.
+Copies of this folder drift: when updating one, check its version
+line against https://github.com/daviesluo/video-editing-skill.
+
+Licensed under the Apache License 2.0, whose text is the `LICENSE`
+file in this folder. Copyright 2026 Zheng Luo (Davies Luo).

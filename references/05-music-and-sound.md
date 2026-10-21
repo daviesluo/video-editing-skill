@@ -19,7 +19,7 @@ energy in the 1 to 4 kHz speech-clarity band), had the fewest note onsets
 per second and the steadiest loudness. Marimba beds fight speech and read
 as corporate stock; swelling strings carry too much top end and range.
 
-**Never**: vocals, choir or humming, drums, synthesizers, brass, mallets,
+**Never**: vocals, choir or humming, drums, synthesisers, brass, mallets,
 risers or impacts, swells, long reverb tails, fade-outs or cut endings,
 and no artist or song names in prompts.
 
