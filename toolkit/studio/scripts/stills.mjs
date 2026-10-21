@@ -3,9 +3,10 @@
 //   node scripts/stills.mjs <composition> <outDir> <t1,t2,...|every:0.5> [propsJson]
 // With ORPHANS=1 the orphan and safe-zone probe runs on every still and
 // prints "ORPHAN <time> <text>" for a block whose last line holds one word
-// and "UNSAFE <time> <text>|<box>" for text outside the safe box. Scan the
-// whole episode every 0.5 s, and every cover, before any render; it must
-// print nothing.
+// "UNSAFE <time> <text>|<box>" for text outside the safe box, and "GLYPH
+// <time> <char>|<text>" for a character the vendored face cannot set. Scan
+// the whole episode every 0.5 s, and every cover, before any render; it
+// must report 0 findings.
 import { bundle } from "@remotion/bundler";
 import { renderStill, selectComposition } from "@remotion/renderer";
 import fs from "node:fs";
@@ -36,7 +37,7 @@ for (const t of list) {
     inputProps,
     chromiumOptions: { gl: "swangle" },
     onBrowserLog: (log) => {
-      for (const kind of ["ORPHAN", "UNSAFE"]) {
+      for (const kind of ["ORPHAN", "UNSAFE", "GLYPH"]) {
         if (log.text.startsWith(`${kind}|`)) {
           hits++;
           console.log(`${kind} ${t.toFixed(2)} ${log.text.slice(kind.length + 1)}`);

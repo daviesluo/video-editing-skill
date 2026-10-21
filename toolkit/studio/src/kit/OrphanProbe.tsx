@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { continueRender, delayRender, getInputProps } from "remotion";
 import { SAFE } from "../brand/tokens";
+import { CHARS } from "./archivoChars";
 
 // QA only (input prop `orphans: true`, see scripts/stills.mjs): after the
 // frame is laid out, finds every block of text whose last line holds a
@@ -111,6 +112,24 @@ const unsafe = () => {
   }
 };
 
+// Every visible character must be one the vendored face can set: anything
+// else falls back to another font, which breaks the one-typeface rule and
+// can differ between machines. Logged as "GLYPH|<char>|<text>".
+const SETTABLE = new Set([...CHARS, "\n", "\t"]);
+const glyphs = () => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const seen = new Set<string>();
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent ?? "";
+    if (!text.trim() || seenOpacity(n.parentElement) < 0.05) continue;
+    for (const ch of text) {
+      if (SETTABLE.has(ch) || seen.has(ch)) continue;
+      seen.add(ch);
+      console.log(`GLYPH|${ch}|${text.trim()}`);
+    }
+  }
+};
+
 export const OrphanProbe: React.FC = () => {
   useEffect(() => {
     if (!ON) return;
@@ -120,6 +139,7 @@ export const OrphanProbe: React.FC = () => {
       requestAnimationFrame(() => {
         scan();
         unsafe();
+        glyphs();
         continueRender(handle);
       }),
     );

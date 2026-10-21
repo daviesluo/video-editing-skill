@@ -25,7 +25,7 @@
   "safe": { "left": 90, "right": 960, "top": 250, "bottom": 1690, "railX": 900, "railY": 1150 },
   "layout": { "badge": 262, "top": 314, "topScrim": 712, "captions": 1450, "bottomScrim": 1390 },
   "tile": { "top": 240, "bottom": 1680, "margin": 40, "clear": 32, "balance": 1.5, "minGap": 80 },
-  "type": { "family": "Archivo", "fontFile": "fonts/Archivo-Variable-latin.woff2", "smallMinPx": 29 },
+  "type": { "family": "Archivo", "fontFile": "fonts/Archivo-Variable.woff2", "smallMinPx": 29 },
   "release": { "minHashtags": 3, "maxHashtags": 5, "maxAudioName": 50, "maxCaption": 2200, "maxReply": 150 },
   "music": { "licence": "<the music licence: service, plan, terms version and date, what use it allows>" }
 }
