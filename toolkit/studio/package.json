@@ -13,14 +13,17 @@
     "studio": "remotion studio"
   },
   "dependencies": {
+    "@react-three/fiber": "9.4.0",
     "@remotion/bundler": "4.0.536",
     "@remotion/cli": "4.0.536",
     "@remotion/fonts": "4.0.536",
     "@remotion/renderer": "4.0.536",
+    "@remotion/three": "4.0.536",
     "d3-geo": "3.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.536",
+    "three": "0.181.0",
     "topojson-client": "3.1.0",
     "world-atlas": "2.0.2"
   },
@@ -29,6 +32,7 @@
     "@types/geojson": "7946.0.16",
     "@types/node": "26.6.5",
     "@types/react": "19.2.7",
+    "@types/three": "0.181.0",
     "@types/topojson-client": "3.1.5",
     "@types/topojson-specification": "1.0.5",
     "esbuild": "0.28.1",

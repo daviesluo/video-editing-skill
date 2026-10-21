@@ -36,6 +36,39 @@ export const THEME = {
   // Scrims behind headlines stay light: a white fog laid over a picture
   // reads as washed out, so the type's halo does most of the work.
   scrimScale: 0.3,
+  name: "relief",
+  light: true,
+  // Flat maps: relief plates, the globe's own skin reprojected
+  // (pipeline/textures.py builds them), under crisp vector borders.
+  plates: "relief" as "relief" | "satellite" | "vector",
+  // How a data layer is laid over the globe.
+  glow: "normal" as "normal" | "add",
+  // The globe: a sea coloured by real depth, cream land with hypsometric
+  // tints and a multi-directional hillshade, white ice, all calmed so it
+  // reads neither washed out nor vivid; light that falls off across the
+  // sphere, a soft sky fill, a contact shadow on the page, and an
+  // atmosphere at the limb (a blue haze on the lit side, a cool shadow on
+  // the far side, a thin halo outside). The textures are built by
+  // pipeline/textures.py and are not committed.
+  globe: {
+    texture: "textures/earth-relief.jpg",
+    tint: "#ffffff",
+    ambient: 0.28,
+    key: 3.1,
+    sky: 0.75,
+    skyColors: ["#EAF3FF", "#A9B8C4"] as [string, string],
+    atmosphere: "#7DB9EA",
+    atmosphereStrength: 0.6,
+    bump: "textures/earth-bump.png" as string | undefined,
+    rough: "textures/earth-rough.png" as string | undefined,
+    bumpScale: 2.0,
+    shadow: true,
+    limb: { haze: "#9DC8EA", shade: "#1C3550", limbStrength: 0.62, shadeStrength: 0.3, haloStrength: 0.5 } as
+      | { haze: string; shade: string; limbStrength: number; shadeStrength: number; haloStrength: number }
+      | undefined,
+    exposure: 1.0,
+    roughness: 1.75,
+  },
 } as const;
 
 // Key text stays inside this box, clear of the platform's interface,

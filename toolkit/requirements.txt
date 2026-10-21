@@ -8,5 +8,6 @@ requests==2.32.5
 faster-whisper==1.2.1
 fonttools==4.67.0
 brotli==1.2.0
+pyshp==2.3.1
 # Optional, pipeline tests only (VOICE_PROVIDER=kokoro); never ships:
 # kokoro==0.9.4

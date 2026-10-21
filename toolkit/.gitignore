@@ -15,3 +15,9 @@ episodes/*/out/
 studio/public/episodes/*/voice.wav
 
 __pycache__/
+
+# Texture sources and the textures built from them (pipeline/textures.py);
+# only the record of the sources is committed
+.cache/
+studio/public/textures/*
+!studio/public/textures/SOURCES.md
