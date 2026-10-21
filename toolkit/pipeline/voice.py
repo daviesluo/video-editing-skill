@@ -683,7 +683,7 @@ def pace_report(ep_dir):
     return rows
 
 
-def pace_plan(words, tempo=0.96, sentence=0.78, section=0.92, comma=0.1):
+def pace_plan(words, tempo=1.0, sentence=0.78, section=0.92, comma=0.1):
     """The silences `pace` inserts, as (time in the slowed take, seconds):
     one at the middle of each pause that is short of its target after the
     slow-down (a sentence end to `sentence`, a section break to
@@ -713,14 +713,17 @@ def paced_time(t, tempo, inserts):
     return round(s + sum(e for at, e in inserts if at < s), 3)
 
 
-def pace(public_dir, tempo=0.96, sentence=0.78, section=0.92, comma=0.1):
-    """Brings a fast take to the series' pace: the whole take slowed to
-    `tempo` with its pitch kept (ffmpeg's rubberband filter; up to 5
-    percent is not heard on speech), then each pause lengthened in its own
-    silence (`pace_plan`), faded over 5 ms either side, so no word is
-    touched. The take's splice records move with the audio. The caller
+def pace(public_dir, tempo=1.0, sentence=0.78, section=0.92, comma=0.1):
+    """Brings a take to the series' rhythm by its pauses alone: each pause
+    lengthened in its own silence (`pace_plan`), faded over 5 ms either
+    side, so no word is touched or stretched (a pitch-kept slow-down was
+    heard as unnatural; speed comes from choosing the take). The take's splice records move with the audio. The caller
     re-times the words with `build.py <ep> realign` and re-makes the music.
     Returns the new length in seconds."""
+    # The words are never slowed: a 4 percent pitch-kept slow-down was heard
+    # at once as unnatural. `tempo` stays for the planner's arithmetic only.
+    if tempo != 1.0:
+        raise ValueError("the voice is never slowed in post; choose a slower take and lengthen its pauses")
     if not 0.95 <= tempo <= 1.0:
         raise SystemExit(f"tempo {tempo}: slow a take by 5 percent at most (0.95 to 1.0); re-voice a take that needs more")
     public_dir = Path(public_dir)

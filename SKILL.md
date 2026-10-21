@@ -137,9 +137,10 @@ resume from the repository alone.
 - **Pace is a gate, against the series**: about 2.3 to 2.4 words a second
   overall, under 3.7 within speech, sentence pauses of at least 0.7 s,
   section breaks about 0.9 s, measured before the render and in QA and
-  compared with the earlier parts (`voice.py pace-report`). A fast take is
-  slowed at most 5 percent with its pitch kept and given its pauses
-  (`voice.py pace`), then realigned and the music re-made.
+  compared with the earlier parts (`voice.py pace-report`), in syllables as
+  well as words. The voice is never slowed in post (it is heard): a fast
+  take is replaced by a seed that speaks at the series' rate, then given
+  its pauses in silence (`voice.py pace`), realigned and the music re-made.
 
 ### 5. Music and sound: `references/05-music-and-sound.md`
 

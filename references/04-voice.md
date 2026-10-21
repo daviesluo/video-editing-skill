@@ -72,15 +72,31 @@ the render (`build.py render` prints it) and again in QA:
   the episode beside every earlier one. A take faster than every earlier
   part is fast, whatever the limits say.
 
-A fast take is fixed without a new take: `python pipeline/voice.py pace
-episodes/<id> [tempo]` (`voice.pace`) slows the whole take with its pitch
-kept, by 4 percent by default and 5 at most (more is heard), then
-lengthens each short pause in its own silence: a sentence end to 0.78 s,
-a section break to 0.92 s, a comma's pause by 0.1 s. No word is cut, and
-the take's splice records move with the audio. Then `build.py realign`,
-`pace-report` again, `recue.py` for any wording that changed with it,
-and the music re-made, since every segment now starts later. A slightly
-longer episode is fine; a rushed one is not.
+The words themselves are never slowed. A 4 percent slow-down with the
+pitch kept was tried on that take, and the owner heard it at once as
+"obviously slowed down by hand, very unnatural". Speed is a property of the
+take, so it is chosen, not processed:
+
+- **Compare like with like.** Words a second mislead when one script is
+  full of short words ("Dig straight down into the Earth"): measure
+  syllables a second, over the whole episode and over speech alone (pauses
+  over 0.12 s removed), with the same forced alignment for every episode.
+  The take that ran at 3.38 words a second in speech against 2.91 to 3.26
+  for the earlier parts was within 2 to 3 percent of them in syllables.
+- **Choose the take.** Generate the whole narration on several seeds and
+  keep the one whose speech rate sits in the series' range (and that reads
+  best, below). Direction tags such as `[calmly]`, a higher stability and
+  the `speed` setting did not change the rate on the current model; check
+  again before relying on them.
+- **Then the pauses.** `python pipeline/voice.py pace episodes/<id>`
+  (`voice.pace`) lengthens each short pause in its own silence, to the
+  series' rhythm (on that take: sentence ends to 0.72 s, section breaks to
+  0.88 s, a comma's pause by 0.1 s, which brought it to 2.4 words and 3.86
+  syllables a second, the earlier parts' range). No word is cut and none is
+  stretched; the take's splice records move with the audio. Then
+  `build.py realign`, `pace-report` again, `recue.py` for any wording that
+  changed, and the music re-made, since every segment now starts later. A
+  slightly longer episode is fine; a rushed one is not.
 
 ## Choosing among seeds, by measurement
 
