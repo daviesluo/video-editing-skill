@@ -8,15 +8,17 @@ those ids and their word numbers.
 
 ## Length
 
-The narrator in the house style speaks about 2.5 words a second
-including pauses.
+The narrator in the house style speaks about 2.3 to 2.4 words a second
+over the whole narration, pauses included, and a series keeps that pace
+from part to part: a part at 2.54 was heard as rushed at once, though it
+passed every check (`04-voice.md`, "Pace, measured against the series").
 
 | Length | Words |
 |---|---|
-| 30 s | 70 to 80 |
-| 45 s | 105 to 115 |
-| 60 s | 140 to 150 |
-| 75 s | 175 to 185 |
+| 30 s | 65 to 72 |
+| 45 s | 100 to 108 |
+| 60 s | 135 to 145 |
+| 75 s | 170 to 180 |
 
 Shorter holds more of the audience; go long only when the story carries
 it. Write slightly under the target: scripts run long when voiced.
@@ -60,6 +62,18 @@ finished, checked episode failed:
 - **The hook and the teaser ask the question in full**, and are heard as
   one question: "Where would you come out, on the other side?" was voiced
   as two questions because of its comma.
+- **The teaser gives something concrete to look forward to**, and may run
+  a little longer for it: "What if we drained the ocean?" sounded odd and
+  promised nothing; "Drain every ocean, and the longest mountain range on
+  Earth appears. Where is it?" names the surprise and still asks
+  (`01-topics-and-series.md`, "Open loops"). Its fact is verified and
+  logged like any other.
+- **Connectives carry the turns when heard.** On the page a new paragraph
+  shows a turn; heard, only the words do. "Actually," leads into a claim
+  wider than the last, "And" into a second example, "However," into the
+  correction. Without them a correction runs on as one more item in a
+  list. Each is voiced as part of its line (`04-voice.md`), and the line
+  must still sound natural read aloud.
 - **The next part's hook matches the teaser that promised it**, word for
   word.
 - **The line into the teaser follows from what was just shown.** Never a
@@ -69,7 +83,10 @@ finished, checked episode failed:
   can be read two ways, rewrite it; do not rely on the picture to settle
   it.
 - **Wording the owner gives is used as given**, in the voice, the
-  captions and the post text alike.
+  captions and the post text alike. Where it reads awkwardly in English,
+  offer it back first with one or two natural phrasings that keep its
+  meaning, and the owner picks: "almost all only in the state" became
+  "almost all of it in the state alone".
 
 ## Numbers and spelling
 

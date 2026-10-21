@@ -28,7 +28,8 @@ with no stray sound anywhere, and every word timed to its voiced onset.
 | `format` | `mp3_44100_192` | converted to 48 kHz WAV on arrival |
 | `language_code` | `en` | |
 
-Pace with punctuation and sentence length, not with settings. At most one
+Pace with punctuation and sentence length, not with settings, then
+measure the take ("Pace, measured against the series" below). At most one
 or two direction tags such as `[curious]` in a script; they are stripped
 from captions and alignment automatically.
 
@@ -54,6 +55,32 @@ wrong: a word that starts with a hiss after a pause ("Spain", "So",
 start is moved back over the hiss. A hiss that runs on unbroken from a
 word ending in a hiss or burst ("straight south") stays with that word.
 Spot-check disputed words on a spectrogram.
+
+## Pace, measured against the series
+
+A take can pass every check and two exhaustive reviews and still be
+rushed. One ran 2.54 words a second against 2.26 to 2.39 for the series'
+earlier parts, with sentence pauses as short as 0.31 s, and the owner
+heard it at once. Pace is a gate, measured on the aligned timeline before
+the render (`build.py render` prints it) and again in QA:
+
+- **About 2.3 to 2.4 words a second overall** (first word to last), and
+  **under 3.7 within speech** (words over the time spent on them);
+- **sentence pauses of at least 0.7 s, section breaks of about 0.9 s**;
+- the limits in `brand.json` (`pace`), and the series itself as the
+  reference: `python pipeline/voice.py pace-report episodes/<id>` prints
+  the episode beside every earlier one. A take faster than every earlier
+  part is fast, whatever the limits say.
+
+A fast take is fixed without a new take: `python pipeline/voice.py pace
+episodes/<id> [tempo]` (`voice.pace`) slows the whole take with its pitch
+kept, by 4 percent by default and 5 at most (more is heard), then
+lengthens each short pause in its own silence: a sentence end to 0.78 s,
+a section break to 0.92 s, a comma's pause by 0.1 s. No word is cut, and
+the take's splice records move with the audio. Then `build.py realign`,
+`pace-report` again, `recue.py` for any wording that changed with it,
+and the music re-made, since every segment now starts later. A slightly
+longer episode is fine; a rushed one is not.
 
 ## Choosing among seeds, by measurement
 
@@ -104,6 +131,10 @@ new take changes every timing and every delivery around it.
 - **Every splice is recorded** in the timeline (time, and which side is
   old audio), and QA fails a splice whose old side is not silent. Records
   inside a span that a later re-voice replaced are dropped.
+- **A connective is voiced with its line.** A turn word added later
+  ("Actually,", "And", "However,") is never spliced onto the old take:
+  re-voice the whole line from the pause before it, so the word is read
+  as part of the sentence, and listen that it sounds natural.
 - **`python pipeline/voice.py add-line episodes/<id> <seg> [seed]`**
   (`voice.add_line`) appends a new last
   segment (a call to action added after approval) the same way, placed
@@ -123,7 +154,8 @@ must print nothing:
   ended on a cut-off fragment clicked on the quiet end card; `mix.py` also
   fades both ends over 10 ms).
 
-And the transcript must match the script (word error rate at or under 3
+The take must also keep the series' pace (above; QA's "narration at the
+series' pace"). And the transcript must match the script (word error rate at or under 3
 percent, every difference read by eye, digits forbidden in a check of the
 `say` readings). Before calling a voice fix done, run every check over
 every take, not only the spot that was reported.

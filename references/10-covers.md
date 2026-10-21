@@ -17,6 +17,10 @@ shows and checked by measurement.
 - **The title** under it: two or three lines at 96 to 108 px, weight 880,
   one accent phrase; "|" breaks a line as in the episode's own title, so
   the cover and the video break their title alike.
+- **The cover does not answer its own question** any more than the
+  episode's opening does (`08-animation.md`): over a question of where
+  something lies, the frozen frame shows the picture before the answer's
+  evidence is drawn.
 - **One subject**: the route, the shapes, the circle, the bars, the page:
   marked in the episode with `data-cover-subject` so the probe measures
   it. Mark the overlay that is the subject, not a full-bleed base map.

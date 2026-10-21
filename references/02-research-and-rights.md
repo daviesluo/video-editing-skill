@@ -66,6 +66,15 @@ From `templates/episode/verification.md`. QA fails while any fact in
 - **The claim as worded**, the re-check (the source's exact quote, or the
   script and its output), and the result. A CALC figure is re-run for the
   log, not copied from the research note.
+- **The check first, then the sentence.** Never write a fact into the log
+  before its check is done: a note drafted with an unchecked claim read as
+  verified and was caught only on re-read. Text written ahead of a check
+  is a claim, wherever it sits.
+- **Reply text is checked like the picture.** A ready reply said one
+  country's opposite side was "mostly" another; computed, 73 percent of
+  its far side is sea, and only the land there (81 percent of it) is the
+  other country. Every reply, comment and description gets the same
+  check as an on-screen fact before it is written down as ready.
 - **Rounding.** Round only where the source rounds. The voice may say
   "over 1,000 kilometres" while the screen shows "1,072 km"; both must be
   true of the same figure. "Nearly three-quarters" is right for 72.5

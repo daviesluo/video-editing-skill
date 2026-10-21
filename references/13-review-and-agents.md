@@ -21,6 +21,12 @@ is fixed and confirmed on that file.
 could have caught is a failure of this process, not a new request. A
 review of an earlier render does not count once anything has changed.
 
+**When the owner is waiting to publish**, everything goes into that one
+deliverable until it ships. Other work may run (a review of another
+episode), but its reports are filed, not acted on, until then. Tell the
+owner promptly when a background step finishes (a render, a review),
+even when the next step has already started.
+
 **When the owner raises something new**: fix it where it was pointed at;
 write the general rule into the project's standards in the same turn;
 search every episode and post for the same class of problem and fix those
@@ -72,11 +78,16 @@ exhausted, and then brief it from the old one's report file.
   earlier agent's report file.
 - **At most three agents at a time**, a resumed one included: more
   overlap their file changes and their reports go unread.
+- **A usage limit stops every agent mid-task**, and the render helpers
+  with them. Record in the ledger what each was doing when it stopped;
+  once the limit resets, resume each by message with its task, rather
+  than spawning new ones that would rebuild their context.
 - **A sub-agent's number is a claim until recomputed.** Recompute the
   numbers a decision rests on, and say which ones you checked.
 - **Agents write their report to a file** (the scratchpad, or the
   episode's folder for a review worth keeping) and reply with a short
-  summary and the path.
+  summary and the path. Frame dumps and stills made for a review are
+  deleted once the report is written: they run to hundreds of megabytes.
 - **Never poll from the main session.** Waiting on a render, a helper or
   a long check goes to a background script that wakes the session only
   when there is a result, or to the chores agent; quiet wake-ups that find
@@ -203,10 +214,18 @@ episodes/<id>/picture-audit.md, releases/to-post/<release>/post.md, and
 Pass one, every category, in this order:
 1. The script, read cold: every line as a first-time viewer hears it
    (references/03-script.md, "The script, read cold"), and the QA transcript.
+   Pace against the series: run `voice.py pace-report episodes/<id>` and
+   compare words a second (overall and within speech), the shortest
+   sentence pause and section break with the earlier parts; a part faster
+   than all of them is a blocker even when every check passes (one at 2.54
+   words a second against 2.26 to 2.39 did, and was heard as rushed).
 2. Every audit row at its word: render or extract a still at the exact start
    of each key word and check what the row claims.
 3. Every frame: extract all frames; contact sheets every 0.5 s with the safe
-   box drawn; every scene change and camera move in 0.03 to 0.1 s steps.
+   box drawn; every scene change and camera move in 0.03 to 0.1 s steps;
+   any run of camera moves with no beat to read between them; anything that
+   shows the answer to the question being asked before the voice gives it,
+   in the episode or on the cover.
 4. Type and layout: run ORPHANS=1 stills every 0.5 s; labels on lines or
    coasts, text over subjects, collisions, anything over the captions, key
    text outside x 90 to 960 / y 250 to 1,230, stray labels under end cards.
@@ -229,7 +248,12 @@ Pass one, every category, in this order:
     way) and "does it look like what it represents?" (a 3D thing built and
     lit in the 3D scene, never a flat stroke over the render). An element
     that fails either question is a blocker, with a proposed design and,
-    for a change of look, two or three options to show as stills.
+    for a change of look, two or three options to show as stills. The
+    case to measure yourself against: a flat 2D stroke standing for a 3D
+    shaft through a planet passed every gate and this review, and the owner
+    rejected it at sight. Judge what each element is, not only whether it
+    has a fault; and the reverse too: a modelled hole where a place
+    wanted a dot sized for the view.
 Pass two: what would the owner still notice? Watch it once more as the owner
 would, and add anything that a viewer would see, hear or misread.
 

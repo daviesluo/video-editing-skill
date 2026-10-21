@@ -40,7 +40,10 @@ ORPHANS=1 node scripts/stills.mjs Ep07 /tmp/scan every:0.5  # the text scan
 
 Look at a still at each key word (the picture audit's rows) and at every
 scene change and camera move in 0.1 s steps before rendering. Stills
-render from one bundle and the bundle is deleted afterwards.
+render from one bundle and the bundle is deleted afterwards; delete the
+stills themselves once their report is written (`00-setup.md`,
+"Housekeeping"). `build.py render` prints the narration's pace before it
+starts; a take outside the series' pace is fixed first (`04-voice.md`).
 
 Stills, covers and the render time the episode the same way: the lead-in
 and tail are read from the timeline, which `build.py` (`voice`, `realign`
@@ -98,6 +101,25 @@ Render request <NN> for <repository>.
    its duration, and any warning the render printed. Do not run QA, do
    not change any file, do not push anywhere else.
 ```
+
+### One episode across both helpers
+
+When an episode is wanted sooner than one helper renders it, split it:
+every frame depends on its number alone, so the parts are the frames a
+whole render makes.
+
+- Each helper renders half at the same full commit hash, with
+  `RENDER_FRAMES=<first>-<last> .venv/bin/python pipeline/build.py
+  episodes/<id> render` (frames from 0; the last frame is the
+  composition's length less one), which writes `out/video-<first>-<last>.mp4`,
+  and pushes that file to its orphan branch in place of `final.mp4`.
+- Fetch both parts into `episodes/<id>/out/`, then `build.py episodes/<id>
+  join`: it checks that the parts meet end to end (the first starts at
+  frame 0, each later one the frame after the last ended, each file holds
+  every frame of its range) and concatenates them without re-encoding,
+  then prints the seam's frame numbers.
+- Look at the frames either side of each seam at full size, then `mix`,
+  `mux` and every QA gate as for a whole render.
 
 ## Shortcuts that save a render
 

@@ -107,14 +107,18 @@ resume from the repository alone.
 
 ### 3. Script: `references/03-script.md`
 
-- About 2.5 words a second: 75 for 30 s, 110 for 45 s, 145 for 60 s.
+- About 2.3 to 2.4 words a second, the series' pace kept from part to
+  part: 70 for 30 s, 105 for 45 s, 140 for 60 s.
 - Hook (the question, in full, in the first 1.5 s), answer by 6 s, two or
   three layers, a payoff worth sending, the follow beat, the teaser.
 - **Read cold** before voicing and before release: names in full the
   first time, recent examples, complete sentences when heard (no colon
   shorthand), no ambiguous "it", one plain question in the hook and the
-  teaser, the line into the teaser following from what was shown (never a
-  bare "So").
+  teaser, a teaser with something concrete to look forward to, the line
+  into the teaser following from what was shown (never a bare "So"),
+  connectives that carry each turn when heard ("Actually,", "And",
+  "However,"). The owner's awkward wording is offered back with natural
+  phrasings, and the owner picks.
 - Numbers written as on screen, read through `say` in the narrator's
   accent; spelling in the narrator's variety; an unslop pass.
 
@@ -130,6 +134,12 @@ resume from the repository alone.
 - A changed sentence is re-voiced alone (`voice.py replace`), from a
   pause, cut only in true silence, every splice recorded and checked.
   No stray sound, breath fragment or click, ever (`qa.voice_flaws`).
+- **Pace is a gate, against the series**: about 2.3 to 2.4 words a second
+  overall, under 3.7 within speech, sentence pauses of at least 0.7 s,
+  section breaks about 0.9 s, measured before the render and in QA and
+  compared with the earlier parts (`voice.py pace-report`). A fast take is
+  slowed at most 5 percent with its pitch kept and given its pauses
+  (`voice.py pace`), then realigned and the music re-made.
 
 ### 5. Music and sound: `references/05-music-and-sound.md`
 
@@ -153,8 +163,10 @@ resume from the repository alone.
 - **Every detail is designed**, nothing drawn the quick way: each element
   gets its own pass on shape, light, material, edges and motion; anything
   that stands for a 3D thing is built and lit in the 3D scene, never a
-  flat stroke over the render; a change of look is shown as two or three
-  options on stills and one picked before rebuilding.
+  flat stroke over the render, and only what is truly 3D is (a marked
+  place is a dot sized for the view); a change of look is explored in a
+  lab composition, reviewed over several rounds, and shown as two or three
+  options on stills, one picked before rebuilding.
 - No boxes, chips, rules, separators, arrows, glow or counting numbers;
   headlines revealed word by word from a mask; a light grain over every
   frame.
@@ -168,7 +180,10 @@ resume from the repository alone.
 ### 7. Animation: `references/08-animation.md`
 
 - **The picture follows the words**: whatever the narration points at
-  happens on screen on that word.
+  happens on screen on that word, and nothing answers a question before
+  the voice does.
+- An opening map framed wide enough to place the story, then a designed
+  move in; after each camera move a beat to read before the next.
 - Reveals lead their word by about 0.2 s with the enter ease; camera moves
   use the move ease; nothing moves without a reason.
 - Every time is a word cue (`seg@k`), never a second; `recue.py` after any
@@ -203,6 +218,9 @@ resume from the repository alone.
   helper - 2"**, reused by message for every
   render, briefed with the full commit hash, pushing `final.mp4` to an
   orphan branch `render/<NN>-<short hash>` and reporting its SHA-256.
+- One episode can be split across both helpers (`RENDER_FRAMES=a-b`),
+  then joined without re-encoding once the frame counts are checked to
+  meet (`build.py <ep> join`); look either side of the seam.
 - Only the music changed: remux the new mix under the rendered picture.
 
 ### 11. QA gates: `references/12-qa-gates.md`
@@ -210,7 +228,7 @@ resume from the repository alone.
 All of these, on the delivered file, every time:
 
 - `build.py <ep> qa`: spec, loudness (-14 LUFS ±1) and true peak (≤ -1
-  dBTP), every word aligned, no narration flaws, transcript word error rate
+  dBTP), every word aligned, the series' pace, no narration flaws, transcript word error rate
   ≤ 3 percent with every difference read, every fact verified and logged;
 - the orphan and safe-zone scan every 0.5 s over the whole episode and
   every cover prints nothing;
@@ -227,8 +245,9 @@ All of these, on the delivered file, every time:
   exhaustive brief: one pass over every category (the script read cold,
   every audit row at its word, every frame, type and layout, captions
   against the voice, sound and music measured, facts, cues against the
-  timeline, release text, cover, and design quality: "does this look
-  designed, and does it look like what it represents?"), then a second
+  timeline, release text, cover, the pace against the earlier parts, and
+  design quality: "does this look designed, and does it look like what it
+  represents?", judged even where nothing is a fault), then a second
   pass asking **"what would the owner still notice?"**
 - Every problem with its time, evidence and exact fix (file, element,
   value, wording); blockers, nits, and "leave as is" with reasons; a "could
@@ -276,7 +295,12 @@ not rebuilt each time; a new one only for a wholly new task.
 Every agent runs on the main session's own model, never a smaller one:
 high effort for anything that changes what ships, low effort only for
 chores. An agent opened before a rule changed finishes the task in hand;
-new work goes to an agent opened under the rule. At most three at a time. Agents write reports to files, never message the
+new work goes to an agent opened under the rule. At most three at a time.
+A usage limit stops them all mid-task: record what was running in the
+ledger and resume each by message once it resets. While the owner waits
+to publish, everything goes into that deliverable, other reports are
+filed until it ships, and the owner hears promptly when a background step
+finishes. Agents write reports to files, never message the
 owner, never post and never push to the main branch on their own. The
 briefs and the report format are in `references/13-review-and-agents.md`.
 
@@ -307,6 +331,8 @@ python pipeline/scaffold.py episode 07-slug "Why ...?"      # new episode files 
 python pipeline/build.py episodes/07-slug voice             # one request, the whole narration
 python pipeline/voice.py replace episodes/07-slug <seg> <first> <last> [seed]   # re-voice one phrase
 python pipeline/voice.py add-line episodes/07-slug <seg> [seed]                  # voice an added line
+python pipeline/voice.py pace-report episodes/07-slug        # pace beside the earlier parts
+python pipeline/voice.py pace episodes/07-slug [tempo]       # a fast take to the series' pace
 python pipeline/build.py episodes/07-slug realign           # forced alignment
 python pipeline/build.py episodes/07-slug captions          # keeps into the timeline
 python pipeline/music.py retime|make|check|use episodes/07-slug ...
@@ -315,6 +341,7 @@ cd studio && node --experimental-strip-types scripts/caption-pages.ts 07-slug
 cd studio && ORPHANS=1 node scripts/stills.mjs Ep07 /tmp/scan every:0.5
 cd studio && node scripts/covers.mjs
 python pipeline/build.py episodes/07-slug mix|render|mux|qa|remux
+RENDER_FRAMES=0-1012 python pipeline/build.py episodes/07-slug render   # one part; then join
 python pipeline/scaffold.py release 09-reel-slug 07-slug
 python pipeline/publish.py stage|text|check|done|when ...
 ```

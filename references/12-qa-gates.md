@@ -22,6 +22,7 @@ any failure.
 | loudness | -14 LUFS integrated, within 1 LU, on the delivered file |
 | true peak | at or under -1 dBTP, on the delivered file |
 | alignment | every script word matched by the aligner (none interpolated) |
+| pace | the series' pace (`brand.json` `pace`): about 2.3 to 2.4 words a second overall, under 3.7 within speech, sentence pauses of at least 0.7 s, section breaks of at least 0.85 s; and judged beside the earlier parts with `voice.py pace-report` |
 | narration flaws | no stray sound on no word, no splice into sound, no click in a pause, silent first and last samples |
 | transcript | word error rate at or under 3 percent against the script; read every listed difference by eye, because one wrong word is under 3 percent |
 | facts | every fact in `episode.json` marked verified |
@@ -72,12 +73,21 @@ that have since moved, reads as evidence and is not.
 - **Key text** inside x 90 to 960 and y 250 to 1,230; no label collisions;
   nothing over a caption; no stray label under the end card.
 - **Design, element by element**: does it look designed, and does it look
-  like what it represents? A 3D thing drawn as a flat overlay fails.
+  like what it represents? A 3D thing drawn as a flat overlay fails even
+  with no fault in it: a flat stroke standing for a shaft through a planet
+  passed every gate and a review, and the owner rejected it at sight. So
+  does the reverse: a place modelled as a 3D hole, where a dot sized for
+  the view was wanted.
+- **No answer before its word**: nothing on screen, or on the cover, gives
+  the answer to the question being asked before the voice gives it.
+- **No run of camera moves without a beat to read** between them.
 - **Spot-check the content**: a city on a map at its real position, a bar
   at its real length, a date at its real place on the ruler.
 - **Each cover** at full size and in the 3:4 tile.
 - **Listen** to the opening, each musical lift and the ending of the
-  delivered file, at phone volume and on headphones.
+  delivered file, at phone volume and on headphones, and to the whole of
+  it once for pace against the earlier parts: a part can pass every check
+  and still sound rushed.
 
 ## What counts as evidence
 

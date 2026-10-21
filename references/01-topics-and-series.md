@@ -81,7 +81,13 @@ people, health claims, a myth that the episode could accidentally repeat.
   sentence that hands the last picture to the next question.
 - **Open loops.** The teaser names a concrete, answerable question, not a
   topic: "dig straight down into the Earth: where would you come out on
-  the other side?", not "next time: antipodes".
+  the other side?", not "next time: antipodes". It states the question in
+  full with something concrete to look forward to, and may be a little
+  longer for it: "What if we drained the ocean?" sounded odd and promised
+  nothing, where "Drain every ocean, and the longest mountain range on
+  Earth appears. Where is it?" names the surprise and still asks. Being
+  the next hook word for word, its fact is verified and logged before the
+  episode that says it ships, like any other.
 - **The follow beat.** Every episode ends its content with the follow
   beat (the profile, "Enjoy stories like this? Follow for a new one every
   day.", the Follow tap), then the teaser. The promise said there must be

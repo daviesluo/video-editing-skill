@@ -36,7 +36,15 @@ Common to all:
 - **Locate before zooming in.** An episode about a place most viewers
   cannot place opens on a view wide enough to recognise (a hemisphere
   with its continents named), holds it while the hook is said, then moves
-  in. Viewers dropped into a close-up do not know where they are.
+  in as a designed camera move (the `move` ease, scale eased in log
+  space), never a cut to a close-up. Viewers dropped into a close-up do
+  not know where they are, and an opening framed in close came back with
+  "the map bigger at the start, then zoom in".
+- **The map does not answer before the voice.** A question about where
+  things lie is asked over a map that does not yet show the answer: both
+  cities' dots sat on screen while the hook asked whether one lay east or
+  west of the other. The places that answer it appear on the reveal word,
+  and the cover follows the same rule.
 - **Pull back when the narration points at the whole map** ("Blame this
   map", "maps like this one"): the camera pulls straight back about one
   point, scale eased in log space, until the whole map sits as a printed
@@ -73,6 +81,14 @@ Common to all:
   lie the comparison exists to correct. Pass `upright` for a long east or
   west move, or it arrives on its side, and move its name with it
   (`slider`).
+- **A marked place is a dot sized for the view**, never a modelled hole
+  or pin: "a dot of the right size, it doesn't need to be a real hole".
+  Anything sized in world units swells as the camera closes in (a hole
+  0.026 radii across ballooned three to six times in the close-ups,
+  covering its labels and the line it measured), so draw a marker as a 2D
+  overlay from the projection, or, if it must live in the 3D scene, size
+  it by the camera's distance (`lib/viewScale.ts`, `worldForPx`). 3D is
+  only for what is truly 3D.
 - **Labels** sit horizontal, beside what they name, never on a line or a
   coast; names go outside a circle, away from its rim; a moving dot's name
   rides on the side away from its path and fades near the frame's edges
@@ -106,8 +122,8 @@ Common to all:
   projection fitted by its box polygon fits the whole world; fit by edge
   points instead.
 - **Anything that stands for a 3D thing lives in the 3D scene.** A shaft or
-  line through the planet is geometry in the scene (a lit tube with a real
-  opening in the surface and a cut-away interior), occluded by the planet
+  line through the planet is geometry in the scene (a lit tube through a
+  cut-away interior, its way in and way out marked as dots), occluded by the planet
   where it should be and lit by the same lights; a flat 2D stroke laid over
   the render has no depth and looks strange. Overlays drawn in screen space
   are for labels and marks on the surface, never for solid things.
@@ -115,16 +131,31 @@ Common to all:
   through a planet, and in the example's globe beat) shows the inside of
   something solid: `wedge` gives the clipping planes and the two section
   faces, `SectionFace` shades the layers under the scene's key light,
-  `Shaft` and `Opening` are the lit tube and the lit rim of the hole. Its
-  rules: the cut is fixed to the object, so it turns with it; it is
-  opened turned off square to the camera (about 0.6 rad), so one face
-  reads broad and the other foreshortened, which reads as depth; and it is
-  shut before the camera can look into it, by the middle of any turn
-  away. Seams stay a pixel wide at any distance, and a long object fades
-  out above the captions in screen space so no camera move crosses them.
+  `Shaft` is the lit tube. Its rules, each learned frame by frame:
+  - the cut is fixed to the object, so it turns with it;
+  - it is opened turned off square to the camera (about 0.6 rad), so one
+    face reads broad and the other foreshortened, which reads as depth;
+    square on, a wedge reads as flat petals;
+  - it is shut before the camera turns, never during the turn: shut while
+    the camera turned, the broad face swept the planet as a band, the page
+    showed through the wedge, and a sliver of shaft showed through the
+    closing seam. Close it fast, ending as the turn begins;
+  - a label tied to the cut ("Earth's centre") leaves before the cut shuts,
+    or it is left floating over the surface;
+  - the layer radii come from a cited model (`LAYERS`, from PREM) and are
+    logged as facts when any is said or labelled;
+  - seams stay a pixel wide at any distance, and a long object fades out
+    above the captions in screen space (`fadeBelow`) so no camera move
+    crosses them.
+  Explore a new cut-away in the lab composition `CutAwayLab`
+  (`studio/src/lab/`), every choice a prop, before it goes into an episode
+  (`06-visual-style.md`, "Every detail is designed").
 - **Moving a picture for a cover or layout** is done with a camera offset
   applied to the picture and its overlays alike, never by moving a layer,
-  which shows a straight edge of empty page.
+  which shows a straight edge of empty page. Every mask and clip moves
+  with it (`CaptionClearDefs`'s `dy`, a 3D object's `fadeBelow`, the
+  globe's `shiftY`): a mask left in screen coordinates on a shifted cover
+  hid a city's dot and faded the far end of a line.
 
 ## Charts and stat cards
 

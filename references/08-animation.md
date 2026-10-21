@@ -23,6 +23,17 @@ every time in them comes from a word cue.
   stays in view as a card above the profile in the follow beat.
 - **The screen is never empty while the voice talks about something**:
   hold the last picture until the next arrives.
+- **The picture never answers the question before the voice does.** While
+  the hook asks whether one city lies east or west of another, the map
+  does not yet show where both are: a hook once asked it with both
+  cities' dots already on the map, so the answer was on screen before
+  "West." was said. The evidence for an answer arrives on the word that
+  gives it, and the cover keeps the same rule (`10-covers.md`).
+- **Open wide, then move in.** An opening map is framed wide enough to
+  place the story, and moves in as a designed camera move (the `move`
+  ease, scale eased in log space) on the words that narrow it, rather
+  than starting in close: an opening in close came back with "the map
+  bigger at the start, then zoom in".
 
 ## Reveals lead the word; moves start on it
 
@@ -48,6 +59,11 @@ every time in them comes from a word cue.
 - **Hold still between beats.** Nothing drifts, floats or breathes for its
   own sake. Nothing travels more than a third of the frame without a
   keyframe, and no more than a third of the elements move at once.
+- **No run of moves without a beat to read.** After each camera move the
+  picture holds long enough to be read before the next one starts. Four
+  moves in 3 s, each on its word, made a part feel rushed together with a
+  fast take; the pace of the picture is judged with the pace of the voice
+  (`04-voice.md`).
 
 ## Cues are words, never seconds
 
@@ -73,11 +89,13 @@ Motion is part of each element's design pass, with its shape, light,
 material and edges: how it enters, what it does on its word, how it
 leaves. A thing that stands for a 3D object moves in the 3D scene with the
 camera and the light (a shaft through a planet opens in the surface and
-is seen in cut-away as the camera turns), never as a flat stroke sliding
-over the render; the cut is fixed to the object, opened turned off square
-to the camera, and shut before the camera can look into it
-(`kit/CutAway3D.tsx`). Judge every element on stills against two questions:
-does it look designed, and does it look like what it represents?
+is seen in cut-away), never as a flat stroke sliding over the render; the
+cut is fixed to the object, opened turned off square to the camera, and
+shut before the camera turns, never during the turn; a label tied to the
+cut leaves before it shuts (`kit/CutAway3D.tsx`, `07-visual-grammars.md`).
+A place it passes through is a dot sized for the view, not a modelled
+hole. Judge every element on stills against two questions: does it look
+designed, and does it look like what it represents?
 
 ## Lines and labels
 

@@ -20,6 +20,11 @@ new class of failure appears, in the same commit as the fix.
 | "you almost certainly come out in the sea", for a statistic about land, not people | words say exactly what kind of number it is | fact checker |
 | "by area" read as total area for a share | a share is called a share; units explained | fact checker |
 | a reply naming a country never verified | every figure in any text block is in the log | fact checker; review |
+| a ready reply said one country's far side was "mostly" another; most of it was sea, and only its land was mostly that country | reply text gets the same verification as on-screen facts | fact checker; review |
+| a verification note was drafted with a claim not yet checked, and read as verified until a re-read | the check first, then the sentence | fact checker |
+| a correction and a second example ran on as one list when heard | connectives carry the turns ("Actually,", "And", "However,"), each voiced with its line | cold read; listen |
+| a teaser ("What if we drained the ocean?") sounded odd and promised nothing | the teaser states the next question in full with something concrete to look forward to; its fact verified | cold read; release review |
+| the owner's wording read awkwardly in English | offered back with one or two natural phrasings that keep the meaning; the owner picks | before voicing |
 
 ## Voice
 
@@ -34,6 +39,7 @@ new class of failure appears, in the same commit as the fix.
 | a small recogniser passed a misread proper noun that a larger one caught | key words checked with the largest model; several seeds | voice QA |
 | captions 70 to 250 ms late after pauses | re-time every take by forced alignment | `build.py realign` |
 | "Spain" lit 0.2 s late; "65%" 0.13 s late | a hiss after a pause starts the word | `fricative_onsets` |
+| a part at 2.54 words a second, sentence pauses down to 0.31 s, passed every check and two reviews and was heard as rushed | pace is a gate against the series' earlier parts; a fast take slowed at most 5 percent with pitch kept and its pauses lengthened in their own silence | QA pace check; `voice.py pace-report`; review brief |
 
 ## Music and sound
 
@@ -71,6 +77,12 @@ new class of failure appears, in the same commit as the fix.
 | a light palette that looked washed out, then a relief skin that looked too vivid | contrast by lightness, restrained colour, from a ladder of stills | style frames |
 | a shaft through the globe drawn as a flat red line over the 3D render: no depth, looked strange, rejected | every detail is designed; a 3D thing is built in the 3D scene (a lit tube with a real opening and a cut-away interior); a change of look shown as 2 or 3 options on stills first | review: "does it look designed, and like what it represents?" |
 | a whole layer moved down to make room, leaving a straight edge | move pictures by camera offset, never by moving a layer | stills |
+| four camera moves in 3 s, each on its word, felt rushed | no run of moves without a beat to read | frames; review |
+| a redesign's first rounds had flat "petals", a hairline shaft, a ring that read as a button and a see-through planet with a grey core | explore in a lab composition, review your own options over several rounds, show two or three | `variants.mjs`; own review |
+| a cut-away shut while the camera turned: its face swept the planet as a band, the page showed through the wedge, a sliver of shaft through the seam; its label floated on after it shut | the cut fixed to the object, turned off square, shut before the camera turns, its labels gone first; radii from a cited model, logged | frames at 0.03 s through each turn |
+| a hole modelled on the planet ballooned in the close-ups over its labels and line; the owner wanted "a dot of the right size" | a marked place is a dot sized for the view; 3D only for what is truly 3D | close-up stills |
+| a hook asked east or west while both cities' dots were on the map, so the answer showed before it was said | the picture never answers before the voice, nor does the cover | picture audit; cover look |
+| an opening map started in close; the owner asked for it bigger, then a zoom in | open wide enough to place the story, then a designed move in | picture audit |
 | a map under a white veil read as fog | diagrams sit on the clean page | review |
 
 ## Type and layout
@@ -120,4 +132,8 @@ new class of failure appears, in the same commit as the fix.
 | a stale picture audit with first-take times read as evidence | re-take the audit after any re-timing | review |
 | flat point-in-polygon tests found false land bands | repair antimeridian rings before computing | analysis script |
 | two values for one quantity across screen and caption | one quantity, one value | fact log |
+| a render waited on one helper while the other sat idle | split it across both (`RENDER_FRAMES`), `join` after the frame counts are checked, frames either side of the seam looked at | `build.py join` |
+| a usage limit stopped every agent mid-task | record what was running in the ledger; resume each by message once the limit resets | ledger |
+| work on another episode competed with the one the owner was waiting to post | everything into the waiting deliverable; other reports filed until it ships; the owner told when a background step finishes | ledger |
+| render bundles in the temporary folder and per-review frame dumps filled the disk, which stops renders | delete dumps and stills when their report is written; `df -h` before a render | `df -h` |
 | a review found problems in rounds, back and forth | one exhaustive pass with exact fixes and an empty "could not check" list | review brief |

@@ -87,7 +87,9 @@ answer.
   question>"). If the platform offers a series or linked-video feature,
   use it too, but never depend on it: such features come and go.
 - **Ready replies** in `post.md`: the "well, actually" comments the post
-  will draw, each answered with facts already verified, each citing its
+  will draw, each answered with facts already verified and re-checked as
+  worded (a ready reply once said one country's far side was "mostly"
+  another, when most of it was sea; `02-research-and-rights.md`), each citing its
   fact id. Short versions (at most 150 characters, no links) for TikTok.
 
 ## Other platforms

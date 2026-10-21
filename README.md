@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0-brightgreen.svg)](#version)
-[![Self-test](https://img.shields.io/badge/self--test-73%20cases-brightgreen.svg)](#install-and-invoke)
+[![Self-test](https://img.shields.io/badge/self--test-78%20cases-brightgreen.svg)](#install-and-invoke)
 [![Tools](https://img.shields.io/badge/runs%20on-Claude%20Code%2C%20Cursor%2C%20Codex-lightgrey.svg)](#requirements)
 
 A short explainer should reach the person who commissioned it with

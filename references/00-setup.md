@@ -93,7 +93,7 @@ a log line. Two routes are supported by `pipeline/voice.py`:
 | `brand.json` | the one file a series edits: name, handle, promise line, avatar, palette, safe zone, layout, cover tile, release limits, music licence. The studio and every check read it |
 | `pipeline/` | `build.py` (steps), `voice.py`, `mix.py`, `music.py`, `sfx.py`, `sfxgen.py`, `qa.py`, `covercheck.py`, `publish.py`, `recue.py`, `scaffold.py`, `audition.py`, `fontwidths.py`, `textures.py` (with `globetex.py` and `reproject.py`) |
 | `pipeline/sfx-lib/` | sound-effect takes, several per effect (`sfxgen.py` makes them) |
-| `studio/` | the Remotion project: `src/brand/` (tokens, font, cover, avatar), `src/kit/` (captions, type, bars, map view, globe view, printed sheet, cut-away 3D object, document, quote, timeline, logo, probes, follow beat), `src/lib/` (eases, cues, geography, projections, plates, the globe's geometry), `src/episodes/` (one file per episode), `scripts/` (stills, covers, caption pages, design variants, plate grids) |
+| `studio/` | the Remotion project: `src/brand/` (tokens, font, cover, avatar), `src/kit/` (captions, type, bars, map view, globe view, printed sheet, cut-away 3D object, document, quote, timeline, logo, probes, follow beat), `src/lib/` (eases, cues, geography, projections, plates, the globe's geometry, sizes for the view), `src/episodes/` (one file per episode), `src/lab/` (lab compositions for exploring a design, such as `CutAwayLab`), `scripts/` (stills, covers, caption pages, design variants, plate grids) |
 | `studio/public/textures/` | the globe textures and relief plates, built by `textures.py fetch`, gitignored; `SOURCES.md` (committed) records each source's URL, licence and SHA-256 |
 | `studio/public/episodes/<id>/` | `timeline.json` and `music.mp3` (committed); `voice.wav` (committed with `git add -f` only for the shipping take) |
 | `episodes/<NN-slug>/` | `episode.json`, `music-plan.json`, `research.md`, `verification.md`, `picture-audit.md`, `analysis/` (scripts that compute figures), `out/` (gitignored renders, mix, QA) |
@@ -125,7 +125,10 @@ helpers and sub-agents in this skill report into the same record.
 
 - `stills.mjs` and `covers.mjs` delete their bundle (about 100 MB each in
   the temporary folder) when they finish; a day of stills left behind
-  filled a disk.
+  filled a disk. A render leaves its own bundle (`/tmp/remotion-*`), and
+  frame dumps and per-review stills run to hundreds of megabytes: delete
+  them when their report is written, and check `df -h` before a render,
+  because a full disk stops a render part-way.
 - `pkill -f <pattern>` matches the shell running it when the command line
   contains the pattern, and kills it. Kill by process id.
 - Check exit codes, not summary lines: a run once printed "passed" and

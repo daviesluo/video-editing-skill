@@ -105,14 +105,25 @@ once as unfinished, however right the rest is.
   timeline is drawn to scale, a mark is shown as it is.
 - **Anything that stands for a 3D thing is built in the 3D scene**, lit and
   shaded with it, never a flat 2D stroke over the render. A shaft through
-  a planet is a lit tube with a real opening in the surface and a cut-away
-  interior, not a red line on top of the picture (`kit/CutAway3D.tsx`
-  is that pattern, worked through).
+  a planet is a lit tube through a cut-away interior, not a red line on
+  top of the picture (`kit/CutAway3D.tsx` is that pattern, worked
+  through): a flat stroke standing for the shaft passed every gate and a
+  review, and the owner rejected it at sight. Only what is truly 3D is
+  built in 3D; the places the shaft goes in and comes out are dots sized
+  for the view (`07-visual-grammars.md`).
 - **It must look like what it represents.** A shaft looks dug, a route looks
   travelled, a document looks like paper.
 - **Any change of look is shown first** as stills of two or three finished
   options, and one is picked before anything is rebuilt (see "Style
   changes" below).
+- **Explore in a lab, review your own options first.** Build the element
+  alone in a lab composition (`studio/src/lab/`, such as `CutAwayLab`),
+  every design choice a prop, and render one still per set of props
+  (`scripts/variants.mjs`). Judge the stills yourself over several rounds,
+  hook, close-up and mid-move, before the owner sees any: the first rounds
+  of a cut-away planet had flat "petals", a hairline shaft, a ring that
+  read as a button for the way out, and a see-through planet whose core
+  showed as a grey sphere. Show the two or three that survive.
 
 ## Layout (1080x1920)
 
