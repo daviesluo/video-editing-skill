@@ -9,6 +9,8 @@ The checks, and the failure each one exists for:
 - loudness within 1 LU of -14 LUFS and true peak at or under -1 dBTP,
   measured on the delivered file, not the mix (the AAC encode adds peaks);
 - every script word aligned (a word placed by interpolation is a guess);
+- the narration at the series' pace (brand.json `pace`, `voice.pace_measure`):
+  a take passed every other check and two reviews and was still rushed;
 - no stray sounds or clicks in the narration (`voice_flaws`);
 - the transcript matches the script (WER at or under 3 percent; read every
   difference by eye, because one wrong word is under 3 percent);
@@ -25,7 +27,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from config import brand, public_dir
-from voice import TAG, _norm, _pcm16k, whisper_model
+from voice import TAG, _norm, _pcm16k, pace_faults, pace_measure, whisper_model
 
 
 def probe(path):
@@ -226,6 +228,9 @@ def run(episode, timeline, final_mp4, out_dir, ep_dir):
     check("loudness -14 LUFS +-1", abs(i + 14) <= 1.0, i)
     check("true peak <= -1 dBTP", tp <= -1.0, tp)
     check("every script word aligned", timeline["voice"].get("unmatched_words", 0) == 0, timeline["voice"].get("unmatched_words"))
+    pace = pace_measure(timeline["words"])
+    slow = pace_faults(pace)
+    check("narration at the series' pace", not slow, {"faults": slow, **pace})
     voice_wav = public_dir(episode) / "voice.wav"
     if voice_wav.exists():
         a, sr = sf.read(str(voice_wav), dtype="float32")

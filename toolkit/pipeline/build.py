@@ -8,7 +8,10 @@ Steps, in order (`all` runs voice, realign, mix, render, mux, qa):
   realign   re-time the committed take by forced alignment, audio unchanged
   captions  copy caption_keep and caption_split into the timeline
   mix       voice, sound effects and music to out/mix.wav
-  render    the picture, muted, to out/video.mp4 (no GPU: --gl=swangle)
+  render    the picture, muted, to out/video.mp4 (no GPU: --gl=swangle);
+            RENDER_FRAMES=a-b renders frames a to b only, to out/video-a-b.mp4
+  join      the parts rendered with RENDER_FRAMES into out/video.mp4,
+            stream-copied, once their frame counts are checked to meet
   mux       picture and mix to out/final.mp4
   qa        every automated check, out/qa.json and out/contact-sheet.png
   remux     audio-only change: the new mix onto the picture of an existing
@@ -21,6 +24,8 @@ to a commit.
 """
 
 import json
+import os
+import re
 import shutil
 import subprocess
 import sys
@@ -44,13 +49,73 @@ def load(ep_dir):
     return episode, public_dir(episode), out, ep_dir
 
 
-def step_render(episode, out):
+def render_range():
+    """RENDER_FRAMES=a-b, as (a, b), or None for the whole episode."""
+    frames = os.environ.get("RENDER_FRAMES")
+    if not frames:
+        return None
+    m = re.fullmatch(r"(\d+)-(\d+)", frames)
+    if not m or int(m[1]) > int(m[2]):
+        raise SystemExit(f"RENDER_FRAMES={frames}: give the first and last frame, such as 0-1012")
+    return int(m[1]), int(m[2])
+
+
+def step_render(episode, out, public):
+    # The pace is measured before the render is spent (QA gates it too).
+    m = voice.pace_measure(json.loads((public / "timeline.json").read_text())["words"])
+    slow = voice.pace_faults(m)
+    print("pace:", m, ("; OUTSIDE THE SERIES' PACE: " + "; ".join(slow)) if slow else "")
     # The composition reads the timeline itself (calculateMetadata), so the
     # props only pin what the mix also used: the lead-in and the tail.
     props = json.dumps({"id": episode["id"], "lead": episode.get("audio_lead", 0.0),
                         "tail": episode.get("tail", 1.2), "qa": False})
-    subprocess.run(["npx", "remotion", "render", episode["composition"], str(out / "video.mp4"), *RENDER_FLAGS,
-                    f"--props={props}"], cwd=STUDIO, check=True)
+    # A frame range renders one part, so two helpers can each render half an
+    # episode at the same commit and `join` puts them together. Every frame
+    # depends on its number alone, so the parts are the frames a whole
+    # render makes.
+    rng = render_range()
+    target = out / (f"video-{rng[0]}-{rng[1]}.mp4" if rng else "video.mp4")
+    subprocess.run(["npx", "remotion", "render", episode["composition"], str(target), *RENDER_FLAGS,
+                    f"--props={props}"] + ([f"--frames={rng[0]}-{rng[1]}"] if rng else []), cwd=STUDIO, check=True)
+
+
+def check_parts(parts):
+    """Checks that rendered parts, as (first frame, last frame, frames in
+    the file), meet end to end: the first starts at frame 0, each later one
+    the frame after the last ended, and each file holds every frame of its
+    range. Returns the frame count of the whole."""
+    if not parts:
+        raise SystemExit("join: no parts (out/video-<a>-<b>.mp4); render them with RENDER_FRAMES=a-b")
+    nxt = 0
+    for a, b, n in sorted(parts):
+        if a != nxt or n != b - a + 1:
+            raise SystemExit(f"join: the part for frames {a}-{b} has {n} frames from {a}; expected {b - a + 1} from {nxt}")
+        nxt = b + 1
+    return nxt
+
+
+def step_join(out):
+    """Joins the parts rendered with RENDER_FRAMES into out/video.mp4 in
+    frame order, without re-encoding, after `check_parts`. Prints the seam
+    frames, which are looked at either side before the join is trusted."""
+    files = {}
+    for p in out.glob("video-*-*.mp4"):
+        m = re.fullmatch(r"video-(\d+)-(\d+)", p.stem)
+        if m:
+            files[(int(m[1]), int(m[2]))] = p
+    parts = []
+    for (a, b), p in sorted(files.items()):
+        n = subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries",
+                            "stream=nb_read_frames", "-of", "csv=p=0", str(p)], capture_output=True, text=True, check=True).stdout
+        parts.append((a, b, int(n)))
+    total = check_parts(parts)
+    lst = out / "parts.txt"
+    lst.write_text("".join(f"file '{files[(a, b)].name}'\n" for a, b, _ in parts))
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst.name, "-c", "copy", "video.mp4"],
+                   check=True, cwd=out)
+    lst.unlink()
+    seams = [b for _, b, _ in parts[:-1]]
+    print(f"join: {len(parts)} parts, {total} frames; check frames {', '.join(f'{s} and {s + 1}' for s in seams)}")
 
 
 def step_mux(out, video=None):
@@ -84,12 +149,14 @@ def keep_phrases(episode, public):
     path.write_text(json.dumps(tl, indent=1, ensure_ascii=False) + "\n")
 
 
-STEPS = ("all", "voice", "realign", "captions", "mix", "render", "mux", "qa", "remux")
+STEPS = ("all", "voice", "realign", "captions", "mix", "render", "join", "mux", "qa", "remux")
 
 
 def main(ep_dir, step="all"):
     if step not in STEPS:
         raise SystemExit(f"unknown step {step!r}; the steps are {', '.join(STEPS)}")
+    if render_range() and step != "render":
+        raise SystemExit("RENDER_FRAMES renders one part, with the render step alone; then join, mux and qa")
     episode, public, out, ep_dir = load(ep_dir)
     steps = ["voice", "realign", "mix", "render", "mux", "qa"] if step == "all" else [step]
     timeline = None
@@ -114,7 +181,9 @@ def main(ep_dir, step="all"):
     if "mix" in steps or step == "remux":
         print("mix:", mix.build(episode, timeline, public / "voice.wav", out / "mix.wav", out / "work"))
     if "render" in steps:
-        step_render(episode, out)
+        step_render(episode, out, public)
+    if step == "join":
+        step_join(out)
     if "mux" in steps:
         step_mux(out)
     if step == "remux":

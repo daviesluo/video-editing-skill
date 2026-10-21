@@ -14,7 +14,9 @@ Providers:
 Entry points: `make` (a whole take), `realign` (re-time a committed take by
 forced alignment), `replace_words` (re-voice one changed phrase and splice
 it into the approved take), `add_line` (append a line), `measure_span`
-(numbers for choosing among several seeds).
+(numbers for choosing among several seeds), `pace_measure` and
+`pace_report` (the narration's pace against the series), `pace` (bring a
+fast take to the series' pace).
 """
 
 import base64
@@ -29,7 +31,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from config import ROOT, readings
+from config import EPISODES, ROOT, brand, readings
 
 RATE = 48000
 TAG = re.compile(r"\[[^\]]*\]")
@@ -604,11 +606,162 @@ def make(episode, public_dir, seed=None):
     return timeline
 
 
+CLOSERS = "\"'”’)]"
+
+
+def _end_mark(text):
+    """The punctuation a word ends on, past any closing quote or bracket."""
+    t = text.rstrip(CLOSERS)
+    return t[-1] if t and t[-1] in PUNCT else ""
+
+
+def _pause_kind(w, n):
+    """What the pause between two words is: a section break (a new
+    segment), a sentence end, a comma's pause, or none."""
+    if w.get("seg") != n.get("seg"):
+        return "section"
+    mark = _end_mark(w["text"])
+    if not mark:
+        return None
+    return "sentence" if mark in ".?!" else "comma"
+
+
+def pace_measure(words):
+    """The narration's pace, as the series is judged on it: `words_per_s`
+    over the whole narration (first word's start to last word's end),
+    `speech_per_s` within speech (words over the time spent on words),
+    and the shortest sentence pause and section break, in seconds. A take
+    that passed every other check and two reviews was still rushed at 2.54
+    words a second against 2.26 to 2.39 for the series' earlier parts, its
+    shortest sentence pause 0.31 s."""
+    span = words[-1]["end"] - words[0]["start"]
+    gaps = {"sentence": [], "section": []}
+    for w, n in zip(words, words[1:]):
+        kind = _pause_kind(w, n)
+        if kind in gaps:
+            gaps[kind].append(n["start"] - w["end"])
+    return {"words": len(words), "words_per_s": round(len(words) / span, 2),
+            "speech_per_s": round(len(words) / sum(w["end"] - w["start"] for w in words), 2),
+            "sentence_pause": round(min(gaps["sentence"]), 2) if gaps["sentence"] else None,
+            "section_pause": round(min(gaps["section"]), 2) if gaps["section"] else None}
+
+
+def pace_faults(m, limits=None):
+    """Where a pace measure breaks the series' limits (brand.json `pace`),
+    as readable strings; empty when it keeps them."""
+    lim = limits or brand()["pace"]
+    lo, hi = lim["words_per_s"]
+    out = []
+    if not lo <= m["words_per_s"] <= hi:
+        out.append(f"{m['words_per_s']} words/s overall, outside {lo} to {hi}")
+    if m["speech_per_s"] >= lim["speech_max"]:
+        out.append(f"{m['speech_per_s']} words/s within speech, not under {lim['speech_max']}")
+    if m["sentence_pause"] is not None and m["sentence_pause"] < lim["sentence_pause"]:
+        out.append(f"a sentence pause of {m['sentence_pause']} s, under {lim['sentence_pause']}")
+    if m["section_pause"] is not None and m["section_pause"] < lim["section_pause"]:
+        out.append(f"a section break of {m['section_pause']} s, under {lim['section_pause']}")
+    return out
+
+
+def pace_report(ep_dir):
+    """This episode's pace beside every other episode that has a timeline,
+    so a take is judged against the series, not only against the limits.
+    Only a real take is a reference: synthetic timings are marked."""
+    from config import public_dir
+
+    rows = []
+    for d in sorted(EPISODES.glob("*/episode.json")):
+        tl = public_dir(json.loads(d.read_text())) / "timeline.json"
+        if tl.exists():
+            t = json.loads(tl.read_text())
+            rows.append((d.parent.name, pace_measure(t["words"]), d.parent.resolve() == Path(ep_dir).resolve(),
+                         t.get("voice", {}).get("provider", "")))
+    for name, m, this, provider in rows:
+        print(f"{'>' if this else ' '} {name:28} {m['words_per_s']:5.2f} words/s  {m['speech_per_s']:5.2f} in speech  "
+              f"sentence pause {m['sentence_pause']} s  section {m['section_pause']} s"
+              + ("  (synthetic timings, not a reference)" if provider in ("synthetic", "kokoro") else ""))
+    return rows
+
+
+def pace_plan(words, tempo=0.96, sentence=0.78, section=0.92, comma=0.1):
+    """The silences `pace` inserts, as (time in the slowed take, seconds):
+    one at the middle of each pause that is short of its target after the
+    slow-down (a sentence end to `sentence`, a section break to
+    `section`, a comma's pause of 0.12 s or more by `comma`)."""
+    k = 1 / tempo
+    inserts = []
+    for w, n in zip(words, words[1:]):
+        gap = (n["start"] - w["end"]) * k
+        kind = _pause_kind(w, n)
+        if kind == "section":
+            want = section
+        elif kind == "sentence":
+            want = sentence
+        elif kind == "comma" and gap >= 0.12:
+            want = gap + comma
+        else:
+            continue
+        if want > gap + 0.01:
+            inserts.append(((w["end"] + (n["start"] - w["end"]) / 2) * k, want - gap))
+    return inserts
+
+
+def paced_time(t, tempo, inserts):
+    """Where a moment of the original take lands after `pace`: stretched by
+    the slow-down, then moved by every silence inserted before it."""
+    s = t / tempo
+    return round(s + sum(e for at, e in inserts if at < s), 3)
+
+
+def pace(public_dir, tempo=0.96, sentence=0.78, section=0.92, comma=0.1):
+    """Brings a fast take to the series' pace: the whole take slowed to
+    `tempo` with its pitch kept (ffmpeg's rubberband filter; up to 5
+    percent is not heard on speech), then each pause lengthened in its own
+    silence (`pace_plan`), faded over 5 ms either side, so no word is
+    touched. The take's splice records move with the audio. The caller
+    re-times the words with `build.py <ep> realign` and re-makes the music.
+    Returns the new length in seconds."""
+    if not 0.95 <= tempo <= 1.0:
+        raise SystemExit(f"tempo {tempo}: slow a take by 5 percent at most (0.95 to 1.0); re-voice a take that needs more")
+    public_dir = Path(public_dir)
+    wav = public_dir / "voice.wav"
+    tl = json.loads((public_dir / "timeline.json").read_text())
+    with tempfile.TemporaryDirectory() as tmp:
+        slow = Path(tmp) / "slow.wav"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-af", f"rubberband=tempo={tempo}:pitch=1:formant=preserved",
+                        "-c:a", "pcm_s16le", str(slow)], check=True)
+        a, sr = sf.read(slow, dtype="float32")
+    inserts = pace_plan(tl["words"], tempo, sentence, section, comma)
+    fade = int(0.005 * sr)
+
+    def ramp(n, up):
+        r = np.linspace(0, 1, n, dtype=np.float32) if up else np.linspace(1, 0, n, dtype=np.float32)
+        return r[:, None] if a.ndim == 2 else r
+
+    out, last = [], 0
+    for t, extra in inserts:
+        i = int(t * sr)
+        seg = a[last:i].copy()
+        if len(seg) > fade:
+            seg[-fade:] *= ramp(fade, False)
+        out += [seg, np.zeros((int(extra * sr),) + a.shape[1:], np.float32)]
+        a[i:i + fade] *= ramp(len(a[i:i + fade]), True)
+        last = i
+    out.append(a[last:])
+    sf.write(wav, np.concatenate(out), sr)
+    tl["voice"]["splices"] = [dict(x, t=paced_time(x["t"], tempo, inserts)) for x in tl["voice"].get("splices", [])]
+    tl["voice"]["paced"] = {"tempo": tempo, "sentence": sentence, "section": section, "comma": comma}
+    (public_dir / "timeline.json").write_text(json.dumps(tl, indent=1))
+    return round(sum(len(x) for x in out) / sr, 3)
+
+
 USAGE = """usage:
   python pipeline/voice.py measure  <voice.wav> <start s> <end s>
   python pipeline/voice.py replace  episodes/<id> <seg> <first> <last> [seed]
   python pipeline/voice.py add-line episodes/<id> <seg> [seed]
-Then run build.py <ep> realign. Copy voice.wav and timeline.json aside
+  python pipeline/voice.py pace-report episodes/<id>
+  python pipeline/voice.py pace     episodes/<id> [tempo]
+Then run build.py <ep> realign (after pace, re-make the music too). Copy voice.wav and timeline.json aside
 first when trying several seeds. Other steps run through pipeline/build.py."""
 
 
@@ -634,5 +787,12 @@ if __name__ == "__main__":
         seg = next(s for s in ep["segments"] if s["id"] == a[2])
         add_line(ep, pub, seg, seed=int(a[3]) if len(a) > 3 else None)
         print("added", a[2], "; now run build.py <ep> realign")
+    elif len(a) >= 2 and a[0] == "pace-report":
+        pace_report(a[1])
+    elif len(a) >= 2 and a[0] == "pace":
+        ep, pub = _episode(a[1])
+        before = pace_measure(json.loads((pub / "timeline.json").read_text())["words"])
+        print("before", before)
+        print("length", pace(pub, float(a[2]) if len(a) > 2 else 0.96), "s; now run build.py <ep> realign, then pace-report and re-make the music")
     else:
         raise SystemExit(USAGE)

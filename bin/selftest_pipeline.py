@@ -26,6 +26,7 @@ from PIL import Image, ImageDraw
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "toolkit" / "pipeline"))
 
+import build  # noqa: E402
 import config  # noqa: E402
 import covercheck  # noqa: E402
 import mix  # noqa: E402
@@ -197,6 +198,90 @@ def t_splices():
 
 
 case("splice records inside a replaced span are dropped, later ones move", t_splices)
+
+
+def paced_words():
+    # Two segments; a sentence end with a 0.3 s pause, a comma with 0.2 s,
+    # unpunctuated words 0.1 s apart,
+    # a quoted sentence end ("word.”") with 0.4 s, and a section break of 0.5 s.
+    spec = [("One", "a", 0.0, 0.3), ("two.", "a", 0.4, 0.7), ("Three,", "a", 1.0, 1.4), ("four", "a", 1.6, 1.9),
+            ("“five.”", "a", 2.0, 2.3), ("Six", "a", 2.7, 3.0), ("seven.", "a", 3.1, 3.5), ("Eight", "b", 4.0, 4.3)]
+    return [{"text": t, "seg": g, "start": s, "end": e} for t, g, s, e in spec]
+
+
+def t_pace_measure():
+    m = voice.pace_measure(paced_words())
+    assert m["words_per_s"] == round(8 / 4.3, 2), m
+    assert m["speech_per_s"] == round(8 / 2.6, 2), m
+    assert m["sentence_pause"] == 0.3 and m["section_pause"] == 0.5, m
+    lim = {"words_per_s": [2.2, 2.45], "speech_max": 3.7, "sentence_pause": 0.7, "section_pause": 0.85}
+    faults = voice.pace_faults(m, lim)
+    assert len(faults) == 3 and "speech" not in " ".join(faults), faults
+    ok = {"words_per_s": 2.3, "speech_per_s": 3.5, "sentence_pause": 0.76, "section_pause": 0.9}
+    assert voice.pace_faults(ok, lim) == [], voice.pace_faults(ok, lim)
+
+
+case("the pace is read per sentence, comma and section, past a closing quote", t_pace_measure)
+
+
+def t_pace_plan():
+    w = paced_words()
+    tempo = 0.96
+    ins = voice.pace_plan(w, tempo, sentence=0.78, section=0.92, comma=0.1)
+    k = 1 / tempo
+    want = {round((0.7 + 0.15) * k, 4): 0.78 - 0.3 * k, round((1.4 + 0.1) * k, 4): 0.1,
+            round((2.3 + 0.2) * k, 4): 0.78 - 0.4 * k, round((3.5 + 0.25) * k, 4): 0.92 - 0.5 * k}
+    got = {round(t, 4): e for t, e in ins}
+    assert got.keys() == want.keys(), (sorted(got), sorted(want))
+    for t in want:
+        assert abs(got[t] - want[t]) < 1e-9, (t, got[t], want[t])
+    # Every pause reaches its target in the paced take.
+    def at(t):
+        return voice.paced_time(t, tempo, ins)
+    assert abs((at(1.0) - at(0.7)) - 0.78) < 0.002 and abs((at(4.0) - at(3.5)) - 0.92) < 0.002
+    assert abs((at(1.6) - at(1.4)) - (0.2 * k + 0.1)) < 0.002
+    # A pause between unpunctuated words gets nothing; the tempo is capped
+    # at 5 percent.
+    assert all(abs(t - 0.35 * k) > 0.01 and abs(t - 3.05 * k) > 0.01 for t in got)
+    try:
+        voice.pace(Path("/nonexistent"), tempo=0.9)
+        raise AssertionError("a 10 percent slow-down was accepted")
+    except SystemExit:
+        pass
+
+
+case("pace lengthens each short pause to its target, in its own silence, by at most 5 percent", t_pace_plan)
+
+
+def t_pace_splices():
+    tempo = 0.96
+    ins = [(1.0, 0.5), (3.0, 0.25)]
+    # A splice record before every insert is only stretched; one after both
+    # moves by the stretch and both silences.
+    assert voice.paced_time(0.48, tempo, ins) == round(0.5, 3)
+    assert voice.paced_time(2.4, tempo, ins) == round(2.5 + 0.5, 3)
+    assert voice.paced_time(3.84, tempo, ins) == round(4.0 + 0.75, 3)
+
+
+case("pace moves the take's splice records with the stretch and every silence before them", t_pace_splices)
+
+
+def t_join():
+    assert build.check_parts([(0, 1011, 1012), (1012, 1623, 612)]) == 1624
+    assert build.check_parts([(1012, 1623, 612), (0, 1011, 1012)]) == 1624
+    for bad in ([(0, 1011, 1012), (1013, 1623, 611)],   # a frame missing at the seam
+                [(0, 1011, 1012), (1000, 1623, 624)],   # overlapping parts
+                [(0, 1011, 1010), (1012, 1623, 612)],   # a part short of frames
+                [(5, 1011, 1007)],                       # not from frame 0
+                []):
+        try:
+            build.check_parts(bad)
+            raise AssertionError(f"accepted {bad}")
+        except SystemExit:
+            pass
+
+
+case("join refuses parts that do not meet end to end, or are short of frames", t_join)
 
 
 def chirp(f0, f1, dur=1.0):

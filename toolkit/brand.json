@@ -26,6 +26,7 @@
   "layout": { "badge": 262, "top": 314, "topScrim": 712, "captions": 1450, "bottomScrim": 1390 },
   "tile": { "top": 240, "bottom": 1680, "margin": 40, "clear": 32, "balance": 1.5, "minGap": 80 },
   "type": { "family": "Archivo", "fontFile": "fonts/Archivo-Variable.woff2", "smallMinPx": 29 },
+  "pace": { "words_per_s": [2.2, 2.45], "speech_max": 3.7, "sentence_pause": 0.7, "section_pause": 0.85 },
   "release": { "minHashtags": 3, "maxHashtags": 5, "maxAudioName": 50, "maxCaption": 2200, "maxReply": 150 },
   "music": { "licence": "<the music licence: service, plan, terms version and date, what use it allows>" }
 }
