@@ -56,6 +56,13 @@ every time in them comes from a word cue.
 - **Durations**: hero entrances 400 to 800 ms, camera 0.8 to 2 s, word
   stagger 40 to 70 ms, line stagger 60 to 100 ms. Springs, if any,
   critically damped; no bounce.
+- **Speed, not only duration.** A camera move is judged by how far it goes
+  in its time, against the episode's other moves of its kind: two half-turns
+  of one globe run at about the same speed. One shipped at 140° in 0.55 s
+  beside its twin's 2.25 s and read as a whip pan; it came from moving the
+  turn's start to wait for a cut while its end stayed on its word. When a
+  move's start moves, its end moves with it, or the words make room for it
+  (`04-voice.md`, pauses only).
 - **Hold still between beats.** Nothing drifts, floats or breathes for its
   own sake. Nothing travels more than a third of the frame without a
   keyframe, and no more than a third of the elements move at once.
@@ -94,7 +101,9 @@ cut is fixed to the object, opened turned off square to the camera, and
 shut before the camera turns, never during the turn; a label tied to the
 cut leaves before it shuts (`kit/CutAway3D.tsx`, `07-visual-grammars.md`).
 A place it passes through is a dot sized for the view, not a modelled
-hole. Judge every element on stills against two questions: does it look
+hole. An element belongs to its scene and is drawn only while that scene
+is: a shaft only while its cut is open, so no tick of it is left on the
+planet's edge once the cut has shut. Judge every element on stills against two questions: does it look
 designed, and does it look like what it represents?
 
 ## Lines and labels

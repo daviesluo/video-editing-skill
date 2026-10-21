@@ -20,6 +20,11 @@ is fixed and confirmed on that file.
 **No rework.** A video the owner has to send back for a point a review
 could have caught is a failure of this process, not a new request. A
 review of an earlier render does not count once anything has changed.
+Nor is a finding shipped because time ran out: a blocker or a nit worth
+fixing that survives to release is the same failure. When the owner wants
+to publish by a time, the review starts early enough for its fix round,
+re-render and re-check to fit before it; a deadline moves the review
+earlier, never the bar lower.
 
 **When the owner is waiting to publish**, everything goes into that one
 deliverable until it ships. Other work may run (a review of another
