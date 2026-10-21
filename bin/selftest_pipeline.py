@@ -34,6 +34,7 @@ import music  # noqa: E402
 import publish  # noqa: E402
 import qa  # noqa: E402
 import recue  # noqa: E402
+import rhythm  # noqa: E402
 import scaffold  # noqa: E402
 import voice  # noqa: E402
 
@@ -209,19 +210,42 @@ def paced_words():
     return [{"text": t, "seg": g, "start": s, "end": e} for t, g, s, e in spec]
 
 
+def t_syllables():
+    for word, n in (("Earth", 1), ("straight", 1), ("ocean", 2), ("little", 2), ("Antarctica", 4), ("named", 1),
+                    ("wanted", 2), ("make", 1), ("the", 1), ("—", 0)):
+        assert voice._syllables(word) == n, (word, voice._syllables(word), n)
+    say = {"65%": "sixty-five percent"}
+    assert voice.spoken_syllables("65%,", say) == 5 and voice.spoken_syllables("“Earth.”") == 1
+
+
+case("syllables are counted by vowel groups, a number as it is read", t_syllables)
+
+
 def t_pace_measure():
-    m = voice.pace_measure(paced_words())
-    assert m["words_per_s"] == round(8 / 4.3, 2), m
-    assert m["speech_per_s"] == round(8 / 2.6, 2), m
+    w = paced_words()
+    m = voice.pace_measure(w)
+    # One two three four five six seven eight: 1+1+1+1+1+1+2+1 = 9.
+    assert m["syllables"] == 9 and m["words_per_s"] == round(8 / 4.3, 2), m
+    assert m["syllables_per_s"] == round(9 / 4.3, 2), m
+    # Pauses over 0.12 s (0.3, 0.2, 0.4 and 0.5) come out of speech; the
+    # 0.1 s gaps between words stay in it.
+    assert m["speech_syllables_per_s"] == round(9 / (4.3 - 1.4), 2), m
     assert m["sentence_pause"] == 0.3 and m["section_pause"] == 0.5, m
-    lim = {"words_per_s": [2.2, 2.45], "speech_max": 3.7, "sentence_pause": 0.7, "section_pause": 0.85}
+    assert m["sentence_pause_median"] == 0.35, m
+    # A short word read long counts as read.
+    w[0]["text"] = "1,000"
+    assert voice.pace_measure(w, {"1,000": "one thousand"})["syllables"] == 11
+    lim = {"speech_syllables_per_s": [3.0, 3.4], "syllables_per_s": [2.2, 2.4], "sentence_pause_min": 0.4,
+           "section_pause_min": 0.45}
     faults = voice.pace_faults(m, lim)
-    assert len(faults) == 3 and "speech" not in " ".join(faults), faults
-    ok = {"words_per_s": 2.3, "speech_per_s": 3.5, "sentence_pause": 0.76, "section_pause": 0.9}
+    assert len(faults) == 2 and "overall" in faults[0] and "sentence pause" in faults[1], faults
+    ok = dict(m, speech_syllables_per_s=3.3, syllables_per_s=2.3, sentence_pause=0.42, section_pause=None)
     assert voice.pace_faults(ok, lim) == [], voice.pace_faults(ok, lim)
+    # A limit that is not set is not checked.
+    assert voice.pace_faults(m, {"syllables_per_s": [2.0, 2.2]}) == []
 
 
-case("the pace is read per sentence, comma and section, past a closing quote", t_pace_measure)
+case("the pace is read in syllables, per sentence and section, past a closing quote", t_pace_measure)
 
 
 def t_pace_plan():
@@ -240,17 +264,17 @@ def t_pace_plan():
         return voice.paced_time(t, tempo, ins)
     assert abs((at(1.0) - at(0.7)) - 0.78) < 0.002 and abs((at(4.0) - at(3.5)) - 0.92) < 0.002
     assert abs((at(1.6) - at(1.4)) - (0.2 * k + 0.1)) < 0.002
-    # A pause between unpunctuated words gets nothing; the tempo is capped
-    # at 5 percent.
+    # A pause between unpunctuated words gets nothing; a slow-down is
+    # refused.
     assert all(abs(t - 0.35 * k) > 0.01 and abs(t - 3.05 * k) > 0.01 for t in got)
     try:
         voice.pace(Path("/nonexistent"), tempo=0.9)
-        raise AssertionError("a 10 percent slow-down was accepted")
+        raise AssertionError("a slow-down was accepted")
     except SystemExit:
         pass
 
 
-case("pace lengthens each short pause to its target, in its own silence, by at most 5 percent", t_pace_plan)
+case("pace lengthens each short pause to its target, in its own silence, and never slows the words", t_pace_plan)
 
 
 def t_pace_splices():
@@ -675,6 +699,100 @@ def t_scaffold():
 
 case("the scaffold writes every file of an episode and a release, placeholders filled", t_scaffold)
 
+# ---------------------------------------------------------------- rhythm
+print("rhythm: the picture's movement and the reference parts' range")
+
+
+def band_frames(moves, seconds=10, fps=30):
+    """Grey frames, 192x108, of a still picture in which a bright square
+    in the picture band travels 2 px a frame during each (first frame, last
+    frame) in `moves`, while a caption below the band changes every third
+    of a second."""
+    n = seconds * fps + 1
+    f = np.full((n, 192, 108), 128, np.uint8)
+    x = 10
+    for i in range(n):
+        if any(a < i <= b for a, b in moves):
+            x += 2
+        f[i, 90:110, x % 80:x % 80 + 20] = 250
+        if (i // 10) % 2:
+            f[i, 165:180, 20:90] = 30
+    return f
+
+
+def t_motion():
+    m = rhythm.motion(band_frames([(60, 90), (180, 195)]), 30)
+    # Moves of 1.0 and 0.5 s in 10 s, holds of 2.0, 3.0 and 3.5 s; the
+    # caption below the band is not the picture.
+    assert m == {"moving_share": 0.15, "moves_per_10s": 2.0, "median_move_s": 0.75, "median_hold_s": 3.0}, m
+    assert rhythm.motion(band_frames([]), 30)["moves_per_10s"] == 0.0
+    # Four moves in 3 s, each on its word, with a third of a second
+    # between them: no busier in moving share, but too many moves and no
+    # hold to read.
+    quick = [(30 + k * 22, 42 + k * 22) for k in range(4)]
+    m = rhythm.motion(band_frames(quick), 30)
+    assert m["moves_per_10s"] == 4.0 and m["median_hold_s"] < 0.5 and m["moving_share"] < 0.183, m
+    lim = CFG["rhythm"]["limits"]
+    v = {"speech_syllables_per_s": 5.0, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": 0.6}
+    out = rhythm.faults({"voice": v, "picture": m}, lim)
+    assert len(out) == 2 and "movements per 10 s" in out[0] and "median hold" in out[1], out
+
+
+case("the picture band's movements and holds are counted, the captions left out", t_motion)
+
+
+def t_rhythm_faults():
+    lim = CFG["rhythm"]["limits"]
+    # A part that felt rushed beside its reference parts, as measured: the
+    # speech rate and all three picture measures out.
+    rushed = {"voice": {"speech_syllables_per_s": 5.22, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": None},
+              "picture": {"moving_share": 0.29, "moves_per_10s": 2.81, "median_move_s": 0.6, "median_hold_s": 0.8}}
+    out = rhythm.faults(rushed, lim)
+    assert len(out) == 4 and "within speech" in out[0], out
+    within = {"voice": {"speech_syllables_per_s": 5.0, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": 0.6},
+              "picture": {"moving_share": 0.15, "moves_per_10s": 1.5, "median_move_s": 1.2, "median_hold_s": 2.6}}
+    assert rhythm.faults(within, lim) == [], rhythm.faults(within, lim)
+
+
+case("a rushed part leaves the reference range on every measure; one inside it passes", t_rhythm_faults)
+
+
+def t_limits_from():
+    def row(speech, overall, pause, med, sec, sec_med, share, moves, hold):
+        return {"voice": {"speech_syllables_per_s": speech, "syllables_per_s": overall, "sentence_pause": pause,
+                          "sentence_pause_median": med, "section_pause": sec, "section_pause_median": sec_med},
+                "picture": {"moving_share": share, "moves_per_10s": moves, "median_hold_s": hold}}
+    rows = {"01": row(4.9, 3.6, 0.42, 0.5, 0.55, 0.6, 0.15, 1.6, 2.5),
+            "02": row(5.1, 3.8, 0.40, 0.52, 0.5, 0.62, 0.18, 1.9, 2.3),
+            "03": row(5.0, 3.7, 0.45, 0.48, 0.6, 0.58, 0.12, 1.2, 3.1)}
+    lim, pauses = rhythm.limits_from(rows)
+    assert lim == {"speech_syllables_per_s": [4.9, 5.1], "syllables_per_s": [3.6, 3.8], "sentence_pause_min": 0.40,
+                   "moving_share_max": 0.18, "moves_per_10s_max": 1.9, "median_hold_s_min": 2.3,
+                   "section_pause_min": 0.5}, lim
+    assert pauses == {"sentence": 0.5, "section": 0.6}, pauses
+    # Every reference part is inside the limits drawn from them.
+    assert all(rhythm.faults(r, lim) == [] for r in rows.values())
+
+
+case("the limits are the reference parts' own range, and every one of them is inside it", t_limits_from)
+
+
+def t_standard_brand():
+    text = (config.ROOT / "brand.json").read_text()
+    assert rhythm.dump_brand(json.loads(text)) == text, "standard would rewrite brand.json beyond what it measured"
+    with tempfile.TemporaryDirectory() as d:
+        b = Path(d) / "brand.json"
+        b.write_text(text)
+        try:
+            rhythm.standard(b)
+            raise AssertionError("a standard with no reference parts was written")
+        except SystemExit:
+            pass
+        assert b.read_text() == text
+
+
+case("standard keeps brand.json as written and refuses to run with no reference parts", t_standard_brand)
+
 # ---------------------------------------------------------------- brand
 print("brand.json: the geometry every check relies on")
 
@@ -685,9 +803,14 @@ def t_brand():
     assert s["left"] <= s["railX"] <= s["right"] and s["top"] < s["railY"] < s["bottom"]
     assert t["top"] == 240 and t["bottom"] == 1680, "the grid tile is the middle 3:4 of a 9:16 cover"
     assert s["top"] <= lay["badge"] < lay["top"] < lay["captions"] < s["bottom"]
+    r = CFG["rhythm"]
+    lo, hi = r["band"]
+    assert lay["top"] / 1920 < lo < hi < lay["captions"] / 1920, "the picture band lies between the headline and the captions"
+    for k in ("speech_syllables_per_s", "syllables_per_s"):
+        assert r["limits"][k][0] <= r["limits"][k][1], k
 
 
-case("the safe box, grid tile and layout are consistent", t_brand)
+case("the safe box, grid tile, layout and picture band are consistent", t_brand)
 
 print(f"PY {passed} {failed}")
 sys.exit(1 if failed else 0)

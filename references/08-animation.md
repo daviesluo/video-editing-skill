@@ -69,8 +69,9 @@ every time in them comes from a word cue.
 - **No run of moves without a beat to read.** After each camera move the
   picture holds long enough to be read before the next one starts. Four
   moves in 3 s, each on its word, made a part feel rushed together with a
-  fast take; the pace of the picture is judged with the pace of the voice
-  (`04-voice.md`).
+  fast take; the pace of the picture is measured with the pace of the
+  voice, against the same reference parts ("The picture's rhythm",
+  below).
 
 ## Cues are words, never seconds
 
@@ -163,6 +164,34 @@ never the caption.
 - Vary the interval between beats (2 to 4 s): a metronome reads as
   boredom.
 - Reveal in sequence; never dump a full slide.
+
+## The picture's rhythm
+
+How busy the picture is belongs to the series as much as how fast the
+narrator speaks, and the same first approved parts are its standard
+(`brand.json` `rhythm.reference`). `pipeline/rhythm.py` measures the
+delivered video in the picture band, between the headline and the
+captions (`rhythm.band`), so the captions turning their pages never count:
+
+- **how much of the time it moves**: frames whose change from the last,
+  smoothed over five frames, is above a small threshold, which a camera
+  move, a shape travelling, a fill or a line drawing all cross;
+- **how many separate movements** there are per 10 s, each a run of 0.2 s
+  or more;
+- **how long it holds still** between them, as the median hold.
+
+`rhythm.py standard` takes the reference parts' busiest values as the
+limits and QA gates every part on them (`12-qa-gates.md`, "picture
+rhythm"); `rhythm.py report episodes/<id>` prints a part against them
+before it is sent. On one series' four reference parts the picture moved
+at most 18 percent of the time, in at most 1.89 movements per 10 s, with
+a median hold of at least 2.27 s. A part heard as rushed moved 29 percent
+of the time, in 2.81 movements per 10 s, with a median hold of 0.8 s.
+Four camera moves in 3 s and a half-turn whipped through in 0.55 s are
+the kind of thing these measures catch: a picture that moves more often,
+with less still time between. Passing them is no reason to skip looking
+at each run of moves; what they add is that a picture busier than the
+series' own is caught by a number before the owner has to feel it.
 
 ## Determinism
 

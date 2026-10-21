@@ -90,7 +90,7 @@ a log line. Two routes are supported by `pipeline/voice.py`:
 
 | Path | What |
 |---|---|
-| `brand.json` | the one file a series edits: name, handle, promise line, avatar, palette, safe zone, layout, cover tile, release limits, music licence. The studio and every check read it |
+| `brand.json` | the one file a series edits: name, handle, promise line, avatar, palette, safe zone, layout, cover tile, the reference parts and their rhythm limits (`rhythm`; the limits shipped are one series' measured values, a starting point until `rhythm.py standard` measures the series' own first approved parts), release limits, music licence. The studio and every check read it |
 | `pipeline/` | `build.py` (steps), `voice.py`, `mix.py`, `music.py`, `sfx.py`, `sfxgen.py`, `qa.py`, `covercheck.py`, `publish.py`, `recue.py`, `scaffold.py`, `audition.py`, `fontwidths.py`, `textures.py` (with `globetex.py` and `reproject.py`) |
 | `pipeline/sfx-lib/` | sound-effect takes, several per effect (`sfxgen.py` makes them) |
 | `studio/` | the Remotion project: `src/brand/` (tokens, font, cover, avatar), `src/kit/` (captions, type, bars, map view, globe view, printed sheet, cut-away 3D object, document, quote, timeline, logo, probes, follow beat), `src/lib/` (eases, cues, geography, projections, plates, the globe's geometry, sizes for the view), `src/episodes/` (one file per episode), `src/lab/` (lab compositions for exploring a design, such as `CutAwayLab`), `scripts/` (stills, covers, caption pages, design variants, plate grids) |

@@ -42,8 +42,9 @@ Look at a still at each key word (the picture audit's rows) and at every
 scene change and camera move in 0.1 s steps before rendering. Stills
 render from one bundle and the bundle is deleted afterwards; delete the
 stills themselves once their report is written (`00-setup.md`,
-"Housekeeping"). `build.py render` prints the narration's pace before it
-starts; a take outside the series' pace is fixed first (`04-voice.md`).
+"Housekeeping"). `build.py render` prints the narration's pace against
+the reference parts before it starts; a take outside their range is fixed
+first (`04-voice.md`).
 
 Stills, covers and the render time the episode the same way: the lead-in
 and tail are read from the timeline, which `build.py` (`voice`, `realign`

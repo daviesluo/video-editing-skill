@@ -15,8 +15,9 @@ Entry points: `make` (a whole take), `realign` (re-time a committed take by
 forced alignment), `replace_words` (re-voice one changed phrase and splice
 it into the approved take), `add_line` (append a line), `measure_span`
 (numbers for choosing among several seeds), `pace_measure` and
-`pace_report` (the narration's pace against the series), `pace` (bring a
-fast take to the series' pace).
+`pace_report` (the narration's pace in syllables a second, against the
+series' reference parts), `pace` (lengthen a take's short pauses, in
+silence, to the reference parts' typical pauses).
 """
 
 import base64
@@ -626,64 +627,110 @@ def _pause_kind(w, n):
     return "sentence" if mark in ".?!" else "comma"
 
 
-def pace_measure(words):
-    """The narration's pace, as the series is judged on it: `words_per_s`
-    over the whole narration (first word's start to last word's end),
-    `speech_per_s` within speech (words over the time spent on words),
-    and the shortest sentence pause and section break, in seconds. A take
-    that passed every other check and two reviews was still rushed at 2.54
-    words a second against 2.26 to 2.39 for the series' earlier parts, its
-    shortest sentence pause 0.31 s."""
+def _syllables(word):
+    """Syllables in an English word, by vowel groups with the usual
+    corrections (a silent final "e", "-ed" after anything but t or d):
+    not a dictionary count, but the same count for every episode, which
+    is what comparing one take with another needs."""
+    w = re.sub(r"[^a-z]", "", word.lower())
+    if not w:
+        return 0
+    n = len(re.findall(r"[aeiouy]+", w))
+    if w.endswith("e") and not w.endswith(("le", "ee", "ye")) and n > 1:
+        n -= 1
+    if w.endswith("ed") and not w.endswith(("ted", "ded")) and n > 1:
+        n -= 1
+    return max(n, 1)
+
+
+def spoken_syllables(text, say=None):
+    """Syllables in one script word as the narrator reads it: a number or
+    symbol through `say`, looked up as `spoken_text` looks it up ("65%"
+    read "sixty-five percent" is five)."""
+    core, _ = _core(text)
+    return sum(_syllables(x) for x in re.split(r"[\s\-]+", (say or {}).get(core, core)))
+
+
+def pace_measure(words, say=None):
+    """The narration's pace, as the series is judged on it. Syllables a
+    second over the whole narration (`syllables_per_s`, first word's start
+    to last word's end) and within speech (`speech_syllables_per_s`, every
+    pause over 0.12 s taken out), the shortest and the median sentence
+    pause and section break, in seconds; and words a second, for planning
+    a script's length. Syllables, not words, are the measure: a script of
+    short words ("Dig straight down into the Earth") reads fast in words
+    and not in syllables. Numbers count as read, through `say`."""
     span = words[-1]["end"] - words[0]["start"]
+    syl = sum(spoken_syllables(w["text"], say) for w in words)
     gaps = {"sentence": [], "section": []}
+    silent = 0.0
     for w, n in zip(words, words[1:]):
+        gap = n["start"] - w["end"]
+        if gap > 0.12:
+            silent += gap
         kind = _pause_kind(w, n)
         if kind in gaps:
-            gaps[kind].append(n["start"] - w["end"])
-    return {"words": len(words), "words_per_s": round(len(words) / span, 2),
-            "speech_per_s": round(len(words) / sum(w["end"] - w["start"] for w in words), 2),
-            "sentence_pause": round(min(gaps["sentence"]), 2) if gaps["sentence"] else None,
-            "section_pause": round(min(gaps["section"]), 2) if gaps["section"] else None}
+            gaps[kind].append(gap)
+
+    def low(k):
+        return round(min(gaps[k]), 2) if gaps[k] else None
+
+    def mid(k):
+        return round(float(np.median(gaps[k])), 2) if gaps[k] else None
+
+    return {"words": len(words), "syllables": syl, "seconds": round(span, 2),
+            "words_per_s": round(len(words) / span, 2),
+            "syllables_per_s": round(syl / span, 2),
+            "speech_syllables_per_s": round(syl / (span - silent), 2),
+            "sentence_pause": low("sentence"), "sentence_pause_median": mid("sentence"),
+            "section_pause": low("section"), "section_pause_median": mid("section")}
 
 
 def pace_faults(m, limits=None):
-    """Where a pace measure breaks the series' limits (brand.json `pace`),
-    as readable strings; empty when it keeps them."""
-    lim = limits or brand()["pace"]
-    lo, hi = lim["words_per_s"]
+    """Where a pace measure leaves the reference parts' range (brand.json
+    `rhythm.limits`, written by `rhythm.py standard`), as readable lines;
+    empty when it keeps it. A limit that is not set is not checked."""
+    lim = limits or brand()["rhythm"]["limits"]
     out = []
-    if not lo <= m["words_per_s"] <= hi:
-        out.append(f"{m['words_per_s']} words/s overall, outside {lo} to {hi}")
-    if m["speech_per_s"] >= lim["speech_max"]:
-        out.append(f"{m['speech_per_s']} words/s within speech, not under {lim['speech_max']}")
-    if m["sentence_pause"] is not None and m["sentence_pause"] < lim["sentence_pause"]:
-        out.append(f"a sentence pause of {m['sentence_pause']} s, under {lim['sentence_pause']}")
-    if m["section_pause"] is not None and m["section_pause"] < lim["section_pause"]:
-        out.append(f"a section break of {m['section_pause']} s, under {lim['section_pause']}")
+    for key, label in (("speech_syllables_per_s", "syllables/s within speech"), ("syllables_per_s", "syllables/s overall")):
+        if key in lim:
+            lo, hi = lim[key]
+            if not lo <= m[key] <= hi:
+                out.append(f"{m[key]} {label}, outside the reference parts' {lo} to {hi}")
+    for key, label in (("sentence_pause", "a sentence pause"), ("section_pause", "a section break")):
+        floor = lim.get(key + "_min")
+        if floor is not None and m[key] is not None and m[key] < floor:
+            out.append(f"{label} of {m[key]} s, under the reference parts' shortest, {floor} s")
     return out
 
 
 def pace_report(ep_dir):
     """This episode's pace beside every other episode that has a timeline,
-    so a take is judged against the series, not only against the limits.
-    Only a real take is a reference: synthetic timings are marked."""
+    the reference parts (brand.json `rhythm.reference`) marked, so a take
+    is judged against the series, not only against the limits. Only a real
+    take is a reference: synthetic timings are marked."""
     from config import public_dir
 
+    ref = {r if isinstance(r, str) else r["episode"] for r in brand().get("rhythm", {}).get("reference", [])}
     rows = []
     for d in sorted(EPISODES.glob("*/episode.json")):
-        tl = public_dir(json.loads(d.read_text())) / "timeline.json"
+        ep = json.loads(d.read_text())
+        tl = public_dir(ep) / "timeline.json"
         if tl.exists():
             t = json.loads(tl.read_text())
-            rows.append((d.parent.name, pace_measure(t["words"]), d.parent.resolve() == Path(ep_dir).resolve(),
+            rows.append((d.parent.name, pace_measure(t["words"], readings(ep)), d.parent.resolve() == Path(ep_dir).resolve(),
                          t.get("voice", {}).get("provider", "")))
     for name, m, this, provider in rows:
-        print(f"{'>' if this else ' '} {name:28} {m['words_per_s']:5.2f} words/s  {m['speech_per_s']:5.2f} in speech  "
-              f"sentence pause {m['sentence_pause']} s  section {m['section_pause']} s"
+        print(f"{'>' if this else ' '} {name:28} {m['speech_syllables_per_s']:5.2f} syl/s in speech  "
+              f"{m['syllables_per_s']:5.2f} overall  {m['words_per_s']:5.2f} words/s  "
+              f"sentence pause {m['sentence_pause']} s (median {m['sentence_pause_median']})  "
+              f"section {m['section_pause']} s (median {m['section_pause_median']})"
+              + ("  reference" if name in ref else "")
               + ("  (synthetic timings, not a reference)" if provider in ("synthetic", "kokoro") else ""))
     return rows
 
 
-def pace_plan(words, tempo=1.0, sentence=0.78, section=0.92, comma=0.1):
+def pace_plan(words, tempo=1.0, sentence=0.5, section=0.6, comma=0.1):
     """The silences `pace` inserts, as (time in the slowed take, seconds):
     one at the middle of each pause that is short of its target after the
     slow-down (a sentence end to `sentence`, a section break to
@@ -713,27 +760,27 @@ def paced_time(t, tempo, inserts):
     return round(s + sum(e for at, e in inserts if at < s), 3)
 
 
-def pace(public_dir, tempo=1.0, sentence=0.78, section=0.92, comma=0.1):
+def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
     """Brings a take to the series' rhythm by its pauses alone: each pause
     lengthened in its own silence (`pace_plan`), faded over 5 ms either
     side, so no word is touched or stretched (a pitch-kept slow-down was
-    heard as unnatural; speed comes from choosing the take). The take's splice records move with the audio. The caller
-    re-times the words with `build.py <ep> realign` and re-makes the music.
-    Returns the new length in seconds."""
+    heard as unnatural; speed comes from choosing the take). A sentence end
+    and a section break are brought up to the reference parts' typical
+    pauses (brand.json `rhythm.pauses`, written by `rhythm.py standard`)
+    unless `sentence` and `section` are given. The take's splice records
+    move with the audio. The caller re-times the words with `build.py <ep>
+    realign` and re-makes the music. Returns the new length in seconds."""
     # The words are never slowed: a 4 percent pitch-kept slow-down was heard
     # at once as unnatural. `tempo` stays for the planner's arithmetic only.
     if tempo != 1.0:
-        raise ValueError("the voice is never slowed in post; choose a slower take and lengthen its pauses")
-    if not 0.95 <= tempo <= 1.0:
-        raise SystemExit(f"tempo {tempo}: slow a take by 5 percent at most (0.95 to 1.0); re-voice a take that needs more")
+        raise SystemExit("the voice is never slowed in post; choose a slower take and lengthen its pauses")
+    typical = brand().get("rhythm", {}).get("pauses", {})
+    sentence = sentence if sentence is not None else typical.get("sentence", 0.5)
+    section = section if section is not None else typical.get("section", 0.6)
     public_dir = Path(public_dir)
     wav = public_dir / "voice.wav"
     tl = json.loads((public_dir / "timeline.json").read_text())
-    with tempfile.TemporaryDirectory() as tmp:
-        slow = Path(tmp) / "slow.wav"
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-af", f"rubberband=tempo={tempo}:pitch=1:formant=preserved",
-                        "-c:a", "pcm_s16le", str(slow)], check=True)
-        a, sr = sf.read(slow, dtype="float32")
+    a, sr = sf.read(wav, dtype="float32")
     inserts = pace_plan(tl["words"], tempo, sentence, section, comma)
     fade = int(0.005 * sr)
 
@@ -763,7 +810,7 @@ USAGE = """usage:
   python pipeline/voice.py replace  episodes/<id> <seg> <first> <last> [seed]
   python pipeline/voice.py add-line episodes/<id> <seg> [seed]
   python pipeline/voice.py pace-report episodes/<id>
-  python pipeline/voice.py pace     episodes/<id> [tempo]
+  python pipeline/voice.py pace     episodes/<id>
 Then run build.py <ep> realign (after pace, re-make the music too). Copy voice.wav and timeline.json aside
 first when trying several seeds. Other steps run through pipeline/build.py."""
 
@@ -794,8 +841,8 @@ if __name__ == "__main__":
         pace_report(a[1])
     elif len(a) >= 2 and a[0] == "pace":
         ep, pub = _episode(a[1])
-        before = pace_measure(json.loads((pub / "timeline.json").read_text())["words"])
+        before = pace_measure(json.loads((pub / "timeline.json").read_text())["words"], readings(ep))
         print("before", before)
-        print("length", pace(pub, float(a[2]) if len(a) > 2 else 0.96), "s; now run build.py <ep> realign, then pace-report and re-make the music")
+        print("length", pace(pub), "s; now run build.py <ep> realign, then pace-report and re-make the music")
     else:
         raise SystemExit(USAGE)

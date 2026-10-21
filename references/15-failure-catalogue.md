@@ -39,7 +39,9 @@ new class of failure appears, in the same commit as the fix.
 | a small recogniser passed a misread proper noun that a larger one caught | key words checked with the largest model; several seeds | voice QA |
 | captions 70 to 250 ms late after pauses | re-time every take by forced alignment | `build.py realign` |
 | "Spain" lit 0.2 s late; "65%" 0.13 s late | a hiss after a pause starts the word | `fricative_onsets` |
-| a part at 2.54 words a second, sentence pauses down to 0.31 s, passed every check and two reviews and was heard as rushed | pace is a gate against the series' earlier parts; a fast take slowed at most 5 percent with pitch kept and its pauses lengthened in their own silence | QA pace check; `voice.py pace-report`; review brief |
+| a part at 2.54 words a second, sentence pauses down to 0.31 s, passed every check and two reviews and was heard as rushed | pace is a gate against the series' reference parts, its first approved ones; a fast take is replaced by a seed in their range and its pauses lengthened in their own silence, the words never slowed | QA rhythm check; `voice.py pace-report`; review brief |
+| a 4 percent pitch-kept slow-down of that take was heard at once as slowed by hand | the voice is never slowed in post; a `[slowly]` tag at the start of each section slowed the model by about 4 percent | `voice.pace` refuses any slow-down |
+| a part heard as rushed beside its four reference parts measured 5.22 syllables a second in speech, its picture moving 29 percent of the time in 2.81 movements per 10 s with a median hold of 0.8 s, every measure outside their range, where words a second had misled | the reference parts are the measured standard, in syllables for the voice and in movement for the picture | QA rhythm check; `rhythm.py report` |
 
 ## Music and sound
 
@@ -77,7 +79,7 @@ new class of failure appears, in the same commit as the fix.
 | a light palette that looked washed out, then a relief skin that looked too vivid | contrast by lightness, restrained colour, from a ladder of stills | style frames |
 | a shaft through the globe drawn as a flat red line over the 3D render: no depth, looked strange, rejected | every detail is designed; a 3D thing is built in the 3D scene (a lit tube with a real opening and a cut-away interior); a change of look shown as 2 or 3 options on stills first | review: "does it look designed, and like what it represents?" |
 | a whole layer moved down to make room, leaving a straight edge | move pictures by camera offset, never by moving a layer | stills |
-| four camera moves in 3 s, each on its word, felt rushed | no run of moves without a beat to read | frames; review |
+| four camera moves in 3 s, each on its word, felt rushed | no run of moves without a beat to read; the picture no busier than the reference parts | QA rhythm check (`rhythm.py report`); frames; review |
 | a redesign's first rounds had flat "petals", a hairline shaft, a ring that read as a button and a see-through planet with a grey core | explore in a lab composition, review your own options over several rounds, show two or three | `variants.mjs`; own review |
 | a cut-away shut while the camera turned: its face swept the planet as a band, the page showed through the wedge, a sliver of shaft through the seam; its label floated on after it shut | the cut fixed to the object, turned off square, shut before the camera turns, its labels gone first; radii from a cited model, logged | frames at 0.03 s through each turn |
 | a hole modelled on the planet ballooned in the close-ups over its labels and line; the owner wanted "a dot of the right size" | a marked place is a dot sized for the view; 3D only for what is truly 3D | close-up stills |

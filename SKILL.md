@@ -61,6 +61,14 @@ topic → research → script → voice → music → scenes → captions → co
   delivered MP4, the rendered PNG, the staged folder). A fix is proved by a
   check that fails without it. A number from a sub-agent is a claim until
   recomputed.
+- **The first parts the owner approves are the measured standard for the
+  rhythm of the voice and of the picture, enforced by QA.** They are
+  listed in `brand.json`, measured by `rhythm.py standard` (syllables a
+  second and the shortest pauses of the voice; how much of the time the
+  picture moves, how often, and how long it holds still), and every later
+  part is kept inside their range. A part can pass every other check and
+  two reviews and still be heard as rushed; this is the gate that catches
+  it.
 - **Every requirement the owner states becomes a written standard in the
   project, in the same turn**, and every episode and post is searched for
   the same class of problem and fixed too. A rule written down is a rule
@@ -107,8 +115,9 @@ resume from the repository alone.
 
 ### 3. Script: `references/03-script.md`
 
-- About 2.3 to 2.4 words a second, the series' pace kept from part to
-  part: 70 for 30 s, 105 for 45 s, 140 for 60 s.
+- Length planned at about 2.3 to 2.4 words a second: 70 for 30 s, 105
+  for 45 s, 140 for 60 s. The pace itself is held to the reference parts
+  in syllables (Voice, below).
 - Hook (the question, in full, in the first 1.5 s), answer by 6 s, two or
   three layers, a payoff worth sending, the follow beat, the teaser.
 - **Read cold** before voicing and before release: names in full the
@@ -134,13 +143,15 @@ resume from the repository alone.
 - A changed sentence is re-voiced alone (`voice.py replace`), from a
   pause, cut only in true silence, every splice recorded and checked.
   No stray sound, breath fragment or click, ever (`qa.voice_flaws`).
-- **Pace is a gate, against the series**: about 2.3 to 2.4 words a second
-  overall, under 3.7 within speech, sentence pauses of at least 0.7 s,
-  section breaks about 0.9 s, measured before the render and in QA and
-  compared with the earlier parts (`voice.py pace-report`), in syllables as
-  well as words. The voice is never slowed in post (it is heard): a fast
-  take is replaced by a seed that speaks at the series' rate, then given
-  its pauses in silence (`voice.py pace`), realigned and the music re-made.
+- **Pace is a gate, against the reference parts** (the rule above): in
+  syllables a second, within speech and overall, and the shortest
+  sentence pause and section break, measured before the render and in QA
+  and printed beside every earlier part (`voice.py pace-report`). The
+  voice is never slowed in post (it is heard): a fast take is replaced by
+  a seed that speaks in the reference range (a `[slowly]` tag at the start
+  of each section is what slowed the current model, by about 4 percent),
+  then given its pauses in silence (`voice.py pace`), realigned and the
+  music re-made.
 
 ### 5. Music and sound: `references/05-music-and-sound.md`
 
@@ -187,6 +198,10 @@ resume from the repository alone.
   move in; after each camera move a beat to read before the next.
 - Reveals lead their word by about 0.2 s with the enter ease; camera moves
   use the move ease; nothing moves without a reason.
+- The picture no busier than the reference parts (the rule above): no more
+  of the time moving, no more movements per 10 s, no shorter median hold
+  (`rhythm.py report`); four camera moves in 3 s and a half-turn in
+  0.55 s are the kind of thing it catches.
 - Every time is a word cue (`seg@k`), never a second; `recue.py` after any
   wording change.
 - A line and its label come and go together; nothing over the captions;
@@ -229,7 +244,8 @@ resume from the repository alone.
 All of these, on the delivered file, every time:
 
 - `build.py <ep> qa`: spec, loudness (-14 LUFS ±1) and true peak (≤ -1
-  dBTP), every word aligned, the series' pace, no narration flaws, transcript word error rate
+  dBTP), every word aligned, the voice and picture at the reference parts'
+  rhythm, no narration flaws, transcript word error rate
   ≤ 3 percent with every difference read, every fact verified and logged;
 - the orphan and safe-zone scan every 0.5 s over the whole episode and
   every cover prints nothing;
@@ -246,7 +262,8 @@ All of these, on the delivered file, every time:
   exhaustive brief: one pass over every category (the script read cold,
   every audit row at its word, every frame, type and layout, captions
   against the voice, sound and music measured, facts, cues against the
-  timeline, release text, cover, the pace against the earlier parts, and
+  timeline, release text, cover, the voice and picture rhythm against the
+  reference parts, and
   design quality: "does this look designed, and does it look like what it
   represents?", judged even where nothing is a fault), then a second
   pass asking **"what would the owner still notice?"**
@@ -342,8 +359,10 @@ python pipeline/scaffold.py episode 07-slug "Why ...?"      # new episode files 
 python pipeline/build.py episodes/07-slug voice             # one request, the whole narration
 python pipeline/voice.py replace episodes/07-slug <seg> <first> <last> [seed]   # re-voice one phrase
 python pipeline/voice.py add-line episodes/07-slug <seg> [seed]                  # voice an added line
-python pipeline/voice.py pace-report episodes/07-slug        # pace beside the earlier parts
-python pipeline/voice.py pace episodes/07-slug [tempo]       # a fast take to the series' pace
+python pipeline/rhythm.py standard                          # measure the reference parts into brand.json
+python pipeline/rhythm.py report episodes/07-slug           # voice and picture against them
+python pipeline/voice.py pace-report episodes/07-slug       # pace beside every earlier part
+python pipeline/voice.py pace episodes/07-slug              # short pauses to the reference parts' pauses
 python pipeline/build.py episodes/07-slug realign           # forced alignment
 python pipeline/build.py episodes/07-slug captions          # keeps into the timeline
 python pipeline/music.py retime|make|check|use episodes/07-slug ...

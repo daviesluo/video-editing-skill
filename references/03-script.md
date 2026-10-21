@@ -9,9 +9,11 @@ those ids and their word numbers.
 ## Length
 
 The narrator in the house style speaks about 2.3 to 2.4 words a second
-over the whole narration, pauses included, and a series keeps that pace
-from part to part: a part at 2.54 was heard as rushed at once, though it
-passed every check (`04-voice.md`, "Pace, measured against the series").
+over the whole narration, pauses included, which is enough to plan a
+script's length. The pace itself is held to the series' reference parts
+in syllables, not words, since a script of short words reads fast in
+words alone (`04-voice.md`, "Pace, measured against the reference
+parts").
 
 | Length | Words |
 |---|---|

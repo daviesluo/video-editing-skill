@@ -219,11 +219,14 @@ episodes/<id>/picture-audit.md, releases/to-post/<release>/post.md, and
 Pass one, every category, in this order:
 1. The script, read cold: every line as a first-time viewer hears it
    (references/03-script.md, "The script, read cold"), and the QA transcript.
-   Pace against the series: run `voice.py pace-report episodes/<id>` and
-   compare words a second (overall and within speech), the shortest
-   sentence pause and section break with the earlier parts; a part faster
-   than all of them is a blocker even when every check passes (one at 2.54
-   words a second against 2.26 to 2.39 did, and was heard as rushed).
+   Rhythm against the reference parts: run `voice.py pace-report
+   episodes/<id>` and `rhythm.py report episodes/<id>` and compare
+   syllables a second (within speech and overall), the shortest sentence
+   pause and section break, and the picture's moving share, movements per
+   10 s and median hold with the reference parts; a part outside their
+   range is a blocker even when every other check passes (one at 5.22
+   syllables a second in speech, its picture moving 29 percent of the time
+   in 2.81 movements per 10 s, did, and was heard as rushed).
 2. Every audit row at its word: render or extract a still at the exact start
    of each key word and check what the row claims.
 3. Every frame: extract all frames; contact sheets every 0.5 s with the safe

@@ -11,6 +11,16 @@ after them comes the independent review (`13-review-and-agents.md`).
 Writes `out/qa.json` and `out/contact-sheet.png`, and exits non-zero on
 any failure.
 
+The two rhythm rows hold every part to the series' first approved parts,
+which are the measured standard for how fast the voice speaks and how busy
+the picture is (`04-voice.md`, "Pace, measured against the reference
+parts"; `08-animation.md`, "The picture's rhythm"). A part that felt rushed
+beside its four reference parts was outside on every measure: 5.22
+syllables a second in speech against 4.86 to 5.19, the picture moving 29
+percent of the time against at most 18, 2.81 movements per 10 s against at
+most 1.89, a median hold of 0.8 s against at least 2.27. Words a second
+had not shown it.
+
 | Check | Pass |
 |---|---|
 | resolution | 1080x1920 |
@@ -22,7 +32,8 @@ any failure.
 | loudness | -14 LUFS integrated, within 1 LU, on the delivered file |
 | true peak | at or under -1 dBTP, on the delivered file |
 | alignment | every script word matched by the aligner (none interpolated) |
-| pace | the series' pace (`brand.json` `pace`): about 2.3 to 2.4 words a second overall, under 3.7 within speech, sentence pauses of at least 0.7 s, section breaks of at least 0.85 s; and judged beside the earlier parts with `voice.py pace-report` |
+| voice pace | inside the reference parts' range (`brand.json` `rhythm.limits`, measured by `rhythm.py standard`): syllables a second within speech and over the whole narration between their slowest and fastest, no sentence pause or section break shorter than their shortest; judged beside every earlier part with `voice.py pace-report` |
+| picture rhythm | on the delivered file, the picture band between the headline and the captions moving no more of the time than the busiest reference part, in no more separate movements per 10 s, with a median hold between movements no shorter than theirs (`rhythm.py report episodes/<id>`) |
 | narration flaws | no stray sound on no word, no splice into sound, no click in a pause, silent first and last samples |
 | transcript | word error rate at or under 3 percent against the script; read every listed difference by eye, because one wrong word is under 3 percent |
 | facts | every fact in `episode.json` marked verified |
@@ -84,7 +95,9 @@ that have since moved, reads as evidence and is not.
   the view was wanted.
 - **No answer before its word**: nothing on screen, or on the cover, gives
   the answer to the question being asked before the voice gives it.
-- **No run of camera moves without a beat to read** between them.
+- **No run of camera moves without a beat to read** between them. The
+  picture-rhythm row measures it over the whole part; looking finds the
+  run itself.
 - **Spot-check the content**: a city on a map at its real position, a bar
   at its real length, a date at its real place on the ruler.
 - **Each cover** at full size and in the 3:4 tile.

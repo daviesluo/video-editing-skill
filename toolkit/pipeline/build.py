@@ -35,7 +35,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import mix  # noqa: E402
 import qa  # noqa: E402
 import voice  # noqa: E402
-from config import STUDIO, public_dir  # noqa: E402
+from config import STUDIO, public_dir, readings  # noqa: E402
 
 RENDER_FLAGS = ["--gl=swangle", "--concurrency=2", "--codec=h264", "--crf=16", "--x264-preset=slow",
                 "--pixel-format=yuv420p", "--color-space=bt709", "--muted"]
@@ -61,10 +61,11 @@ def render_range():
 
 
 def step_render(episode, out, public):
-    # The pace is measured before the render is spent (QA gates it too).
-    m = voice.pace_measure(json.loads((public / "timeline.json").read_text())["words"])
+    # The voice's pace is measured against the reference parts before the
+    # render is spent; QA gates it again with the picture's rhythm.
+    m = voice.pace_measure(json.loads((public / "timeline.json").read_text())["words"], readings(episode))
     slow = voice.pace_faults(m)
-    print("pace:", m, ("; OUTSIDE THE SERIES' PACE: " + "; ".join(slow)) if slow else "")
+    print("pace:", m, ("; OUTSIDE THE REFERENCE PARTS' PACE: " + "; ".join(slow)) if slow else "")
     # The composition reads the timeline itself (calculateMetadata), so the
     # props only pin what the mix also used: the lead-in and the tail.
     props = json.dumps({"id": episode["id"], "lead": episode.get("audio_lead", 0.0),

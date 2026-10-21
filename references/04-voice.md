@@ -29,9 +29,10 @@ with no stray sound anywhere, and every word timed to its voiced onset.
 | `language_code` | `en` | |
 
 Pace with punctuation and sentence length, not with settings, then
-measure the take ("Pace, measured against the series" below). At most one
-or two direction tags such as `[curious]` in a script; they are stripped
-from captions and alignment automatically.
+measure the take ("Pace, measured against the reference parts" below).
+Direction tags are stripped from captions and alignment automatically;
+beyond the pacing tag that section describes, at most one or two such as
+`[curious]` in a script.
 
 ## One request per episode
 
@@ -56,44 +57,59 @@ start is moved back over the hiss. A hiss that runs on unbroken from a
 word ending in a hiss or burst ("straight south") stays with that word.
 Spot-check disputed words on a spectrogram.
 
-## Pace, measured against the series
+## Pace, measured against the reference parts
 
 A take can pass every check and two exhaustive reviews and still be
-rushed. One ran 2.54 words a second against 2.26 to 2.39 for the series'
-earlier parts, with sentence pauses as short as 0.31 s, and the owner
-heard it at once. Pace is a gate, measured on the aligned timeline before
-the render (`build.py render` prints it) and again in QA:
+rushed, and the owner hears it at once. So the pace is not a target
+chosen in advance: the series' first approved parts are the standard,
+listed in `brand.json` (`rhythm.reference`), and every later take is
+measured the same way and kept inside their range. `python
+pipeline/rhythm.py standard` measures them and writes the limits
+(`rhythm.limits`) and their typical pauses (`rhythm.pauses`) back into
+`brand.json`; run it again whenever the owner adds a part to the
+standard. `build.py render` prints the take against them before
+the render is spent, and QA gates it (`12-qa-gates.md`, "voice pace").
 
-- **About 2.3 to 2.4 words a second overall** (first word to last), and
-  **under 3.7 within speech** (words over the time spent on them);
-- **sentence pauses of at least 0.7 s, section breaks of about 0.9 s**;
-- the limits in `brand.json` (`pace`), and the series itself as the
-  reference: `python pipeline/voice.py pace-report episodes/<id>` prints
-  the episode beside every earlier one. A take faster than every earlier
-  part is fast, whatever the limits say.
+- **Syllables, not words.** Words a second mislead when one script is full
+  of short words ("Dig straight down into the Earth"), which reads fast
+  in words and not in syllables. `voice.pace_measure` counts
+  syllables, numbers as they are read through `say`, on the forced
+  alignment, which is the same for every episode.
+- **Within speech and overall.** The rate within speech (every pause over
+  0.12 s taken out) is the narrator's speed; the rate over the whole
+  narration, first word to last, adds the pauses. On one series' four
+  reference parts these were 4.86 to 5.19 syllables a second in speech
+  and 3.58 to 3.81 overall; a part heard as rushed ran 5.22 in speech.
+- **The pauses.** No sentence pause and no section break shorter than the
+  reference parts' shortest (0.40 s at a sentence end on those parts).
+  Their typical pauses were about 0.5 s at a sentence end (the median)
+  and 0.6 s at a section break.
+- **Beside every earlier part.** `python pipeline/voice.py pace-report
+  episodes/<id>` prints the episode beside every other one, the reference
+  parts marked. A take faster than every reference part is fast, whatever
+  else it passes.
 
 The words themselves are never slowed. A 4 percent slow-down with the
-pitch kept was tried on that take, and the owner heard it at once as
+pitch kept was tried on a rushed take, and the owner heard it at once as
 "obviously slowed down by hand, very unnatural". Speed is a property of the
 take, so it is chosen, not processed:
 
-- **Compare like with like.** Words a second mislead when one script is
-  full of short words ("Dig straight down into the Earth"): measure
-  syllables a second, over the whole episode and over speech alone (pauses
-  over 0.12 s removed), with the same forced alignment for every episode.
-  The take that ran at 3.38 words a second in speech against 2.91 to 3.26
-  for the earlier parts was within 2 to 3 percent of them in syllables.
 - **Choose the take.** Generate the whole narration on several seeds and
-  keep the one whose speech rate sits in the series' range (and that reads
-  best, below). Direction tags such as `[calmly]`, a higher stability and
-  the `speed` setting did not change the rate on the current model; check
-  again before relying on them.
+  keep the one whose speech rate sits in the reference range (and that
+  reads best, below). On the current model `[calmly]`, a higher
+  stability and the `speed` setting did not change the rate, nor did requesting each section
+  separately, and one `[slowly]` tag at the very start faded within a few
+  sentences. What did work, measured, was a `[slowly]` direction tag at the
+  start of each section: about 4 percent slower in speech (twelve seeds
+  without it ran 5.25 to 5.45 syllables a second; two with it ran 5.12 and
+  5.17), with a perfect transcript and the questions still heard as
+  questions. It is the one exception to keeping tags few.
+  Check again on a new model before relying on any of this.
 - **Then the pauses.** `python pipeline/voice.py pace episodes/<id>`
-  (`voice.pace`) lengthens each short pause in its own silence, to the
-  series' rhythm (on that take: sentence ends to 0.72 s, section breaks to
-  0.88 s, a comma's pause by 0.1 s, which brought it to 2.4 words and 3.86
-  syllables a second, the earlier parts' range). No word is cut and none is
-  stretched; the take's splice records move with the audio. Then
+  (`voice.pace`) lengthens each short pause in its own silence, a sentence
+  end and a section break up to the reference parts' typical pauses
+  (`rhythm.pauses`) and a comma's pause by 0.1 s. No word is cut and none
+  is stretched; the take's splice records move with the audio. Then
   `build.py realign`, `pace-report` again, `recue.py` for any wording that
   changed, and the music re-made, since every segment now starts later. A
   slightly longer episode is fine; a rushed one is not.
@@ -170,8 +186,8 @@ must print nothing:
   ended on a cut-off fragment clicked on the quiet end card; `mix.py` also
   fades both ends over 10 ms).
 
-The take must also keep the series' pace (above; QA's "narration at the
-series' pace"). And the transcript must match the script (word error rate at or under 3
+The take must also keep the reference parts' pace (above; QA's "voice
+and picture at the reference parts' rhythm"). And the transcript must match the script (word error rate at or under 3
 percent, every difference read by eye, digits forbidden in a check of the
 `say` readings). Before calling a voice fix done, run every check over
 every take, not only the spot that was reported.
