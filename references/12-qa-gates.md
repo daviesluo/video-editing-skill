@@ -40,7 +40,11 @@ any failure.
 | release text | `python pipeline/publish.py check <release>` | "text and cover OK" |
 
 Run the orphan scan over the whole episode before every render, not only
-the parts that changed: a fix in one scene moves labels in another.
+the parts that changed: a fix in one scene moves labels in another. In
+the scan the 3D globe is not drawn (`GlobeView` skips it when the
+`orphans` prop is set), so a whole episode scans in minutes; the text is
+laid out exactly as in the render. Its stills are for the probe, not for
+looking at the picture.
 
 ## 3. The picture audit (`episodes/<id>/picture-audit.md`)
 

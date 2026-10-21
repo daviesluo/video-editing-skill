@@ -304,6 +304,16 @@ finishes. Agents write reports to files, never message the
 owner, never post and never push to the main branch on their own. The
 briefs and the report format are in `references/13-review-and-agents.md`.
 
+## The project's own layer
+
+This skill leaves the series' own values to the project: its name and
+account, voice, palette, measured safe zone, helper sessions, music
+licence, and the owner's own decisions and posting habits. Keep them in
+one file beside this skill (for example `SERIES.md` next to `SKILL.md`),
+with where each came from, and read it with this skill. Where the two
+differ, the project file wins for its own series; a rule that would hold
+for any series belongs here instead.
+
 ## Where things live
 
 | Path | What |
