@@ -4,6 +4,7 @@ import { AbsoluteFill, getInputProps, useVideoConfig } from "remotion";
 import * as THREE from "three";
 import { THEME } from "../brand/tokens";
 import { Atmosphere, CameraRig, DrawTextures, Earth, GlowLayer, LineLayer, ReleaseTextures, toVec, useTexture } from "../lib/globe";
+import { GLOBE_FOV } from "../lib/viewScale";
 import type { LonLat } from "./MapView";
 
 // `up` is the world direction that should point up on screen; it defaults to
@@ -13,7 +14,7 @@ export type GlobeCam = { lon: number; lat: number; distance: number; up?: readon
 // an orbit; it is hidden only where the planet is in the way.
 export type GlobeProject = (p: LonLat, radius?: number) => { x: number; y: number; visible: boolean };
 
-const FOV = 30;
+const FOV = GLOBE_FOV;
 
 // Camera basis exactly as three.js builds it for lookAt(0,0,0) with up +Y.
 const basis = (cam: GlobeCam) => {

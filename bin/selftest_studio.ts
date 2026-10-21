@@ -10,6 +10,7 @@
 import { lineWidth, paginate, type Page, type Word } from "../toolkit/studio/src/kit/paginate.ts";
 import { cueAt, type Timeline } from "../toolkit/studio/src/lib/cues.ts";
 import { barNumber, LABEL_LINE } from "../toolkit/studio/src/kit/barsLayout.ts";
+import { pxForWorld, worldForPx } from "../toolkit/studio/src/lib/viewScale.ts";
 
 let passed = 0;
 let failed = 0;
@@ -168,6 +169,18 @@ check("a number with room sits beside its bar's end, centred on it", () => {
   const n = barNumber("40", 300, 820, 56);
   if (n.inside || n.left !== 316) fail(`at ${n.left}, inside ${n.inside}`);
   if (Math.abs(n.top + n.height / 2 - (LABEL_LINE + 28)) > 2) fail("not centred");
+});
+
+check("a marker sized for the view keeps its size on screen as the camera closes in", () => {
+  for (const d of [9, 4, 2.3]) {
+    const px = pxForWorld(worldForPx(22, d), d);
+    if (Math.abs(px - 22) > 1e-9) fail(`at distance ${d}: ${px} px, not 22`);
+  }
+  // A size fixed on the planet balloons instead: the far view's 22 px is
+  // over 5 times that in a close-up at 2.3 radii.
+  const fixed = worldForPx(22, 9);
+  const close = pxForWorld(fixed, 2.3);
+  if (close < 5 * 22) fail(`a world-sized marker is ${close.toFixed(1)} px close up; expected over ${5 * 22}`);
 });
 
 console.log(`TS ${passed} ${failed}`);

@@ -8,24 +8,32 @@ import { toVec, type LonLat } from "../lib/globe";
 // is built in the 3D scene and lit by the scene's own key light, never drawn
 // as a flat stroke over the render, which has no depth and looks strange.
 // The example here is a shaft drilled straight through a planet: the planet
-// cut open along the shaft so its layers show, the shaft a lit tube, and a
-// real opening with a lit rim where it meets the surface.
+// cut open along the shaft so its layers show, and the shaft a lit tube.
+// Where the shaft meets the surface is a place, not a solid: mark it with a
+// 2D dot sized for the view, never a modelled hole (see lib/viewScale.ts).
 //
-// The design rules the pattern encodes:
+// The design rules the pattern encodes, each learned frame by frame:
 // - The cut is fixed to the object, not to the camera: as the object turns,
 //   the cut turns with it, as a real cut would.
 // - The opening is turned off square to the camera (`wedge`'s `turn`, about
 //   0.6 rad), so one face is seen broad and the other foreshortened, which
 //   reads as depth; square on, a wedge reads as a flat petal.
-// - The cut is shut before the camera can look into it: once the camera
-//   turns past the cut's mouth it would see the page through the object,
-//   then a sliver of the inside through the closing seam. Close it by the
-//   middle of any turn away.
+// - The cut is shut before the camera turns, never during the turn. Shut
+//   while the camera turned, the broad face swept the planet as a band,
+//   the page showed through the wedge, and a sliver of shaft showed through
+//   the closing seam. Close it fast, ending as the turn starts.
+// - A label tied to the cut ("the centre") leaves before the cut shuts, or
+//   it is left floating over the surface.
+// - The layer radii come from a cited model (below) and are logged as
+//   facts when any is said or labelled.
 // - Each piece has its own design pass: shape, light, material, edges and
 //   motion. Seams between layers are a pixel wide at any distance, the
-//   faces take the key light so two faces of a wedge differ, the fold and
-//   the rim carry a little shade, and the shaft fades out above the
-//   captions in screen space so it never crosses them in any camera move.
+//   faces take the key light so two faces of a wedge differ, the fold
+//   carries a little shade, and the shaft fades out above the captions in
+//   screen space so it never crosses them in any camera move.
+// - Rejected on the way here, so not offered: flat "petals" (a wedge square
+//   on), a hairline shaft, a ring that read as a button for the way out,
+//   and a see-through planet whose core showed as a grey sphere.
 
 // The interior: the Earth's layers by radius, in planet radii (the
 // Preliminary Reference Earth Model, PREM, 1981; radius 6,371 km): inner
@@ -252,44 +260,3 @@ export const Shaft: React.FC<{ from: LonLat; t: number; radius?: number; ghost?:
     </>
   );
 };
-
-// Where the shaft meets the surface: a dark opening with a vermilion lip,
-// lying on the surface, so it foreshortens with the planet's curve.
-export const Opening: React.FC<{ at: LonLat; size?: number; o?: number }> = ({ at, size = 0.026, o = 1 }) => {
-  const p = toVec(at, 1.0015);
-  const q = useMemo(() => new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), p.clone().normalize()), [p.x, p.y, p.z]);
-  if (o <= 0) return null;
-  return (
-    <group position={p} quaternion={q}>
-      {/* The hole: dark at its depth, its wall catching a little light. */}
-      <mesh renderOrder={3}>
-        <circleGeometry args={[size, 64]} />
-        <meshBasicMaterial color="#17120F" transparent opacity={0.9 * o} depthWrite={false} />
-      </mesh>
-      <mesh renderOrder={3}>
-        <ringGeometry args={[size * 0.78, size, 64]} />
-        <meshBasicMaterial color="#4A3B30" transparent opacity={0.9 * o} depthWrite={false} />
-      </mesh>
-      {/* Its lip: a lit vermilion rim standing proud of the surface, the
-          shaft's colour, so the way in and the way out read as one hole. */}
-      <mesh renderOrder={3} position={[0, 0, size * 0.12]}>
-        <torusGeometry args={[size * 1.02, size * 0.24, 24, 96]} />
-        <meshStandardMaterial color={COLORS.accent} roughness={0.32} metalness={0.05} transparent={o < 1} opacity={o} />
-      </mesh>
-    </group>
-  );
-};
-
-// For a see-through planet: the cores as lit spheres inside it.
-export const Cores: React.FC<{ o?: number }> = ({ o = 1 }) => (
-  <>
-    <mesh renderOrder={0}>
-      <sphereGeometry args={[LAYERS.outerCore, 128, 64]} />
-      <meshStandardMaterial color={LAYER_COLORS.outerCoreOut} roughness={0.7} transparent={o < 1} opacity={o} />
-    </mesh>
-    <mesh renderOrder={0}>
-      <sphereGeometry args={[LAYERS.innerCore, 96, 48]} />
-      <meshStandardMaterial color={LAYER_COLORS.innerCore} emissive={LAYER_COLORS.innerCore} emissiveIntensity={0.35} roughness={0.6} />
-    </mesh>
-  </>
-);

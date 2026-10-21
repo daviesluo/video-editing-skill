@@ -219,10 +219,13 @@ export const Scrim: React.FC<{ from?: number; to?: number; strength?: number; bo
 // SVG defs for a mask that fades anything drawn under it out above the
 // caption band, so a line that sweeps during a camera move can never cross
 // a caption. Put <CaptionClearDefs /> in the scene's <svg> and draw lines
-// and their labels in <g mask="url(#captionClear)">.
-export const CaptionClearDefs: React.FC<{ id?: string }> = ({ id = "captionClear" }) => (
+// and their labels in <g mask="url(#captionClear)">. Pass the picture's
+// offset as `dy` (a cover's `pictureY`): a mask fixed on screen while the
+// picture moved hid a city's dot and faded the far end of a line on a
+// cover. Every mask and clip moves with the picture it belongs to.
+export const CaptionClearDefs: React.FC<{ id?: string; dy?: number }> = ({ id = "captionClear", dy = 0 }) => (
   <defs>
-    <linearGradient id={`${id}Fade`} gradientUnits="userSpaceOnUse" x1="0" y1={LAYOUT.captions - 90} x2="0" y2={LAYOUT.captions - 20}>
+    <linearGradient id={`${id}Fade`} gradientUnits="userSpaceOnUse" x1="0" y1={LAYOUT.captions - 90 + dy} x2="0" y2={LAYOUT.captions - 20 + dy}>
       <stop offset="0" stopColor="#fff" />
       <stop offset="1" stopColor="#000" />
     </linearGradient>

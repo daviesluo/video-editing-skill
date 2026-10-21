@@ -3,7 +3,7 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, LAYOUT } from "../brand/tokens";
 import { Bars } from "../kit/Bars";
 import { Captions } from "../kit/Captions";
-import { Opening, SectionFace, Shaft, wedge } from "../kit/CutAway3D";
+import { SectionFace, Shaft, wedge } from "../kit/CutAway3D";
 import { Document } from "../kit/Document";
 import { Finish } from "../kit/Finish";
 import { FOLLOW_CARD, FollowBeat, followVeil } from "../kit/FollowBeat";
@@ -28,7 +28,8 @@ import { PROJECTIONS } from "../lib/projections";
 //   drawn with its label on its word;
 // - a globe located wide, then moved in, with a cut-away 3D object built
 //   in the scene: a wedge cut along a shaft through the planet, opened
-//   turned off square to the camera and shut before the scene leaves;
+//   turned off square to the camera and shut before the scene leaves, its
+//   label gone first; the city a 2D dot sized for the view;
 // - bars, a document with its line brought forward, a quotation read in
 //   sync, a timeline to scale, and a company's mark (a placeholder);
 // - the follow beat into the end card.
@@ -72,8 +73,8 @@ export const Example: React.FC<EpisodeProps> = ({ timeline, lead, qa, bare, pict
   // The cut is fixed to the planet: opened toward the near camera's
   // direction and turned 0.6 rad off square, so its two faces read as depth.
   const cut = open > 0.001 ? wedge(axis, toVec([CAM_NEAR.lon, CAM_NEAR.lat]).normalize(), (Math.PI / 4) * open, 0.6) : null;
-  const centre = windowed(frame, fps, at("globe@7") - LINE_LEAD, at("bars") - 1.1, 0.3, 0.3);
-  const dug = ramp(frame, fps, at("globe@4") - LINE_LEAD, 0.4);
+  // A label tied to the cut leaves before the cut starts to shut.
+  const centre = windowed(frame, fps, at("globe@7") - LINE_LEAD, at("bars") - 1.2, 0.3, 0.3);
 
   const veil = followVeil(frame, fps, at("cta"));
   const quoteWords = ["There", "is", "grandeur", "in", "this", "view", "of", "life…"];
@@ -100,7 +101,7 @@ export const Example: React.FC<EpisodeProps> = ({ timeline, lead, qa, bare, pict
               return (
                 <>
                   <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
-                    <CaptionClearDefs />
+                    <CaptionClearDefs dy={pictureY} />
                     <g transform={`translate(0 ${pictureY}) ${plate.transform}`}>
                       <path d={path(GREENLAND) ?? ""} fill="none" stroke={COLORS.paper} strokeWidth={2} strokeDasharray="6 6" vectorEffect="non-scaling-stroke" opacity={0.6 * named * Math.min(1, t * 4)} />
                       {/* The cover's subject: what covercheck measures. */}
@@ -128,15 +129,14 @@ export const Example: React.FC<EpisodeProps> = ({ timeline, lead, qa, bare, pict
       {globeOn > 0 ? (
         <GlobeView
           cam={cam}
-          shiftY={140}
+          shiftY={140 + pictureY}
           opacity={globeOn}
           clip={cut ? cut.planes : undefined}
           clipIntersection
           scene={
             <>
               {cut ? cut.faces.map((out, i) => <SectionFace key={i} axis={axis} out={out} light={keyLight(cam)} />) : null}
-              <Shaft from={CITY} t={drill} fadeBelow={1430} />
-              <Opening at={CITY} o={dug} />
+              <Shaft from={CITY} t={drill} fadeBelow={1430 + pictureY} />
             </>
           }
         >
@@ -145,6 +145,13 @@ export const Example: React.FC<EpisodeProps> = ({ timeline, lead, qa, bare, pict
             const c = project(CITY, 0);
             return bare ? null : (
               <>
+                {/* The way in is a place, so a dot of one size in every view,
+                    drawn in screen space; the shaft starts under it. */}
+                {city.visible ? (
+                  <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+                    <circle cx={city.x} cy={city.y} r={11} fill={COLORS.mark} stroke={COLORS.paper} strokeWidth={3.5} />
+                  </svg>
+                ) : null}
                 {city.visible ? <MapLabel x={city.x - 20} y={city.y} text="New York" align="right" dy={-48} size={36} /> : null}
                 <MapLabel x={c.x + 28} y={c.y} text="Earth’s centre" align="left" dy={-22} size={34} opacity={centre} />
               </>
