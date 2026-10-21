@@ -1,0 +1,101 @@
+{
+  "id": "00-example",
+  "number": 0,
+  "title": "Pipeline example",
+  "composition": "Example",
+  "audio_lead": 0.3,
+  "tail": 1.4,
+  "voice": {
+    "provider": "kokoro",
+    "kokoro_voice": "af_heart",
+    "voice_id": "<voice_id>",
+    "model": "eleven_v4",
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "seed": 100,
+    "accent": "british"
+  },
+  "segments": [
+    {
+      "id": "hook",
+      "text": "Can one script drive every word you see?"
+    },
+    {
+      "id": "map",
+      "text": "Watch this shape slide to the equator."
+    },
+    {
+      "id": "bars",
+      "text": "Here are three bars, at 40, 75 and 100."
+    },
+    {
+      "id": "cta",
+      "text": "Enjoy videos like this? Follow for a new one every day."
+    },
+    {
+      "id": "next",
+      "text": "Next, in part 2: what makes a cover work?"
+    }
+  ],
+  "sfx": [
+    {
+      "cue": "hook",
+      "offset": -0.25,
+      "name": "whoosh",
+      "gain_db": -17
+    },
+    {
+      "cue": "map@3",
+      "offset": -0.2,
+      "name": "whoosh",
+      "args": {
+        "dur": 1.2
+      },
+      "gain_db": -19
+    },
+    {
+      "cue": "bars@6",
+      "offset": -0.2,
+      "name": "pop",
+      "gain_db": -15
+    },
+    {
+      "cue": "bars@8",
+      "offset": -0.2,
+      "name": "thud",
+      "gain_db": -15
+    },
+    {
+      "cue": "cta@4",
+      "offset": -0.08,
+      "name": "tick",
+      "gain_db": -13
+    }
+  ],
+  "facts": [],
+  "qa": {
+    "hotwords": ""
+  },
+  "say": {
+    "british": {
+      "40": "forty",
+      "75": "seventy-five",
+      "100": "a hundred",
+      "2": "two"
+    },
+    "american": {
+      "40": "forty",
+      "75": "seventy-five",
+      "100": "one hundred",
+      "2": "two"
+    }
+  },
+  "caption_keep": [
+    "a new one",
+    "every word"
+  ],
+  "caption_split": [],
+  "music": {
+    "gain_db": -22
+  }
+}

@@ -1,0 +1,12 @@
+# The pipeline's Python dependencies, pinned. Python 3.12 is the tested
+# version. ffmpeg (with ffprobe and the rubberband filter) comes from the
+# system. faster-whisper downloads its recogniser models on first use.
+numpy==2.2.6
+soundfile==0.14.0
+pillow==12.0.0
+requests==2.32.5
+faster-whisper==1.2.1
+fonttools==4.67.0
+brotli==1.2.0
+# Optional, pipeline tests only (VOICE_PROVIDER=kokoro); never ships:
+# kokoro==0.9.4

@@ -1,0 +1,5 @@
+{
+  "type": "reel",
+  "source": "episodes/{{EPISODE}}",
+  "cover": "covers/cover-{{NN}}.png"
+}

@@ -1,0 +1,17 @@
+# Toolchains, rebuilt by setup.sh
+.venv/
+node_modules/
+
+# Rendered output and intermediates, rebuilt from each episode's sources
+episodes/*/out/
+
+# Secrets: keys come from the environment
+.env
+.env.*
+!.env.example
+
+# Narration: only the shipping take is committed (git add -f), so a
+# re-render never needs a new voice request
+studio/public/episodes/*/voice.wav
+
+__pycache__/

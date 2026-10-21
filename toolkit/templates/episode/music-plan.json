@@ -1,0 +1,58 @@
+{
+ "chunks": [
+  {
+   "text": "[Opening]",
+   "duration_ms": 6000,
+   "positive_styles": [
+    "instrumental",
+    "understated editorial documentary underscore for spoken narration",
+    "close-miked felt upright piano, soft hammers, low register, a gentle continuous figure in low single notes and open fifths",
+    "pizzicato cello and viola, soft and short, warm and woody",
+    "92 BPM, steady unhurried pulse, 4/4",
+    "G major with Lydian colour, add9 and sus2 chords, one chord every two bars",
+    "pianissimo to mezzo piano, very restrained and level dynamics",
+    "accompaniment role only, short three-note motifs shared between piano and pizzicato",
+    "dry intimate chamber room, short natural ambience",
+    "natural human performance, subtle felt and pedal noise, slight timing imperfection",
+    "warm and uncluttered, open space in the midrange for a spoken voice",
+    "a single low felt piano note on the first beat at its final level, then a light pizzicato pulse from the second bar",
+    "mezzo piano from the first bar, the level the whole piece keeps",
+    "a soft continuous pizzicato pulse from the very first beat, never stopping, no silences or gaps"
+   ],
+   "negative_styles": [
+    "vocals", "lyrics", "choir", "humming", "drums", "hi-hats", "claps", "electronic beats", "synthesizer",
+    "sub bass", "brass", "timpani", "marimba", "xylophone", "glockenspiel", "whistling", "epic", "trailer",
+    "lead melody", "crescendo", "swell", "risers", "impacts", "long reverb tails", "fade out", "abrupt ending", "silence"
+   ],
+   "context_adherence": "high"
+  },
+  {
+   "text": "[Middle]",
+   "duration_ms": 20000,
+   "positive_styles": [
+    "instrumental", "92 BPM", "G major", "felt piano and pizzicato cello",
+    "same room and mix as the previous section",
+    "pizzicato pulse continues, light and curious",
+    "a quiet bowed cello pedal enters and holds",
+    "the same loudness and density as the previous section",
+    "no silences or gaps, the pulse never drops out"
+   ],
+   "negative_styles": ["vocals", "lyrics", "choir", "humming", "drums", "synthesizer", "brass", "epic", "crescendo", "fade out", "abrupt ending", "silence"],
+   "context_adherence": "high"
+  },
+  {
+   "text": "[Sign-off]",
+   "duration_ms": 10000,
+   "positive_styles": [
+    "instrumental", "92 BPM", "G major", "felt piano and pizzicato cello",
+    "same room and mix as the previous section",
+    "final tonic chord lands as the narration ends",
+    "piano and bowed cello sustain, pizzicato stops",
+    "a held final chord, felt piano and bowed cello, that keeps sounding softly under the last spoken question and through the end card, fading only in the last second"
+   ],
+   "negative_styles": ["vocals", "lyrics", "choir", "humming", "drums", "synthesizer", "brass", "epic", "crescendo", "fade out", "abrupt ending", "silence", "stopping before the end"],
+   "context_adherence": "high"
+  }
+ ],
+ "tail_s": 3.5
+}

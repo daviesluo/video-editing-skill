@@ -1,0 +1,45 @@
+{
+  "id": "{{ID}}",
+  "number": 0,
+  "title": "{{TITLE}}",
+  "composition": "{{COMPOSITION}}",
+  "audio_lead": 0.3,
+  "tail": 1.4,
+  "voice": {
+    "provider": "elevenlabs",
+    "voice_id": "<voice_id>",
+    "voice_name": "<the voice's library name, for the asset log>",
+    "model": "eleven_v4",
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "seed": 100,
+    "accent": "british",
+    "format": "mp3_44100_192",
+    "kokoro_voice": "af_heart"
+  },
+  "segments": [
+    { "id": "hook", "text": "<The question, in full and in plain words, said in the first second and a half.>" },
+    { "id": "answer", "text": "<The answer, by about six seconds.>" },
+    { "id": "layer1", "text": "<One layer deeper, a new verified fact on a new picture.>" },
+    { "id": "layer2", "text": "<Another layer.>" },
+    { "id": "payoff", "text": "<The number, reveal or comparison worth sending to someone.>" },
+    { "id": "cta", "text": "<Enjoy stories like this? Follow for a new one every day.>" },
+    { "id": "next", "text": "<Next, in part N: the next episode's hook, word for word.>" }
+  ],
+  "sfx": [
+    { "cue": "hook", "offset": -0.25, "name": "whoosh", "gain_db": -17 },
+    { "cue": "payoff@1", "offset": -0.2, "name": "thud", "gain_db": -14 },
+    { "cue": "cta@4", "offset": -0.08, "name": "tick", "gain_db": -13 }
+  ],
+  "facts": [
+    { "id": "F01", "claim": "<one fact said or shown, as worded on screen>", "source": "<primary source, or CALC with dataset and script>", "status": "unverified" }
+  ],
+  "qa": { "hotwords": "<proper nouns the recogniser may not spell>" },
+  "say": {
+    "british": { "2,688": "two thousand six hundred and eighty-eight" },
+    "american": { "2,688": "two thousand six hundred eighty-eight" }
+  },
+  "caption_keep": ["a new one"],
+  "caption_split": [],
+  "music": { "end_fade_s": 1.0 }
+}

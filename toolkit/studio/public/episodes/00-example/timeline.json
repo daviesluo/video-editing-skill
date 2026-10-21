@@ -1,0 +1,311 @@
+{
+ "duration": 21.04,
+ "words": [
+  {
+   "text": "Can",
+   "seg": "hook",
+   "start": 0.0,
+   "end": 0.325
+  },
+  {
+   "text": "one",
+   "seg": "hook",
+   "start": 0.385,
+   "end": 0.71
+  },
+  {
+   "text": "script",
+   "seg": "hook",
+   "start": 0.77,
+   "end": 1.2
+  },
+  {
+   "text": "drive",
+   "seg": "hook",
+   "start": 1.26,
+   "end": 1.655
+  },
+  {
+   "text": "every",
+   "seg": "hook",
+   "start": 1.715,
+   "end": 2.11
+  },
+  {
+   "text": "word",
+   "seg": "hook",
+   "start": 2.17,
+   "end": 2.53
+  },
+  {
+   "text": "you",
+   "seg": "hook",
+   "start": 2.59,
+   "end": 2.915
+  },
+  {
+   "text": "see?",
+   "seg": "hook",
+   "start": 2.975,
+   "end": 3.3
+  },
+  {
+   "text": "Watch",
+   "seg": "map",
+   "start": 3.91,
+   "end": 4.305
+  },
+  {
+   "text": "this",
+   "seg": "map",
+   "start": 4.365,
+   "end": 4.725
+  },
+  {
+   "text": "shape",
+   "seg": "map",
+   "start": 4.785,
+   "end": 5.18
+  },
+  {
+   "text": "slide",
+   "seg": "map",
+   "start": 5.24,
+   "end": 5.635
+  },
+  {
+   "text": "to",
+   "seg": "map",
+   "start": 5.695,
+   "end": 5.985
+  },
+  {
+   "text": "the",
+   "seg": "map",
+   "start": 6.045,
+   "end": 6.37
+  },
+  {
+   "text": "equator.",
+   "seg": "map",
+   "start": 6.43,
+   "end": 6.895
+  },
+  {
+   "text": "Here",
+   "seg": "bars",
+   "start": 7.505,
+   "end": 7.865
+  },
+  {
+   "text": "are",
+   "seg": "bars",
+   "start": 7.925,
+   "end": 8.25
+  },
+  {
+   "text": "three",
+   "seg": "bars",
+   "start": 8.31,
+   "end": 8.705
+  },
+  {
+   "text": "bars,",
+   "seg": "bars",
+   "start": 8.765,
+   "end": 9.125
+  },
+  {
+   "text": "at",
+   "seg": "bars",
+   "start": 9.365,
+   "end": 9.655
+  },
+  {
+   "text": "40,",
+   "seg": "bars",
+   "start": 9.715,
+   "end": 10.005
+  },
+  {
+   "text": "75",
+   "seg": "bars",
+   "start": 10.245,
+   "end": 10.535
+  },
+  {
+   "text": "and",
+   "seg": "bars",
+   "start": 10.595,
+   "end": 10.92
+  },
+  {
+   "text": "100.",
+   "seg": "bars",
+   "start": 10.98,
+   "end": 11.305
+  },
+  {
+   "text": "Enjoy",
+   "seg": "cta",
+   "start": 11.915,
+   "end": 12.31
+  },
+  {
+   "text": "videos",
+   "seg": "cta",
+   "start": 12.37,
+   "end": 12.8
+  },
+  {
+   "text": "like",
+   "seg": "cta",
+   "start": 12.86,
+   "end": 13.22
+  },
+  {
+   "text": "this?",
+   "seg": "cta",
+   "start": 13.28,
+   "end": 13.64
+  },
+  {
+   "text": "Follow",
+   "seg": "cta",
+   "start": 13.7,
+   "end": 14.13
+  },
+  {
+   "text": "for",
+   "seg": "cta",
+   "start": 14.19,
+   "end": 14.515
+  },
+  {
+   "text": "a",
+   "seg": "cta",
+   "start": 14.575,
+   "end": 14.83
+  },
+  {
+   "text": "new",
+   "seg": "cta",
+   "start": 14.89,
+   "end": 15.215
+  },
+  {
+   "text": "one",
+   "seg": "cta",
+   "start": 15.275,
+   "end": 15.6
+  },
+  {
+   "text": "every",
+   "seg": "cta",
+   "start": 15.66,
+   "end": 16.055
+  },
+  {
+   "text": "day.",
+   "seg": "cta",
+   "start": 16.115,
+   "end": 16.44
+  },
+  {
+   "text": "Next,",
+   "seg": "next",
+   "start": 17.05,
+   "end": 17.41
+  },
+  {
+   "text": "in",
+   "seg": "next",
+   "start": 17.65,
+   "end": 17.94
+  },
+  {
+   "text": "part",
+   "seg": "next",
+   "start": 18.0,
+   "end": 18.36
+  },
+  {
+   "text": "2:",
+   "seg": "next",
+   "start": 18.42,
+   "end": 18.675
+  },
+  {
+   "text": "what",
+   "seg": "next",
+   "start": 18.735,
+   "end": 19.095
+  },
+  {
+   "text": "makes",
+   "seg": "next",
+   "start": 19.155,
+   "end": 19.55
+  },
+  {
+   "text": "a",
+   "seg": "next",
+   "start": 19.61,
+   "end": 19.865
+  },
+  {
+   "text": "cover",
+   "seg": "next",
+   "start": 19.925,
+   "end": 20.32
+  },
+  {
+   "text": "work?",
+   "seg": "next",
+   "start": 20.38,
+   "end": 20.74
+  }
+ ],
+ "segments": {
+  "hook": {
+   "start": 0.0,
+   "end": 3.3,
+   "first": 0,
+   "last": 7
+  },
+  "map": {
+   "start": 3.91,
+   "end": 6.895,
+   "first": 8,
+   "last": 14
+  },
+  "bars": {
+   "start": 7.505,
+   "end": 11.305,
+   "first": 15,
+   "last": 23
+  },
+  "cta": {
+   "start": 11.915,
+   "end": 16.44,
+   "first": 24,
+   "last": 34
+  },
+  "next": {
+   "start": 17.05,
+   "end": 20.74,
+   "first": 35,
+   "last": 43
+  }
+ },
+ "voice": {
+  "provider": "synthetic",
+  "note": "Even word timings for the example; build.py voice replaces them with a real take.",
+  "unmatched_words": 0
+ },
+ "keep": [
+  "a new one",
+  "every word"
+ ],
+ "split": []
+}
