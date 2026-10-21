@@ -1,0 +1,67 @@
+# 10: Covers
+
+A cover is the episode's face in the profile grid and wherever the video
+is shared. It is a frozen, bare frame of the episode itself, with the
+badge and the title over it, designed for the crop the grid actually
+shows and checked by measurement.
+
+## Design
+
+- **A frozen, bare frame** (`brand/Cover.tsx`): the episode drawn with
+  `bare` (picture only: no captions, no labels, no headline), full bleed,
+  at the frame named by a cue and an offset (`cue: "hook$", offset: 0.2`).
+  The title sits on it with the halo and the theme's light scrim, never a
+  white panel, which reads as washed out.
+- **The badge**: the series name and "Part N" in the accent, at x 100, y
+  300.
+- **The title** under it: two or three lines at 96 to 108 px, weight 880,
+  one accent phrase; "|" breaks a line as in the episode's own title, so
+  the cover and the video break their title alike.
+- **One subject**: the route, the shapes, the circle, the bars, the page:
+  marked in the episode with `data-cover-subject` so the probe measures
+  it. Mark the overlay that is the subject, not a full-bleed base map.
+- **The design surface is the 3:4 tile.** The profile grid shows only the
+  middle 1080x1440 of a 1080x1920 cover (y 240 to 1680). Judge the cover in
+  that crop, not only at 9:16.
+- **The audio name** that goes with the cover is at most 50 characters
+  and can be set only once (`publish.py check`).
+
+## The rules, checked (`pipeline/covercheck.py`)
+
+| Rule | Why |
+|---|---|
+| the title inside the tile with 40 px to spare, and inside x 90 to 960 | the grid crops the rest, and the player's side crop eats the edges |
+| the subject inside the tile with 40 px to spare | half a subject in the grid reads as a mistake |
+| the subject starts at least 32 px under the title, never under it | type over the subject it names |
+| on the bare page, what sits under the title is centred in the tile's space below it: neither gap more than 1.5 times the other, each at least 80 px | shapes bunched up under the title with an empty bottom looked unbalanced |
+| a full-bleed map or picture fills the tile and keeps its subject clear of the title | |
+
+`node scripts/covers.mjs` (in `studio/`) renders every `Cover<NN>`
+composition from one bundle, measures each cover's title and subject in
+the page (`kit/CoverProbe.tsx`), writes `covers/cover-NN.json` beside the
+PNG and runs `covercheck.py` on them; `publish.py check` runs the same
+rules on the staged cover of every release.
+
+## Moving the picture
+
+To move a cover's subject, use the cover's `pictureY`, which the episode
+applies to its subject and overlays only (as a camera offset), so the
+page and its scrims stay put; shifting the whole frame shows a band of
+empty page at the top. **Masks move with the picture too**: a mask whose
+edge stayed put while the picture moved once hid a city's dot on a cover,
+and another cut a line short of the limb it ran to.
+
+## Look at it
+
+The check measures geometry, not quality. After any re-timing or scene
+change, look at each cover at full size and in the tile:
+
+- nothing mid-fade or mid-move (a cover once froze as island names faded
+  out, half transparent);
+- no counting or moving number (one froze a share mid-count, showing a
+  value that was never true);
+- the subject sharp and whole, the title balanced, nothing touching.
+
+The cover composition is as long as the episode: Remotion clamps every
+frame, frozen ones too, to the composition's range, so a one-frame
+composition would always show the episode's frame 0.
