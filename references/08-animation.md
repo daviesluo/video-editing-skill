@@ -103,7 +103,12 @@ cut leaves before it shuts (`kit/CutAway3D.tsx`, `07-visual-grammars.md`).
 A place it passes through is a dot sized for the view, not a modelled
 hole. An element belongs to its scene and is drawn only while that scene
 is: a shaft only while its cut is open, so no tick of it is left on the
-planet's edge once the cut has shut. Judge every element on stills against two questions: does it look
+planet's edge once the cut has shut. What gives way to something else is
+tied to that thing's arrival, never to its whole window: an outline faded
+as `on × (1 − detailOn)` comes back as both leave together (at a quarter,
+halfway through two equal fades), and a country's straight border crossed
+the frame for a fifth of a second in a shipped part. Search every scene
+for that product whenever one turns up. Judge every element on stills against two questions: does it look
 designed, and does it look like what it represents?
 
 ## Lines and labels
