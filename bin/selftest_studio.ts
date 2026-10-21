@@ -1,4 +1,4 @@
-// Copyright 2026 The video-editing-skill authors. Licensed under the Apache
+// Copyright 2026 Zheng Luo (Davies Luo). Licensed under the Apache
 // License 2.0, whose text is the LICENSE file in this package.
 //
 // Unit tests for the studio's pure modules: caption pagination and word
@@ -9,6 +9,7 @@
 
 import { lineWidth, paginate, type Page, type Word } from "../toolkit/studio/src/kit/paginate.ts";
 import { cueAt, type Timeline } from "../toolkit/studio/src/lib/cues.ts";
+import { barNumber, LABEL_LINE } from "../toolkit/studio/src/kit/barsLayout.ts";
 
 let passed = 0;
 let failed = 0;
@@ -148,6 +149,25 @@ check("a stale cue past its segment, or an unknown segment, is refused", () => {
     }
     if (!threw) fail(`${bad} was accepted`);
   }
+});
+
+console.log("bars: the number sits on its bar, never over its edge");
+
+check("a number inside its bar lies inside the bar and is centred on it", () => {
+  for (const thickness of [44, 56, 72]) {
+    const n = barNumber("100", 820, 820, thickness);
+    if (!n.inside) fail("100 at full length should sit inside its bar");
+    if (n.left < 0 || n.left + n.width > 820) fail(`x ${n.left} to ${n.left + n.width} outside the bar`);
+    if (n.top < LABEL_LINE || n.top + n.height > LABEL_LINE + thickness) fail(`y ${n.top} to ${n.top + n.height} outside the bar at ${thickness}`);
+    const centre = n.top + n.height / 2;
+    if (Math.abs(centre - (LABEL_LINE + thickness / 2)) > 2) fail(`centre ${centre} off the bar's centre`);
+  }
+});
+
+check("a number with room sits beside its bar's end, centred on it", () => {
+  const n = barNumber("40", 300, 820, 56);
+  if (n.inside || n.left !== 316) fail(`at ${n.left}, inside ${n.inside}`);
+  if (Math.abs(n.top + n.height / 2 - (LABEL_LINE + 28)) > 2) fail("not centred");
 });
 
 console.log(`TS ${passed} ${failed}`);

@@ -1,5 +1,5 @@
 {
- "duration": 21.04,
+ "duration": 52.42,
  "words": [
   {
    "text": "Can",
@@ -92,178 +92,532 @@
    "end": 6.895
   },
   {
+   "text": "On",
+   "seg": "globe",
+   "start": 8.055,
+   "end": 8.345
+  },
+  {
+   "text": "a",
+   "seg": "globe",
+   "start": 8.405,
+   "end": 8.66
+  },
+  {
+   "text": "globe,",
+   "seg": "globe",
+   "start": 8.72,
+   "end": 9.115
+  },
+  {
+   "text": "a",
+   "seg": "globe",
+   "start": 9.355,
+   "end": 9.61
+  },
+  {
+   "text": "shaft",
+   "seg": "globe",
+   "start": 9.67,
+   "end": 10.065
+  },
+  {
+   "text": "through",
+   "seg": "globe",
+   "start": 10.125,
+   "end": 10.59
+  },
+  {
+   "text": "the",
+   "seg": "globe",
+   "start": 10.65,
+   "end": 10.975
+  },
+  {
+   "text": "Earth",
+   "seg": "globe",
+   "start": 11.035,
+   "end": 11.43
+  },
+  {
+   "text": "is",
+   "seg": "globe",
+   "start": 11.49,
+   "end": 11.78
+  },
+  {
+   "text": "built",
+   "seg": "globe",
+   "start": 11.84,
+   "end": 12.235
+  },
+  {
+   "text": "in",
+   "seg": "globe",
+   "start": 12.295,
+   "end": 12.585
+  },
+  {
+   "text": "3D.",
+   "seg": "globe",
+   "start": 12.645,
+   "end": 12.935
+  },
+  {
    "text": "Here",
    "seg": "bars",
-   "start": 7.505,
-   "end": 7.865
+   "start": 14.095,
+   "end": 14.455
   },
   {
    "text": "are",
    "seg": "bars",
-   "start": 7.925,
-   "end": 8.25
+   "start": 14.515,
+   "end": 14.84
   },
   {
    "text": "three",
    "seg": "bars",
-   "start": 8.31,
-   "end": 8.705
+   "start": 14.9,
+   "end": 15.295
   },
   {
    "text": "bars,",
    "seg": "bars",
-   "start": 8.765,
-   "end": 9.125
+   "start": 15.355,
+   "end": 15.715
   },
   {
    "text": "at",
    "seg": "bars",
-   "start": 9.365,
-   "end": 9.655
+   "start": 15.955,
+   "end": 16.245
   },
   {
    "text": "40,",
    "seg": "bars",
-   "start": 9.715,
-   "end": 10.005
+   "start": 16.305,
+   "end": 16.595
   },
   {
    "text": "75",
    "seg": "bars",
-   "start": 10.245,
-   "end": 10.535
+   "start": 16.835,
+   "end": 17.125
   },
   {
    "text": "and",
    "seg": "bars",
-   "start": 10.595,
-   "end": 10.92
+   "start": 17.185,
+   "end": 17.51
   },
   {
    "text": "100.",
    "seg": "bars",
-   "start": 10.98,
-   "end": 11.305
+   "start": 17.57,
+   "end": 17.895
+  },
+  {
+   "text": "A",
+   "seg": "doc",
+   "start": 19.055,
+   "end": 19.31
+  },
+  {
+   "text": "document",
+   "seg": "doc",
+   "start": 19.37,
+   "end": 19.87
+  },
+  {
+   "text": "is",
+   "seg": "doc",
+   "start": 19.93,
+   "end": 20.22
+  },
+  {
+   "text": "shown",
+   "seg": "doc",
+   "start": 20.28,
+   "end": 20.675
+  },
+  {
+   "text": "whole,",
+   "seg": "doc",
+   "start": 20.735,
+   "end": 21.13
+  },
+  {
+   "text": "then",
+   "seg": "doc",
+   "start": 21.37,
+   "end": 21.73
+  },
+  {
+   "text": "this",
+   "seg": "doc",
+   "start": 21.79,
+   "end": 22.15
+  },
+  {
+   "text": "line",
+   "seg": "doc",
+   "start": 22.21,
+   "end": 22.57
+  },
+  {
+   "text": "comes",
+   "seg": "doc",
+   "start": 22.63,
+   "end": 23.025
+  },
+  {
+   "text": "forward.",
+   "seg": "doc",
+   "start": 23.085,
+   "end": 23.55
+  },
+  {
+   "text": "A",
+   "seg": "quote",
+   "start": 24.71,
+   "end": 24.965
+  },
+  {
+   "text": "quote",
+   "seg": "quote",
+   "start": 25.025,
+   "end": 25.42
+  },
+  {
+   "text": "is",
+   "seg": "quote",
+   "start": 25.48,
+   "end": 25.77
+  },
+  {
+   "text": "set",
+   "seg": "quote",
+   "start": 25.83,
+   "end": 26.155
+  },
+  {
+   "text": "in",
+   "seg": "quote",
+   "start": 26.215,
+   "end": 26.505
+  },
+  {
+   "text": "type",
+   "seg": "quote",
+   "start": 26.565,
+   "end": 26.925
+  },
+  {
+   "text": "and",
+   "seg": "quote",
+   "start": 26.985,
+   "end": 27.31
+  },
+  {
+   "text": "read",
+   "seg": "quote",
+   "start": 27.37,
+   "end": 27.73
+  },
+  {
+   "text": "exactly:",
+   "seg": "quote",
+   "start": 27.79,
+   "end": 28.255
+  },
+  {
+   "text": "there",
+   "seg": "quote",
+   "start": 28.495,
+   "end": 28.89
+  },
+  {
+   "text": "is",
+   "seg": "quote",
+   "start": 28.95,
+   "end": 29.24
+  },
+  {
+   "text": "grandeur",
+   "seg": "quote",
+   "start": 29.3,
+   "end": 29.8
+  },
+  {
+   "text": "in",
+   "seg": "quote",
+   "start": 29.86,
+   "end": 30.15
+  },
+  {
+   "text": "this",
+   "seg": "quote",
+   "start": 30.21,
+   "end": 30.57
+  },
+  {
+   "text": "view",
+   "seg": "quote",
+   "start": 30.63,
+   "end": 30.99
+  },
+  {
+   "text": "of",
+   "seg": "quote",
+   "start": 31.05,
+   "end": 31.34
+  },
+  {
+   "text": "life.",
+   "seg": "quote",
+   "start": 31.4,
+   "end": 31.76
+  },
+  {
+   "text": "On",
+   "seg": "timeline",
+   "start": 32.92,
+   "end": 33.21
+  },
+  {
+   "text": "a",
+   "seg": "timeline",
+   "start": 33.27,
+   "end": 33.525
+  },
+  {
+   "text": "timeline",
+   "seg": "timeline",
+   "start": 33.585,
+   "end": 34.085
+  },
+  {
+   "text": "drawn",
+   "seg": "timeline",
+   "start": 34.145,
+   "end": 34.54
+  },
+  {
+   "text": "to",
+   "seg": "timeline",
+   "start": 34.6,
+   "end": 34.89
+  },
+  {
+   "text": "scale,",
+   "seg": "timeline",
+   "start": 34.95,
+   "end": 35.345
+  },
+  {
+   "text": "1813",
+   "seg": "timeline",
+   "start": 35.585,
+   "end": 35.945
+  },
+  {
+   "text": "sits",
+   "seg": "timeline",
+   "start": 36.005,
+   "end": 36.365
+  },
+  {
+   "text": "well",
+   "seg": "timeline",
+   "start": 36.425,
+   "end": 36.785
+  },
+  {
+   "text": "before",
+   "seg": "timeline",
+   "start": 36.845,
+   "end": 37.275
+  },
+  {
+   "text": "1859.",
+   "seg": "timeline",
+   "start": 37.335,
+   "end": 37.695
+  },
+  {
+   "text": "A",
+   "seg": "logo",
+   "start": 38.855,
+   "end": 39.11
+  },
+  {
+   "text": "company’s",
+   "seg": "logo",
+   "start": 39.17,
+   "end": 39.705
+  },
+  {
+   "text": "mark",
+   "seg": "logo",
+   "start": 39.765,
+   "end": 40.125
+  },
+  {
+   "text": "is",
+   "seg": "logo",
+   "start": 40.185,
+   "end": 40.475
+  },
+  {
+   "text": "shown",
+   "seg": "logo",
+   "start": 40.535,
+   "end": 40.93
+  },
+  {
+   "text": "exactly",
+   "seg": "logo",
+   "start": 40.99,
+   "end": 41.455
+  },
+  {
+   "text": "as",
+   "seg": "logo",
+   "start": 41.515,
+   "end": 41.805
+  },
+  {
+   "text": "it",
+   "seg": "logo",
+   "start": 41.865,
+   "end": 42.155
+  },
+  {
+   "text": "is.",
+   "seg": "logo",
+   "start": 42.215,
+   "end": 42.505
   },
   {
    "text": "Enjoy",
    "seg": "cta",
-   "start": 11.915,
-   "end": 12.31
+   "start": 43.115,
+   "end": 43.51
   },
   {
    "text": "videos",
    "seg": "cta",
-   "start": 12.37,
-   "end": 12.8
+   "start": 43.57,
+   "end": 44.0
   },
   {
    "text": "like",
    "seg": "cta",
-   "start": 12.86,
-   "end": 13.22
+   "start": 44.06,
+   "end": 44.42
   },
   {
    "text": "this?",
    "seg": "cta",
-   "start": 13.28,
-   "end": 13.64
+   "start": 44.48,
+   "end": 44.84
   },
   {
    "text": "Follow",
    "seg": "cta",
-   "start": 13.7,
-   "end": 14.13
+   "start": 44.9,
+   "end": 45.33
   },
   {
    "text": "for",
    "seg": "cta",
-   "start": 14.19,
-   "end": 14.515
+   "start": 45.39,
+   "end": 45.715
   },
   {
    "text": "a",
    "seg": "cta",
-   "start": 14.575,
-   "end": 14.83
+   "start": 45.775,
+   "end": 46.03
   },
   {
    "text": "new",
    "seg": "cta",
-   "start": 14.89,
-   "end": 15.215
+   "start": 46.09,
+   "end": 46.415
   },
   {
    "text": "one",
    "seg": "cta",
-   "start": 15.275,
-   "end": 15.6
+   "start": 46.475,
+   "end": 46.8
   },
   {
    "text": "every",
    "seg": "cta",
-   "start": 15.66,
-   "end": 16.055
+   "start": 46.86,
+   "end": 47.255
   },
   {
    "text": "day.",
    "seg": "cta",
-   "start": 16.115,
-   "end": 16.44
+   "start": 47.315,
+   "end": 47.64
   },
   {
    "text": "Next,",
    "seg": "next",
-   "start": 17.05,
-   "end": 17.41
+   "start": 48.25,
+   "end": 48.61
   },
   {
    "text": "in",
    "seg": "next",
-   "start": 17.65,
-   "end": 17.94
+   "start": 48.85,
+   "end": 49.14
   },
   {
    "text": "part",
    "seg": "next",
-   "start": 18.0,
-   "end": 18.36
+   "start": 49.2,
+   "end": 49.56
   },
   {
    "text": "2:",
    "seg": "next",
-   "start": 18.42,
-   "end": 18.675
+   "start": 49.62,
+   "end": 49.875
   },
   {
    "text": "what",
    "seg": "next",
-   "start": 18.735,
-   "end": 19.095
+   "start": 50.115,
+   "end": 50.475
   },
   {
    "text": "makes",
    "seg": "next",
-   "start": 19.155,
-   "end": 19.55
+   "start": 50.535,
+   "end": 50.93
   },
   {
    "text": "a",
    "seg": "next",
-   "start": 19.61,
-   "end": 19.865
+   "start": 50.99,
+   "end": 51.245
   },
   {
    "text": "cover",
    "seg": "next",
-   "start": 19.925,
-   "end": 20.32
+   "start": 51.305,
+   "end": 51.7
   },
   {
    "text": "work?",
    "seg": "next",
-   "start": 20.38,
-   "end": 20.74
+   "start": 51.76,
+   "end": 52.12
   }
  ],
  "segments": {
@@ -279,23 +633,53 @@
    "first": 8,
    "last": 14
   },
-  "bars": {
-   "start": 7.505,
-   "end": 11.305,
+  "globe": {
+   "start": 8.055,
+   "end": 12.935,
    "first": 15,
-   "last": 23
+   "last": 26
+  },
+  "bars": {
+   "start": 14.095,
+   "end": 17.895,
+   "first": 27,
+   "last": 35
+  },
+  "doc": {
+   "start": 19.055,
+   "end": 23.55,
+   "first": 36,
+   "last": 45
+  },
+  "quote": {
+   "start": 24.71,
+   "end": 31.76,
+   "first": 46,
+   "last": 62
+  },
+  "timeline": {
+   "start": 32.92,
+   "end": 37.695,
+   "first": 63,
+   "last": 73
+  },
+  "logo": {
+   "start": 38.855,
+   "end": 42.505,
+   "first": 74,
+   "last": 82
   },
   "cta": {
-   "start": 11.915,
-   "end": 16.44,
-   "first": 24,
-   "last": 34
+   "start": 43.115,
+   "end": 47.64,
+   "first": 83,
+   "last": 93
   },
   "next": {
-   "start": 17.05,
-   "end": 20.74,
-   "first": 35,
-   "last": 43
+   "start": 48.25,
+   "end": 52.12,
+   "first": 94,
+   "last": 102
   }
  },
  "voice": {
@@ -305,7 +689,14 @@
  },
  "keep": [
   "a new one",
-  "every word"
+  "every word",
+  "this view of life",
+  "drawn to scale",
+  "company’s mark",
+  "through the Earth",
+  "in 3D"
  ],
- "split": []
+ "split": [],
+ "lead": 0.3,
+ "tail": 1.4
 }

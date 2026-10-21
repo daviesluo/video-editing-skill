@@ -24,10 +24,6 @@ export const Captions: React.FC<{ words: Word[]; y?: number; keep?: string[]; sp
   });
   if (idx < 0) return null;
   const page = pages[idx];
-  const pop = interpolate(t, [page.start - lead, page.start - lead + 0.12], [1.06, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
   // A page with no page straight after it (the last one, or one before a
   // long pause) fades over 0.15 s rather than vanishing in one frame.
   const next = pages[idx + 1];
@@ -52,7 +48,6 @@ export const Captions: React.FC<{ words: Word[]; y?: number; keep?: string[]; sp
           lineHeight: 1.05,
           letterSpacing: `${TRACK}em`,
           textAlign: "center",
-          scale: String(pop),
           opacity: 1 - gone,
           // The tight outline small type wears, so a caption reads even in
           // its own colour over a tint of that colour.

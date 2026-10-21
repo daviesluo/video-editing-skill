@@ -21,14 +21,19 @@ export type EpisodeProps = {
 };
 
 // The duration comes from the narration: lead-in + voice + tail. The
-// timeline is fetched here so a composition without a voice yet still
-// bundles.
+// timeline is fetched here, so a composition has no length until
+// build.py <ep> voice has written it.
 export const episodeMetadata: CalculateMetadataFunction<EpisodeProps> = async ({ props }) => {
   const res = await fetch(staticFile(`episodes/${props.id}/timeline.json`));
   if (!res.ok) throw new Error(`No timeline for ${props.id}: run pipeline/build.py voice first`);
   const timeline = (await res.json()) as Timeline;
+  // The lead-in and tail come from episode.json, copied into the timeline
+  // by build.py, so stills, covers and the render can never disagree on
+  // them; the props are only a fallback.
+  const lead = timeline.lead ?? props.lead;
+  const tail = timeline.tail ?? props.tail;
   return {
-    durationInFrames: Math.ceil((props.lead + timeline.duration + props.tail) * FRAME.fps),
-    props: { ...props, timeline },
+    durationInFrames: Math.ceil((lead + timeline.duration + tail) * FRAME.fps),
+    props: { ...props, lead, tail, timeline },
   };
 };

@@ -7,8 +7,8 @@ import { episodeMetadata } from "./lib/episode";
 
 // Each episode is a composition whose length comes from its narration, and
 // each has a cover composition, Cover<NN>, that freezes one of its frames.
-// lead and tail must match episode.json's audio_lead and tail, which the
-// mix uses.
+// The lead-in and tail are read from the timeline (build.py copies them
+// from episode.json); the numbers here are only a fallback.
 const EP = { fps: FRAME.fps, width: FRAME.width, height: FRAME.height, durationInFrames: 600 } as const;
 
 const COVERS: CoverProps[] = [

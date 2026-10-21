@@ -25,8 +25,28 @@
       "text": "Watch this shape slide to the equator."
     },
     {
+      "id": "globe",
+      "text": "On a globe, a shaft through the Earth is built in 3D."
+    },
+    {
       "id": "bars",
       "text": "Here are three bars, at 40, 75 and 100."
+    },
+    {
+      "id": "doc",
+      "text": "A document is shown whole, then this line comes forward."
+    },
+    {
+      "id": "quote",
+      "text": "A quote is set in type and read exactly: there is grandeur in this view of life."
+    },
+    {
+      "id": "timeline",
+      "text": "On a timeline drawn to scale, 1813 sits well before 1859."
+    },
+    {
+      "id": "logo",
+      "text": "A company’s mark is shown exactly as it is."
     },
     {
       "id": "cta",
@@ -54,15 +74,42 @@
       "gain_db": -19
     },
     {
+      "cue": "globe",
+      "offset": -0.4,
+      "name": "whoosh",
+      "args": {
+        "dur": 1.0
+      },
+      "gain_db": -19
+    },
+    {
+      "cue": "globe@4",
+      "offset": -0.2,
+      "name": "thud",
+      "gain_db": -16
+    },
+    {
       "cue": "bars@6",
       "offset": -0.2,
       "name": "pop",
       "gain_db": -15
     },
     {
-      "cue": "bars@8",
+      "cue": "doc@7",
       "offset": -0.2,
-      "name": "thud",
+      "name": "tick",
+      "gain_db": -15
+    },
+    {
+      "cue": "timeline@6",
+      "offset": -0.2,
+      "name": "pop",
+      "gain_db": -15
+    },
+    {
+      "cue": "timeline@10",
+      "offset": -0.2,
+      "name": "pop",
       "gain_db": -15
     },
     {
@@ -72,27 +119,76 @@
       "gain_db": -13
     }
   ],
-  "facts": [],
+  "facts": [
+    {
+      "id": "F01",
+      "claim": "Pride and Prejudice was first published in 1813",
+      "source": "Project Gutenberg eBook #1342 (1894 edition, preface)",
+      "status": "verified"
+    },
+    {
+      "id": "F02",
+      "claim": "On the Origin of Species was first published in 1859",
+      "source": "Project Gutenberg eBook #1228 (the 1859 first edition, title page)",
+      "status": "verified"
+    },
+    {
+      "id": "F03",
+      "claim": "The novel's first two paragraphs, as set on the page",
+      "source": "Project Gutenberg eBook #1342, Chapter I",
+      "status": "verified"
+    },
+    {
+      "id": "F04",
+      "claim": "\"There is grandeur in this view of life\" opens a sentence of the Origin's final paragraph",
+      "source": "Project Gutenberg eBook #1228, final paragraph",
+      "status": "verified"
+    },
+    {
+      "id": "F05",
+      "claim": "The cut-away's layers are drawn to the Preliminary Reference Earth Model's radii",
+      "source": "PREM (1981): inner core 1,221.5 km, outer core 3,480 km, radius 6,371 km",
+      "status": "verified"
+    },
+    {
+      "id": "F06",
+      "claim": "The shape keeps its true area as it slides to the equator",
+      "source": "CALC: a rotation on the sphere (studio/src/lib/geo.ts slide) preserves area",
+      "status": "verified"
+    }
+  ],
   "qa": {
-    "hotwords": ""
+    "hotwords": "",
+    "model": "medium.en"
   },
   "say": {
     "british": {
       "40": "forty",
       "75": "seventy-five",
       "100": "a hundred",
-      "2": "two"
+      "2": "two",
+      "3D": "three D",
+      "1813": "eighteen thirteen",
+      "1859": "eighteen fifty-nine"
     },
     "american": {
       "40": "forty",
       "75": "seventy-five",
       "100": "one hundred",
-      "2": "two"
+      "2": "two",
+      "3D": "three D",
+      "1813": "eighteen thirteen",
+      "1859": "eighteen fifty-nine"
     }
   },
   "caption_keep": [
     "a new one",
-    "every word"
+    "every word",
+    "this view of life",
+    "drawn to scale",
+    "company’s mark",
+    "through the Earth",
+    "in 3D"
   ],
   "caption_split": [],
   "music": {

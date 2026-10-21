@@ -146,7 +146,7 @@ export const Badge: React.FC<{ part: number; opacity?: number }> = ({ part, opac
 
 // A short kicker line above or below a headline ("Drawn in 1569, for
 // sailors"): colour and weight set it apart; no box or rule.
-export const Chip: React.FC<{ text: string; color?: string; opacity?: number; style?: React.CSSProperties }> = ({ text, color = COLORS.paper, opacity = 1, style }) => (
+export const Kicker: React.FC<{ text: string; color?: string; opacity?: number; style?: React.CSSProperties }> = ({ text, color = COLORS.paper, opacity = 1, style }) => (
   <div
     style={{
       fontFamily: DISPLAY,

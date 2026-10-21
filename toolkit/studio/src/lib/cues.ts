@@ -15,6 +15,9 @@ export type Timeline = {
   keep?: string[];
   // Hyphenated words the captions may break after the hyphen (caption_split).
   split?: string[];
+  // episode.json's audio_lead and tail, copied by build.py.
+  lead?: number;
+  tail?: number;
 };
 
 export const cueAt = (tl: Timeline, lead: number, cue: string): number => {

@@ -81,8 +81,10 @@ export const coverMetadata: CalculateMetadataFunction<CoverProps> = async ({ pro
   const res = await fetch(staticFile(`episodes/${props.id}/timeline.json`));
   if (!res.ok) throw new Error(`No timeline for ${props.id}`);
   const timeline = (await res.json()) as Timeline;
+  const lead = timeline.lead ?? props.lead;
+  const tail = timeline.tail ?? props.tail;
   // As long as the episode: Remotion clamps every frame, frozen ones too,
   // to the composition's range, so a one-frame composition would always
   // show the episode's frame 0. The cover itself is frame 0.
-  return { durationInFrames: Math.ceil((props.lead + timeline.duration + props.tail) * FRAME.fps), props: { ...props, timeline } };
+  return { durationInFrames: Math.ceil((lead + timeline.duration + tail) * FRAME.fps), props: { ...props, lead, tail, timeline } };
 };
