@@ -1,0 +1,5 @@
+# A private deny-list for bin/selftest.sh: names and strings this fork must
+# never publish, kept out of the repository by design.
+bin/denylist.local
+__pycache__/
+.DS_Store

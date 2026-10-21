@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "video-editing: an agent skill for post-ready short-form explainer videos"
+message: "If you use this skill or build on it, please cite it."
+type: software
+authors:
+  - name: "The video-editing-skill authors"
+license: Apache-2.0
+version: "1.0"
+date-released: "2026-10-21"
+abstract: >-
+  An agent skill and toolkit that produce short-form vertical explainer
+  videos end to end, to a standard where the person who commissioned the
+  video finds nothing to fix: topic selection, research with provenance,
+  fact verification, script, synthetic narration timed to the word, a
+  composed music bed, Remotion animation in a light house style, captions,
+  covers, rendering, automated QA gates, one exhaustive independent review
+  by named sub-agents, the fix loop, release staging and the read-back
+  after posting. Every rule records the production failure that produced
+  it and the check that now catches it.
+keywords:
+  - ai-agents
+  - agent-skills
+  - claude-code
+  - cursor
+  - codex
+  - remotion
+  - video-production
+  - short-form-video
+  - explainer-video
+  - quality-assurance
