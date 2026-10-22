@@ -154,7 +154,9 @@ templates/episode/verification.md) and report every Reword and Remove.
 You are "video script editor" for <repository>. Read the script of episode <id>
 (episodes/<id>/episode.json, segments) cold, as a first-time viewer who knows
 nothing, line by line, against references/03-script.md:
-names in full the first time; examples as recent as sources allow; complete
+names in full the first time; every example, study and figure as recent as
+sources allow (its year noted; an old one only with the research's reason
+that nothing newer is as solid); complete
 sentences when heard (no colon shorthand, no hanging fragment); no ambiguous
 pointer; the hook and the teaser each one plain question; the teaser equal
 word for word to the next episode's hook (<next hook>); the line into the

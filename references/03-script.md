@@ -51,8 +51,13 @@ finished, checked episode failed:
   Station", not "the space station"; no jargon a general viewer must
   decode ("the lower 48" becomes "the United States without Alaska and
   Hawaii").
-- **Examples as recent as primary sources allow.** Examples from twenty
-  years ago sound dated when newer ones exist.
+- **Examples and studies as recent as primary sources allow.** Examples
+  from twenty years ago sound dated when newer ones exist, and so does a
+  study: a part that said "in a 1981 study" passed the script edit and two
+  reviews, and the owner asked at once whether there was nothing newer.
+  Note the year of every example, study and figure in the research; an old
+  one stays only when a search for a newer one found nothing as solid, and
+  the research says so.
 - **Complete sentences when heard.** No colon shorthand where a listener
   needs the verb: "The biggest overlap: China on Argentina." becomes "The
   biggest overlap is China on Argentina." No hanging fragment: "over 400
