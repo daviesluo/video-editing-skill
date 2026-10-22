@@ -73,12 +73,22 @@ def motion(f, fps, band=BAND):
     f = f[:, int(h * band[0]):int(h * band[1]), :].astype(np.float32)
     d = np.convolve(np.abs(np.diff(f, axis=0)).mean(axis=(1, 2)), np.ones(5) / 5, mode="same")
     moving = d > MOVING
+    # A change shorter than SHORTEST (a dot appearing, the last frame of a
+    # label's fade) is not a movement anyone sees: it counts as still, so it
+    # neither adds a movement nor splits the hold it falls in. Counted apart,
+    # one-frame blips cut a part's long holds in two and its median hold
+    # read 1.55 s where the eye saw 1.7 s.
+    start = 0
+    for i in range(1, len(moving) + 1):
+        if i == len(moving) or moving[i] != moving[start]:
+            if moving[start] and (i - start) / fps < SHORTEST:
+                moving[start:i] = False
+            start = i
     runs, holds, start = [], [], 0
     for i in range(1, len(moving) + 1):
         if i == len(moving) or moving[i] != moving[start]:
             (runs if moving[start] else holds).append((i - start) / fps)
             start = i
-    runs = [r for r in runs if r >= SHORTEST]
     holds = [x for x in holds if x >= SHORTEST]
     seconds = len(d) / fps
     return {"moving_share": round(sum(runs) / seconds, 3), "moves_per_10s": round(len(runs) / seconds * 10, 2),

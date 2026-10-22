@@ -185,8 +185,10 @@ limits and QA gates every part on them (`12-qa-gates.md`, "picture
 rhythm"); `rhythm.py report episodes/<id>` prints a part against them
 before it is sent. On one series' four reference parts the picture moved
 at most 18 percent of the time, in at most 1.89 movements per 10 s, with
-a median hold of at least 2.27 s. A part heard as rushed moved 29 percent
-of the time, in 2.81 movements per 10 s, with a median hold of 0.8 s.
+a median hold of at least 2.57 s. A part heard as rushed moved 29 percent
+of the time, in 2.81 movements per 10 s, with a median hold of 2.03 s. A
+change shorter than 0.2 s (a dot appearing) counts as still: counted as a
+movement, one-frame blips cut long holds in two.
 Four camera moves in 3 s and a half-turn whipped through in 0.55 s are
 the kind of thing these measures catch: a picture that moves more often,
 with less still time between. Passing them is no reason to skip looking

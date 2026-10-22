@@ -18,7 +18,7 @@ parts"; `08-animation.md`, "The picture's rhythm"). A part that felt rushed
 beside its four reference parts was outside on every measure: 5.22
 syllables a second in speech against 4.86 to 5.19, the picture moving 29
 percent of the time against at most 18, 2.81 movements per 10 s against at
-most 1.89, a median hold of 0.8 s against at least 2.27. Words a second
+most 1.89, a median hold of 2.03 s against at least 2.57. Words a second
 had not shown it.
 
 | Check | Pass |

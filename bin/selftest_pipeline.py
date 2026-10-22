@@ -726,6 +726,12 @@ def t_motion():
     # caption below the band is not the picture.
     assert m == {"moving_share": 0.15, "moves_per_10s": 2.0, "median_move_s": 0.75, "median_hold_s": 3.0}, m
     assert rhythm.motion(band_frames([]), 30)["moves_per_10s"] == 0.0
+    # A one-frame flash in the middle of a hold is no movement anyone sees:
+    # it neither counts nor cuts the hold in two (counted, the median hold
+    # read 1.72 s for 3.0).
+    flash = band_frames([(60, 90), (180, 195)])
+    flash[135, 100:114, 60:74] = 250
+    assert rhythm.motion(flash, 30) == m, rhythm.motion(flash, 30)
     # Four moves in 3 s, each on its word, with a third of a second
     # between them: no busier in moving share, but too many moves and no
     # hold to read.
@@ -746,7 +752,7 @@ def t_rhythm_faults():
     # A part that felt rushed beside its reference parts, as measured: the
     # speech rate and all three picture measures out.
     rushed = {"voice": {"speech_syllables_per_s": 5.22, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": None},
-              "picture": {"moving_share": 0.29, "moves_per_10s": 2.81, "median_move_s": 0.6, "median_hold_s": 0.8}}
+              "picture": {"moving_share": 0.29, "moves_per_10s": 2.81, "median_move_s": 0.6, "median_hold_s": 2.03}}
     out = rhythm.faults(rushed, lim)
     assert len(out) == 4 and "within speech" in out[0], out
     within = {"voice": {"speech_syllables_per_s": 5.0, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": 0.6},

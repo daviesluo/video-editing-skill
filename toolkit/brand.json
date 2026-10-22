@@ -28,7 +28,7 @@
   "type": { "family": "Archivo", "fontFile": "fonts/Archivo-Variable.woff2", "smallMinPx": 29 },
   "rhythm": {
     "reference": [],
-    "limits": { "speech_syllables_per_s": [4.86, 5.19], "syllables_per_s": [3.58, 3.81], "sentence_pause_min": 0.4, "moving_share_max": 0.183, "moves_per_10s_max": 1.89, "median_hold_s_min": 2.27 },
+    "limits": { "speech_syllables_per_s": [4.86, 5.19], "syllables_per_s": [3.58, 3.81], "sentence_pause_min": 0.4, "moving_share_max": 0.183, "moves_per_10s_max": 1.89, "median_hold_s_min": 2.57 },
     "pauses": { "sentence": 0.5, "section": 0.6 },
     "band": [0.33, 0.72]
   },
