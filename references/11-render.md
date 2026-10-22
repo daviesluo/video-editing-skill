@@ -3,7 +3,10 @@
 Render stills first, look at them, fix, and only then render the video.
 On four cores with no GPU, the example (54 s, a map plate and a 5 s globe
 beat) renders in about 9 minutes, and an episode with a 3D globe on screen
-for most of 60 s took about 27 minutes; a still takes seconds.
+for most of 60 s took about 27 minutes; a still takes seconds. So every
+fault that can be found without a render is found before one, all of them
+in one pass ("Before the full render", below), and the video is rendered
+once.
 
 ## Settings
 
@@ -52,6 +55,53 @@ or `captions`) writes from `episode.json`'s `audio_lead` and `tail`, never
 from numbers in `Root.tsx`. After changing either in `episode.json`, run
 `build.py episodes/<id> captions` before taking stills.
 
+## Before the full render: one pass
+
+Every check that can run on stills, on the timeline or on the audio runs
+before the first full render, and every fault they find is fixed in the
+same round. One part went through five partial re-renders, each one
+finding the next fault in the picture's rhythm (two short moves at a scene
+change, then a second move in a second after the first, then a slide that
+started late, then a 0.3 s hold before a profile), and the owner asked for
+it to be got right in one pass, without lowering the bar. All of these
+were in the code and the timeline before the first render. The pass:
+
+1. **The script and the take**: the cold read (`03-script.md`); the take
+   against the reference parts' pace and tone (`voice.py pace-report`,
+   `voicestyle.py report`); the transcript; every caption page listed and
+   read (`09-captions.md`).
+2. **Stills at every key word** of the picture audit, and every scene
+   change and camera move in 0.1 s steps (above).
+3. **The text scan and the covers**: the orphan and safe-zone scan over the
+   whole episode, `covers.mjs`, each cover looked at.
+4. **The picture's rhythm from the code**: list every camera move with
+   its start, its end and how far it goes, and every scene change with
+   the moves it is made of. Compare each move's speed with its sibling
+   moves (`08-animation.md`, "Speed, not only duration"); make each scene
+   change one continuous move; leave a beat to read after each. Then
+   count: a part whose list already has more movements per 10 s than the
+   reference parts, or holds shorter than theirs, fails the rhythm check
+   once rendered.
+5. **The code's own faults by search**: every fade written as one
+   element's window against another's (`on × (1 − other)`), every element
+   drawn outside its scene's window, every flat map view whose span at
+   its scale passes its plate or ±180°, every detail plate whose edge can
+   enter the frame (`07-visual-grammars.md`, "Maps and globes";
+   `08-animation.md`, "Designed, not drawn the quick way").
+6. **The sound**: `music.py check` on the take in use, the effects plan.
+7. **The release**: staged and `publish.py check`.
+
+A quick low-resolution render of the whole episode on this machine may
+follow as a first look at the rhythm, but it is not the gate: one
+quarter-size, fast-encoded preview read a median hold of 4.1 s where the
+full render of the same commit read 2.92 s, although the measure scales
+both to the same small frame. The gate is `rhythm.py report` on the
+delivered file. Then render the whole episode once, and run every gate in
+`12-qa-gates.md` on it. If the rhythm check fails there, list what it
+counted (`rhythm.py moves episodes/<id>`: every movement and hold, with
+the word being spoken) and fix every entry the list shows at once, not the
+first one found.
+
 ## Render helper sessions
 
 To render several episodes at once, or while this session keeps working,
@@ -74,6 +124,10 @@ identical settings, so its frames are the same frames.
   are identical, so the frames are too.
 - **Brief by the full commit hash**, pushed first, never by a branch name
   that can move.
+- **An interrupt sent by mistake is followed at once by a message.** The
+  render the helper started in the background survives the interrupt, but
+  the helper's turn has ended, so nothing pushes or reports the result
+  until it is told to carry on with its brief.
 - **The helper pushes its result to an orphan branch** named
   `render/<NN>-<short hash>` holding only `final.mp4`, so a video never
   enters the main history, and reports the SHA-256. This session fetches
@@ -109,18 +163,44 @@ When an episode is wanted sooner than one helper renders it, split it:
 every frame depends on its number alone, so the parts are the frames a
 whole render makes.
 
-- Each helper renders half at the same full commit hash, with
+- Each helper renders its part at the same full commit hash, with
   `RENDER_FRAMES=<first>-<last> .venv/bin/python pipeline/build.py
   episodes/<id> render` (frames from 0; the last frame is the
   composition's length less one), which writes `out/video-<first>-<last>.mp4`,
   and pushes that file to its orphan branch in place of `final.mp4`.
-- Fetch both parts into `episodes/<id>/out/`, then `build.py episodes/<id>
+- **The brief names** the full hash, the part's frame range, the frame
+  count the file must hold, and the composition's total, and the helper
+  replies with the part's SHA-256. Each part fetched is checked against
+  its hash before the join.
+- Fetch every part into `episodes/<id>/out/`, then `build.py episodes/<id>
   join`: it checks that the parts meet end to end (the first starts at
   frame 0, each later one the frame after the last ended, each file holds
-  every frame of its range) and concatenates them without re-encoding,
-  then prints the seam's frame numbers.
-- Look at the frames either side of each seam at full size, then `mix`,
-  `mux` and every QA gate as for a whole render.
+  every frame of its range, the last ends on the composition's last
+  frame) and concatenates them without re-encoding, then prints the
+  seams' frame numbers.
+- **Check every seam against reference stills.** Render stills of the two
+  frames either side of each seam at the same commit and compare: the
+  step between them in the joined video should match the step between
+  the stills (one seam read 1.13 in the video and 1.22 in the stills,
+  the step being a fill in progress) and the encoder's keyframe step
+  elsewhere in the video. Then `mix`, `mux` and every QA gate as for a
+  whole render.
+
+### Re-rendering only some parts
+
+After a fix, the parts whose frames it does not touch can be kept and the
+others re-rendered at the new commit, then all joined. Keep a part only
+when the change provably leaves every one of its frames as they were:
+diff the commits, and for every value that changed (a cue, a start, an
+end, a duration, a shared component) work out the frames it reaches. A
+move whose end time changed reaches every frame up to that end: one fix
+moved a slide's end by a fraction of a second into the next part, which
+would have left eight frames of the kept part out of step with the new
+code at the seam, and the part had to be re-rendered too. When in doubt,
+re-render it. The seam check above then runs on every seam, kept parts'
+included, and the ledger records which commit each part was rendered at.
+A round of partial re-renders is still a round: find everything first
+(above).
 
 ## Shortcuts that save a render
 

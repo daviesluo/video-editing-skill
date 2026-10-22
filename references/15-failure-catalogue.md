@@ -11,6 +11,7 @@ new class of failure appears, in the same commit as the fix.
 |---|---|---|
 | "the space station" on first mention; a viewer did not know which | every name in full the first time | cold read (`03`) |
 | examples from 2001 and 2008 sounded dated when newer ones existed | examples as recent as primary sources allow | cold read; fact checker |
+| "in a 1981 study" passed the script edit and two reviews; the owner asked at once for something newer | studies as recent as examples, each one's year in the research, an old one only with the reason nothing newer is as solid | cold read; fact checker |
 | "over 400 tonnes" hanging off the end of a sentence | complete sentences when heard ("which is over 400 tonnes") | cold read |
 | "The biggest overlap: China on Argentina." | no colon shorthand where a listener needs the verb | cold read |
 | a hook voiced as two questions because of a comma | the hook and teaser are one plain question; measure the take | transcript; `voice.py measure` |
@@ -88,6 +89,15 @@ new class of failure appears, in the same commit as the fix.
 | a hook asked east or west while both cities' dots were on the map, so the answer showed before it was said | the picture never answers before the voice, nor does the cover | picture audit; cover look |
 | an opening map started in close; the owner asked for it bigger, then a zoom in | open wide enough to place the story, then a designed move in | picture audit |
 | a map under a white veil read as fog | diagrams sit on the clean page | review |
+| a globe's half-turn ran 140° in 0.55 s beside its twin's 2.25 s, a whip pan, after its start was moved to wait for a cut and its end stayed on its word | a camera move is judged by its speed against its sibling moves; when its start moves, its end moves with it | pre-render pass; review frames |
+| a tick of a shaft stayed on a planet's edge for half a second after its cut had shut | an element is drawn only while its scene is | pre-render search; frames |
+| a country outline faded as `on × (1 − other)` came back at a quarter as both windows closed, and its straight border flashed across the frame on a posted part | what gives way is tied to the arrival of what replaces it, never to the whole window; every scene searched for the product | pre-render search; frames at 0.03 s |
+| each change of scene was two short moves with a beat between, and the picture measured busier than the reference parts while each move looked right alone | a change of scene is one continuous move | QA rhythm check; `rhythm.py moves` |
+| a chip said "The line moved" before the line moved; a "Lined up" label came before its slide | a label that names a change appears with the change | audit stills |
+| a headline was written out a second before the voice reached its words; another said "too" where the voice said "the same way"; "Memory lines them up" named nothing | a headline says what the voice says, in its words, and starts on its own first word | audit stills; review |
+| a detail plate ending at 55°N drew a hard seam across the top of a wide opening, on frame 0 | a detail plate fades out before its own edge | frames at full size |
+| a card's flat map at 200 px a radian spanned about 250° and showed a blank strip past -180° through two renders and two reviews | a flat map view's span is worked out from its scale and kept inside its plate | pre-render arithmetic; review |
+| a big map hidden under a veil, as a review asked, faded with the veil and crossed the card that replaced it for seven frames | the outgoing picture leaves on its own ramp, gone before the arrival; a fix is checked for the faults it can bring | re-check frames |
 
 ## Type and layout
 
@@ -100,6 +110,7 @@ new class of failure appears, in the same commit as the fix.
 | "The Julian / calendar" ended a headline on one word, and the probe missed it | the probe measures word-by-word headlines on their masks | `ORPHAN` scan |
 | "Follow for part" then "2." | no word alone on a page; a number keeps its next word | caption pages |
 | "Nevada," alone, because a keep could not cross the comma | a kept phrase runs across punctuation | caption pages |
+| an end card's title left to wrap put "longest" alone on a line | titles broken by hand where the phrases break, no word alone | `ORPHAN` scan; by eye |
 | a bar's "100", set inside a thin bar, rode over its top edge, white on the page | a bar's number is sized to the bar and centred on it, inside only where there is no room beside it | `barNumber` self-test; stills |
 | a name with a letter the face lacked (Łódź) would fall back to another face | the full font is vendored; every visible character is checked against it | `GLYPH` scan |
 
@@ -136,8 +147,17 @@ new class of failure appears, in the same commit as the fix.
 | a stale picture audit with first-take times read as evidence | re-take the audit after any re-timing | review |
 | flat point-in-polygon tests found false land bands | repair antimeridian rings before computing | analysis script |
 | two values for one quantity across screen and caption | one quantity, one value | fact log |
-| a render waited on one helper while the other sat idle | split it across both (`RENDER_FRAMES`), `join` after the frame counts are checked, frames either side of the seam looked at | `build.py join` |
+| a render waited on one helper while the other sat idle | split it across both (`RENDER_FRAMES`), each part briefed with its range and frame count and checked by its SHA-256, `join` after the counts are checked to meet and add up to the composition, every seam compared with stills | `build.py join` |
 | a usage limit stopped every agent mid-task | record what was running in the ledger; resume each by message once the limit resets | ledger |
 | work on another episode competed with the one the owner was waiting to post | everything into the waiting deliverable; other reports filed until it ships; the owner told when a background step finishes | ledger |
 | render bundles in the temporary folder and per-review frame dumps filled the disk, which stops renders | delete dumps and stills when their report is written; `df -h` before a render | `df -h` |
 | a review found problems in rounds, back and forth | one exhaustive pass with exact fixes and an empty "could not check" list | review brief |
+| one part went through five partial re-renders, each finding the next fault in the picture's rhythm, all of them in the code before the first render | every check that runs on stills, timeline or audio runs before the first full render, every fault fixed together, then one render | pre-render pass (`11`) |
+| a fix moved a slide's end into the next part, which would have left eight frames of a kept part out of step at the seam | a part is kept only when the change provably leaves its frames as they were; every seam checked against stills | seam check; the commit diff |
+| a quarter-size preview read a median hold of 4.1 s where the full render read 2.92 s | a preview is a first look; the rhythm gate runs on the delivered file | `rhythm.py report` |
+| one-frame blips split long holds and the median hold read 1.55 s where the eye saw 1.7 s; a faint slow-starting shape read as a short hold | a change under 0.2 s counts as still; before trusting a fault, list what the measure counted | `rhythm.py moves`; selftest |
+| a part was posted with a whip pan, a shaft's tick and, found once live, a flashing border, because there was no time left to fix them | no finding ships for lack of time; a deadline moves the review earlier | review planning |
+| a reviewer's proposed end time was said to clear a card's arrival and did not | a proposed fix is worked out on the timeline before it is used | re-check |
+| a request the owner then withdrew ("forget I said it") had a trial in the tree | revert it cleanly, prove the tree unchanged, commit nothing of it, and say so | `git diff` empty |
+| an interrupt sent to a render helper by mistake left its render running with nobody to push it | follow a mistaken interrupt with a message at once | helper's reply |
+| a stray `rm -f /dev/null` was typed into a loop | re-read every compound command; never remove a path built from a variable without `${VAR:?}` | by eye |

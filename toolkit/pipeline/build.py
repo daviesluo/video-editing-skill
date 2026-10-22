@@ -12,6 +12,7 @@ Steps, in order (`all` runs voice, realign, mix, render, mux, qa):
             RENDER_FRAMES=a-b renders frames a to b only, to out/video-a-b.mp4
   join      the parts rendered with RENDER_FRAMES into out/video.mp4,
             stream-copied, once their frame counts are checked to meet
+            and to add up to the composition's length
   mux       picture and mix to out/final.mp4
   qa        every automated check, out/qa.json and out/contact-sheet.png
   remux     audio-only change: the new mix onto the picture of an existing
@@ -24,6 +25,7 @@ to a commit.
 """
 
 import json
+import math
 import os
 import re
 import shutil
@@ -35,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import mix  # noqa: E402
 import qa  # noqa: E402
 import voice  # noqa: E402
-from config import STUDIO, public_dir, readings  # noqa: E402
+from config import STUDIO, brand, public_dir, readings  # noqa: E402
 
 RENDER_FLAGS = ["--gl=swangle", "--concurrency=2", "--codec=h264", "--crf=16", "--x264-preset=slow",
                 "--pixel-format=yuv420p", "--color-space=bt709", "--muted"]
@@ -80,11 +82,12 @@ def step_render(episode, out, public):
                     f"--props={props}"] + ([f"--frames={rng[0]}-{rng[1]}"] if rng else []), cwd=STUDIO, check=True)
 
 
-def check_parts(parts):
+def check_parts(parts, total=None):
     """Checks that rendered parts, as (first frame, last frame, frames in
     the file), meet end to end: the first starts at frame 0, each later one
-    the frame after the last ended, and each file holds every frame of its
-    range. Returns the frame count of the whole."""
+    the frame after the last ended, each file holds every frame of its
+    range, and, given the composition's `total`, the last ends on its last
+    frame. Returns the frame count of the whole."""
     if not parts:
         raise SystemExit("join: no parts (out/video-<a>-<b>.mp4); render them with RENDER_FRAMES=a-b")
     nxt = 0
@@ -92,10 +95,19 @@ def check_parts(parts):
         if a != nxt or n != b - a + 1:
             raise SystemExit(f"join: the part for frames {a}-{b} has {n} frames from {a}; expected {b - a + 1} from {nxt}")
         nxt = b + 1
+    if total is not None and nxt != total:
+        raise SystemExit(f"join: the parts hold frames 0-{nxt - 1}; the composition has {total} frames (0-{total - 1})")
     return nxt
 
 
-def step_join(out):
+def composition_frames(timeline):
+    """The episode composition's length in frames, as the studio works it
+    out (lib/episode.ts): lead-in, narration and tail, rounded up."""
+    fps = brand()["frame"]["fps"]
+    return math.ceil((timeline.get("lead", 0.0) + timeline["duration"] + timeline.get("tail", 0.0)) * fps)
+
+
+def step_join(out, total=None):
     """Joins the parts rendered with RENDER_FRAMES into out/video.mp4 in
     frame order, without re-encoding, after `check_parts`. Prints the seam
     frames, which are looked at either side before the join is trusted."""
@@ -109,7 +121,7 @@ def step_join(out):
         n = subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries",
                             "stream=nb_read_frames", "-of", "csv=p=0", str(p)], capture_output=True, text=True, check=True).stdout
         parts.append((a, b, int(n)))
-    total = check_parts(parts)
+    total = check_parts(parts, total)
     lst = out / "parts.txt"
     lst.write_text("".join(f"file '{files[(a, b)].name}'\n" for a, b, _ in parts))
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst.name, "-c", "copy", "video.mp4"],
@@ -184,7 +196,7 @@ def main(ep_dir, step="all"):
     if "render" in steps:
         step_render(episode, out, public)
     if step == "join":
-        step_join(out)
+        step_join(out, composition_frames(timeline))
     if "mux" in steps:
         step_mux(out)
     if step == "remux":

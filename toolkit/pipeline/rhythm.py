@@ -22,13 +22,19 @@ into brand.json; QA and `build.py render` read them from there.
 
     python pipeline/rhythm.py standard                  # re-measure the reference parts
     python pipeline/rhythm.py report episodes/<id> [video.mp4]
+    python pipeline/rhythm.py moves episodes/<id> [video.mp4]   # what it counted
 
 A part that felt rushed beside its four reference parts measured 5.22
 syllables a second in speech against 4.86 to 5.13, its picture moving 29
 percent of the time against at most 18, 2.81 movements per 10 s against at
-most 1.89, and a median hold of 0.8 s against at least 2.27: every measure
+most 1.89, and a median hold of 2.03 s against at least 2.57: every measure
 outside, where words a second had not shown it. The narrator's tone is
 held to the same parts in voicestyle.py.
+
+Before fixing a picture fault, list what the measure counted (`moves`):
+each movement and hold with its time and the word being spoken. A fault
+can be the measure's own limit (a faint shape whose slow start stays under
+the threshold reads as a short hold), and the list shows which.
 """
 
 import json
@@ -55,7 +61,8 @@ SHORTEST = 0.2
 SIZE = (108, 192)
 USAGE = """usage:
   python pipeline/rhythm.py standard                    measure the reference parts, write the limits
-  python pipeline/rhythm.py report episodes/<id> [video]   one part against them"""
+  python pipeline/rhythm.py report episodes/<id> [video]   one part against them
+  python pipeline/rhythm.py moves episodes/<id> [video]    every movement and hold it counted, with its words"""
 
 
 def frames(video):
@@ -66,10 +73,9 @@ def frames(video):
     return np.frombuffer(raw, np.uint8).reshape(-1, h, w)
 
 
-def motion(f, fps, band=BAND):
-    """Movement in the picture band of grey frames `f` (frames x height x
-    width): the share of the time it moves, separate movements per 10 s,
-    and the median movement and hold between movements, in seconds."""
+def runs(f, fps, band=BAND):
+    """The picture band of grey frames `f` (frames x height x width) as
+    alternating runs, each (moving, first frame, frame after the last)."""
     h = f.shape[1]
     f = f[:, int(h * band[0]):int(h * band[1]), :].astype(np.float32)
     d = np.convolve(np.abs(np.diff(f, axis=0)).mean(axis=(1, 2)), np.ones(5) / 5, mode="same")
@@ -85,15 +91,24 @@ def motion(f, fps, band=BAND):
             if moving[start] and (i - start) / fps < SHORTEST:
                 moving[start:i] = False
             start = i
-    runs, holds, start = [], [], 0
+    out, start = [], 0
     for i in range(1, len(moving) + 1):
         if i == len(moving) or moving[i] != moving[start]:
-            (runs if moving[start] else holds).append((i - start) / fps)
+            out.append((bool(moving[start]), start, i))
             start = i
-    holds = [x for x in holds if x >= SHORTEST]
-    seconds = len(d) / fps
-    return {"moving_share": round(sum(runs) / seconds, 3), "moves_per_10s": round(len(runs) / seconds * 10, 2),
-            "median_move_s": round(float(np.median(runs)), 2) if runs else 0.0,
+    return out
+
+
+def motion(f, fps, band=BAND):
+    """Movement in the picture band of grey frames `f` (frames x height x
+    width): the share of the time it moves, separate movements per 10 s,
+    and the median movement and hold between movements, in seconds."""
+    rs = runs(f, fps, band)
+    moves = [(b - a) / fps for m, a, b in rs if m]
+    holds = [(b - a) / fps for m, a, b in rs if not m and (b - a) / fps >= SHORTEST]
+    seconds = (len(f) - 1) / fps
+    return {"moving_share": round(sum(moves) / seconds, 3), "moves_per_10s": round(len(moves) / seconds * 10, 2),
+            "median_move_s": round(float(np.median(moves)), 2) if moves else 0.0,
             "median_hold_s": round(float(np.median(holds)), 2) if holds else round(seconds, 2)}
 
 
@@ -101,6 +116,26 @@ def picture(video):
     """Movement in the picture band of a delivered video."""
     b = brand()
     return motion(frames(video), b["frame"]["fps"], tuple(b.get("rhythm", {}).get("band", BAND)))
+
+
+def listing(f, fps, timeline, band=BAND):
+    """What the picture measure counted, one line per movement and per hold
+    of SHORTEST or more, in video seconds, each with the word being spoken
+    as it starts (timeline time plus its lead): the list to read before
+    trusting a fault."""
+    lead = timeline.get("lead", 0.0)
+    words = timeline.get("words", [])
+
+    def word_at(t):
+        said = [w for w in words if w["start"] + lead <= t + 0.05]
+        return f'"{said[-1]["text"]}"' if said else "(before the first word)"
+
+    out = []
+    for m, a, b in runs(f, fps, band):
+        t0, t1 = a / fps, b / fps
+        if m or t1 - t0 >= SHORTEST:
+            out.append(f"{'move' if m else 'hold'} {t0:6.2f} to {t1:6.2f} s  {t1 - t0:5.2f} s  from {word_at(t0)}")
+    return out
 
 
 def measure(episode, timeline, video):
@@ -222,5 +257,12 @@ if __name__ == "__main__":
         m = measure(episode, tl, Path(a[2]) if len(a) > 2 else ep_dir / "out" / "final.mp4")
         print(json.dumps(m, indent=1))
         print("\n".join(faults(m)) or "within the reference parts")
+    elif len(a) >= 2 and a[0] == "moves":
+        ep_dir = Path(a[1])
+        episode = json.loads((ep_dir / "episode.json").read_text())
+        tl = json.loads((public_dir(episode) / "timeline.json").read_text())
+        b = brand()
+        f = frames(Path(a[2]) if len(a) > 2 else ep_dir / "out" / "final.mp4")
+        print("\n".join(listing(f, b["frame"]["fps"], tl, tuple(b.get("rhythm", {}).get("band", BAND)))))
     else:
         raise SystemExit(USAGE)

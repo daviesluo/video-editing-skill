@@ -74,6 +74,10 @@ page and `paper`, `accent`, `cool` and `warn` by role.
   map, chart or photograph without a box behind it.
 - **No orphans**: a line never ends with one word alone. Checked by
   measurement (`OrphanProbe`), because the eye misses it.
+- **Titles broken by meaning.** A headline, cover title or end-card title
+  of more than one line is broken by hand (`|`) where the phrases break,
+  not wherever the width runs out, and no line holds one word: "Drain
+  every ocean. / Where is / the longest / mountain range?".
 
 ## No machine look
 
@@ -114,8 +118,11 @@ once as unfinished, however right the rest is.
 - **It must look like what it represents.** A shaft looks dug, a route looks
   travelled, a document looks like paper.
 - **Any change of look is shown first** as stills of two or three finished
-  options, and one is picked before anything is rebuilt (see "Style
-  changes" below).
+  options, with the one recommended and why, and the owner picks before
+  anything is rebuilt (see "Style changes" below). An opening shown as two
+  sets of stills (wide on the region closing in, or the two places filling
+  the frame) was settled in one message; a look built straight into the
+  episode would have cost a render to find out.
 - **Explore in a lab, review your own options first.** Build the element
   alone in a lab composition (`studio/src/lab/`, such as `CutAwayLab`),
   every design choice a prop, and render one still per set of props
@@ -166,8 +173,8 @@ owner as two or three **finished** style frames first, each already
 beautiful on its own and designed to a named top-tier reference shown
 beside it, never "the technique roughly working"
 (`node scripts/variants.mjs <composition> <dir> '<[{name, props}, ...]>'
-<frame>` renders each option as a still from one bundle). Pick from the
-frames, then rebuild. One attempt at a look the owner dislikes is fair; if the
+<frame>` renders each option as a still from one bundle), with a
+recommendation. The owner picks from the frames, then rebuild. One attempt at a look the owner dislikes is fair; if the
 second misses, stop and agree the target before a third.
 
 ## Making it your own

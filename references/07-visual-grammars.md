@@ -55,9 +55,22 @@ Common to all:
   deep zoom into a second, higher-resolution plate rather than upscaling,
   and keep the wider plate drawn underneath so a plate edge can never
   slide into frame during a pull-back (one did, for five frames).
-  `kit/MapView.tsx` draws a plate and hands its children the projection
-  and the plate's transform, so overlays land on the raster to the pixel;
-  `lib/plateLook.ts` sets each plate's grading.
+  The detail plate also fades out before its own edge (a gradient mask
+  from a little inside the edge to the edge, worked out in the view's
+  projection), or its edge shows as a hard line where the coarser plate
+  under it takes over: a detail plate ending at 55°N drew a straight seam
+  across the top of a wide opening, on frame 0. `kit/MapView.tsx` draws a
+  plate and hands its children the projection and the plate's transform,
+  so overlays land on the raster to the pixel; `lib/plateLook.ts` sets
+  each plate's grading.
+- **A flat map view stays inside its plate**, with its span worked out
+  from its scale before it is drawn: a view w px wide at k px a radian
+  spans w ÷ k radians, so an 880 px card at 200 px a radian spans about 250° and
+  shows a blank strip where a world plate ends at ±180°. One card did,
+  through two renders and two reviews, because the stills taken happened
+  to look full; at 240 px a radian it spans 210° and fills. Work out every
+  inset, card and opening view this way, and centre it so neither side
+  passes the plate's edge.
 - **Overlays in screen space** from the projection, with stroke widths
   constant through zooms. Blur only plate images, never live vector
   layers.

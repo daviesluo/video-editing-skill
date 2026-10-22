@@ -23,6 +23,17 @@ every time in them comes from a word cue.
   stays in view as a card above the profile in the follow beat.
 - **The screen is never empty while the voice talks about something**:
   hold the last picture until the next arrives.
+- **A headline says what the voice says, in its words**, and names what
+  the voice names: "Whole continents fool us too" over a voice saying
+  "Whole continents fool us the same way" showed two wordings of one
+  sentence at once, and "Memory lines them up" left "them" without the
+  continents the voice had named. A headline starts on its own first word
+  (a little ahead, as any reveal), never on the start of a sentence whose
+  opening words are not in it: one began on "Actually," and was written
+  out a second before the voice reached it.
+- **A label that names a change appears with the change**, not before
+  it: a chip saying "The line moved to New York" came up before the line
+  moved, and "Lined up" now names its card as the shape slides into line.
 - **The picture never answers the question before the voice does.** While
   the hook asks whether one city lies east or west of another, the map
   does not yet show where both are: a hook once asked it with both
@@ -135,9 +146,19 @@ never the caption.
 
 ## Scene changes
 
+- **A change of scene is one continuous move**, not a run of short
+  stop-start moves: the big map going and the cards coming up move
+  together, the map's return runs straight into the slide that follows
+  it. One part made each change of scene two short moves with a beat
+  between (the map out, then the cards in; the cards out, then the map
+  back, then a slide), and its picture measured busier than the
+  reference parts on every count while each move looked right on its own.
 - **Sequence, do not cross-dissolve, when two scenes would collide.** The
   outgoing scene is gone before the incoming one starts; a map fading in
-  over a card for 0.1 s is a double exposure.
+  over a card for 0.1 s is a double exposure. The outgoing picture leaves
+  on its own ramp, timed to end before the arrival: a big map faded out
+  with a veil whose window ran past the start of the card that replaced
+  it, and the two maps showed half-transparent together for seven frames.
 - **Two moving things never cross**: a card settles before the profile
   rises under it.
 - **Dissolves are eased in and out**, never a flash: an ease-out once put
@@ -152,7 +173,10 @@ never the caption.
   title meant to be read on frame 0 starts its reveal at -1.0 s; a title
   still rising on frame 1 was a review blocker.
 - **The last frame** is the end card ("Coming up" and the part, the next
-  title), clean, with the bed still sounding under it.
+  title), clean, with the bed still sounding under it. Its title is broken
+  into lines by meaning, phrase by phrase, with no word alone ("Drain
+  every ocean. / Where is / the longest / mountain range?"; left to wrap,
+  "longest" fell alone on a line).
 - **Covers never catch a fade**: after any re-timing, look at each cover
   at full size for half-transparent type or a shape mid-move.
 
@@ -194,6 +218,17 @@ the kind of thing these measures catch: a picture that moves more often,
 with less still time between. Passing them is no reason to skip looking
 at each run of moves; what they add is that a picture busier than the
 series' own is caught by a number before the owner has to feel it.
+
+Before trusting a fault, list what the measure counted: `rhythm.py moves
+episodes/<id>` prints every movement and hold it found, with the word
+being spoken as each starts. The list names the moves to fix, all of them
+at once, and it shows when a fault is the measure's own limit: a faint,
+translucent shape whose slow start stays under the threshold reads as a
+short hold where the eye sees a move, and that one is left as is, with
+the reason written down. The measure's own rules are kept where a reading
+cannot jump between runs: a threshold never sits on the grid its inputs
+come in (`04-voice.md`: a pause is a gap over 0.125 s, since word timings
+come in 20 ms steps), and a change under 0.2 s counts as still.
 
 ## Determinism
 

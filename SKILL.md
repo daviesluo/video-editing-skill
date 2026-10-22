@@ -47,8 +47,9 @@ for a stage before doing that stage.
 
 ```
 topic → research → script → voice → music → scenes → captions → cover
-      → stills → render → QA gates → exhaustive review → fix → re-render
-      → gates → re-check … until a pass finds nothing → release → owner
+      → pre-render pass → render once → QA gates → exhaustive review
+      → fix everything → re-render → gates → re-check … until a pass
+      finds nothing → release → owner
 ```
 
 - **Nothing reaches the owner before an independent, exhaustive review
@@ -60,7 +61,14 @@ topic → research → script → voice → music → scenes → captions → co
 - **Measure, do not reason.** A gate runs on the real artefact (the
   delivered MP4, the rendered PNG, the staged folder). A fix is proved by a
   check that fails without it. A number from a sub-agent is a claim until
-  recomputed.
+  recomputed. A measure that gates is made robust first (no threshold on
+  its inputs' grid), and before a fault it reports is trusted, what it
+  counted is listed.
+- **Find everything, then render once.** Every check that can run on
+  stills, on the timeline or on the audio runs before the first full
+  render, and everything it finds is fixed in one round; a render that
+  finds one fault, then another, then another is the back and forth this
+  skill exists to end. The same holds for every fix round after a review.
 - **The first parts the owner approves are the measured standard for the
   voice's pace and tone and for the picture's rhythm, enforced by QA.**
   They are listed in `brand.json`, measured by `rhythm.py standard`
@@ -74,7 +82,10 @@ topic → research → script → voice → music → scenes → captions → co
 - **Every requirement the owner states becomes a written standard in the
   project, in the same turn**, and every episode and post is searched for
   the same class of problem and fixed too. A rule written down is a rule
-  every later review checks.
+  every later review checks. A fault that traces to a standard already
+  given is said to be one, and the rule or check that let it through is
+  fixed with it. A request the owner withdraws is reverted cleanly,
+  proved unchanged, and said so.
 - **Send each finished deliverable as soon as it passes**, on its own,
   with one line saying what was checked. Do the whole job without being
   asked twice; ask only when two readings of a request lead to genuinely
@@ -182,7 +193,10 @@ resume from the repository alone.
   flat stroke over the render, and only what is truly 3D is (a marked
   place is a dot sized for the view); a change of look is explored in a
   lab composition, reviewed over several rounds, and shown as two or three
-  options on stills, one picked before rebuilding.
+  options on stills with a recommendation, the owner's pick made before
+  rebuilding.
+- A flat map view's span is worked out from its scale and kept inside its
+  plate; a detail plate fades out before its own edge.
 - No boxes, chips, rules, separators, arrows, glow or counting numbers;
   headlines revealed word by word from a mask; a light grain over every
   frame.
@@ -199,7 +213,12 @@ resume from the repository alone.
   happens on screen on that word, and nothing answers a question before
   the voice does.
 - An opening map framed wide enough to place the story, then a designed
-  move in; after each camera move a beat to read before the next.
+  move in; after each camera move a beat to read before the next; a
+  change of scene is one continuous move, not short stop-start moves; a
+  camera move is judged by its speed against its sibling moves.
+- A headline says what the voice says, in its words, and starts on its
+  own first word; a label that names a change appears with the change;
+  an end-card title is broken into lines by meaning, no word alone.
 - Reveals lead their word by about 0.2 s with the enter ease; camera moves
   use the move ease; nothing moves without a reason.
 - The picture no busier than the reference parts (the rule above): no more
@@ -209,8 +228,10 @@ resume from the repository alone.
 - Every time is a word cue (`seg@k`), never a second; `recue.py` after any
   wording change.
 - A line and its label come and go together; nothing over the captions;
-  scenes sequenced, not cross-dissolved, when they collide; the first
-  frame complete.
+  scenes sequenced, not cross-dissolved, when they collide; an element
+  drawn only while its scene is; what gives way tied to the arrival of
+  what replaces it, never to the whole window; the first frame
+  complete.
 
 ### 8. Captions: `references/09-captions.md`
 
@@ -231,26 +252,42 @@ resume from the repository alone.
 
 ### 10. Render: `references/11-render.md`
 
-- Stills first (`stills.mjs`), then the render: H.264, CRF 16, yuv420p,
-  `--gl=swangle`, concurrency 1 or 2, muted picture muxed with the mix.
+- **The pre-render pass, then one render.** Before the first full render:
+  the cold read, the take's pace and tone, caption pages, stills at every
+  audit word and through every scene change, the text scan, covers, every
+  camera move and scene change listed from the code against the rhythm
+  standard, the code searched for the known fault classes, the music and
+  release checks. Everything found is fixed together. A quick
+  low-resolution preview is a first look at the rhythm, not its gate (one
+  read a median hold of 4.1 s where the full render read 2.92 s).
+- Then the render: H.264, CRF 16, yuv420p, `--gl=swangle`, concurrency 1
+  or 2, muted picture muxed with the mix.
 - Parallel renders go, where the platform has remote sessions, to two
   standing helper sessions, **"video render helper - 1" and "video render
   helper - 2"**, reused by message for every
   render, briefed with the full commit hash, pushing `final.mp4` to an
   orphan branch `render/<NN>-<short hash>` and reporting its SHA-256.
-- One episode can be split across both helpers (`RENDER_FRAMES=a-b`),
-  then joined without re-encoding once the frame counts are checked to
-  meet (`build.py <ep> join`); look either side of the seam.
+- One episode can be split across both helpers (`RENDER_FRAMES=a-b`):
+  each brief names the full hash, the part's frame range and the frame
+  count expected, each part comes back with its SHA-256, and `build.py
+  <ep> join` checks that the parts meet and add up to the composition
+  before joining without re-encoding. Every seam is compared with stills
+  of the frames either side. A part is kept from an earlier commit only
+  when the change provably leaves its frames as they were (a moved end
+  time once almost left eight frames out of step at a seam).
+- An interrupt sent to a helper by mistake is followed at once by a
+  message: its background render survives, and nothing reports it.
 - Only the music changed: remux the new mix under the rendered picture.
 
 ### 11. QA gates: `references/12-qa-gates.md`
 
 All of these, on the delivered file, every time:
 
-- `build.py <ep> qa`: spec, loudness (-14 LUFS ±1) and true peak (≤ -1
-  dBTP), every word aligned, the voice and picture at the reference parts'
-  rhythm and the narrator at their tone, no narration flaws, transcript word error rate
-  ≤ 3 percent with every difference read, every fact verified and logged;
+- `build.py <ep> qa`, fifteen checks: spec, loudness (-14 LUFS ±1) and
+  true peak (≤ -1 dBTP), every word aligned, the voice and picture at the
+  reference parts' rhythm and the narrator at their tone, no narration
+  flaws, transcript word error rate ≤ 3 percent with every difference
+  read, every fact verified and logged;
 - the orphan and safe-zone scan every 0.5 s over the whole episode and
   every cover prints nothing;
 - the picture audit, re-taken on this timeline, every row checked on a
@@ -277,7 +314,11 @@ All of these, on the delivered file, every time:
   before sending).
 - Fix everything, re-render, and send it back to the same reviewer, who
   confirms each fix and looks at what each fix touched. Repeat until a pass
-  finds nothing.
+  finds nothing. A fix the reviewer proposes is worked out on the timeline
+  before it is used.
+- Review early: when the owner wants to publish by a time, the review
+  starts early enough for its fix round to fit. No finding ships for lack
+  of time.
 
 ### 13. Release, posting and read-back: `references/14-release-and-publishing.md`
 
@@ -365,6 +406,7 @@ python pipeline/voice.py replace episodes/07-slug <seg> <first> <last> [seed]   
 python pipeline/voice.py add-line episodes/07-slug <seg> [seed]                  # voice an added line
 python pipeline/rhythm.py standard                          # measure the reference parts into brand.json
 python pipeline/rhythm.py report episodes/07-slug           # voice and picture against them
+python pipeline/rhythm.py moves episodes/07-slug            # every movement and hold it counted, with its word
 python pipeline/voicestyle.py standard                      # the reference parts' tone into brand.json
 python pipeline/voicestyle.py report episodes/07-slug [take.wav]   # a take's tone against them
 python pipeline/voice.py pace-report episodes/07-slug       # pace beside every earlier part
@@ -377,7 +419,8 @@ cd studio && node --experimental-strip-types scripts/caption-pages.ts 07-slug
 cd studio && ORPHANS=1 node scripts/stills.mjs Ep07 /tmp/scan every:0.5
 cd studio && node scripts/covers.mjs
 python pipeline/build.py episodes/07-slug mix|render|mux|qa|remux
-RENDER_FRAMES=0-1012 python pipeline/build.py episodes/07-slug render   # one part; then join
+RENDER_FRAMES=0-1012 python pipeline/build.py episodes/07-slug render   # one part
+python pipeline/build.py episodes/07-slug join              # the parts, checked to meet and to add up
 python pipeline/scaffold.py release 09-reel-slug 07-slug
 python pipeline/publish.py stage|text|check|done|when ...
 ```

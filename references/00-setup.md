@@ -131,6 +131,11 @@ helpers and sub-agents in this skill report into the same record.
   because a full disk stops a render part-way.
 - `pkill -f <pattern>` matches the shell running it when the command line
   contains the pattern, and kills it. Kill by process id.
+- Re-read every compound command (a loop, a chain of `&&`, a heredoc)
+  before running it: a stray `rm -f /dev/null` was once typed into a
+  loop by mistake. Never remove a path built from a variable without
+  `${VAR:?}`, so an empty variable stops the command instead of widening
+  it (`rm -rf "${OUT:?}/frames"`, never `rm -rf "$OUT/frames"`).
 - Check exit codes, not summary lines: a run once printed "passed" and
   exited 1.
 - Vendor every asset the render needs (fonts, images, data) under

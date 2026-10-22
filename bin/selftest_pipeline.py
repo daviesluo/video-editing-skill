@@ -15,6 +15,7 @@
 # directory.
 
 import json
+import math
 import re
 import sys
 import tempfile
@@ -380,9 +381,19 @@ def t_join():
             raise AssertionError(f"accepted {bad}")
         except SystemExit:
             pass
+    # Parts that meet but stop short of the composition's end (a range
+    # briefed one frame short) are refused once the total is known.
+    assert build.check_parts([(0, 1011, 1012), (1012, 1623, 612)], 1624) == 1624
+    try:
+        build.check_parts([(0, 1011, 1012), (1012, 1622, 611)], 1624)
+        raise AssertionError("accepted parts one frame short of the composition")
+    except SystemExit:
+        pass
+    tl = {"lead": 0.3, "duration": 52.2, "tail": 1.4}
+    assert build.composition_frames(tl) == math.ceil((0.3 + 52.2 + 1.4) * config.brand()["frame"]["fps"])
 
 
-case("join refuses parts that do not meet end to end, or are short of frames", t_join)
+case("join refuses parts that do not meet end to end, are short of frames, or stop short of the composition", t_join)
 
 
 def chirp(f0, f1, dur=1.0):
@@ -822,6 +833,19 @@ def t_motion():
 
 
 case("the picture band's movements and holds are counted, the captions left out", t_motion)
+
+
+def t_motion_listing():
+    tl = {"lead": 0.3, "words": [{"text": "Dig", "start": 1.6}, {"text": "down", "start": 5.7}]}
+    rows = rhythm.listing(band_frames([(60, 90), (180, 195)]), 30, tl)
+    # The two movements and the three holds the measure counted, in order,
+    # each with the word being spoken as it starts.
+    kinds = [r.split()[0] for r in rows]
+    assert kinds == ["hold", "move", "hold", "move", "hold"], rows
+    assert '"Dig"' in rows[1] and '"down"' in rows[3] and "before the first word" in rows[0], rows
+
+
+case("the picture measure lists every movement and hold it counted, with its word", t_motion_listing)
 
 
 def t_rhythm_faults():

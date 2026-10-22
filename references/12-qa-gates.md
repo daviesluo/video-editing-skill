@@ -8,8 +8,10 @@ after them comes the independent review (`13-review-and-agents.md`).
 
 ## 1. Automated (`build.py episodes/<id> qa`)
 
-Writes `out/qa.json` and `out/contact-sheet.png`, and exits non-zero on
-any failure.
+Fifteen checks. Writes `out/qa.json` and `out/contact-sheet.png`, and
+exits non-zero on any failure. Every one of them that can run before the
+render already has (`11-render.md`, "Before the full render"), so this run
+confirms on the delivered file what the pre-render pass found clean.
 
 The rhythm and tone rows hold every part to the series' first approved
 parts, which are the measured standard for how fast the voice speaks, how
@@ -90,9 +92,11 @@ that have since moved, reads as evidence and is not.
 - **Every map inset and card to its edges**: a flat map wider than 360°
   of longitude, or centred so that one side passes ±180°, shows a blank
   strip where its plate ends. An end card's small map, 880 px wide at 200
-  px a radian, spanned 251° and showed one through two renders and two
-  reviews; work out each view's span from its scale, do not trust a still
-  that happened to look full.
+  px a radian, spanned about 250° and showed one through two renders and
+  two reviews; work out each view's span from its scale, do not trust a
+  still that happened to look full. A detail plate fades out before its
+  own edge, so no seam shows where the coarser plate takes over
+  (`07-visual-grammars.md`, "A fixed plate for imagery").
 - **The first frame complete** (title set, subject up) and **the last
   frame** a clean end card.
 - **Key text** inside x 90 to 960 and y 250 to 1,230; no label collisions;
@@ -104,7 +108,15 @@ that have since moved, reads as evidence and is not.
   does the reverse: a place modelled as a 3D hole, where a dot sized for
   the view was wanted.
 - **No answer before its word**: nothing on screen, or on the cover, gives
-  the answer to the question being asked before the voice gives it.
+  the answer to the question being asked before the voice gives it; no
+  headline written out before the voice reaches its words; no label
+  naming a change ("Lined up", "moved") before the change.
+- **Nothing left of a closed scene, nothing brought back by a fade**: an
+  element is drawn only while its scene is (a shaft's tick stayed on a
+  planet's edge after its cut had shut), and whatever gives way to a new
+  arrival stays gone (an outline faded as `on × (1 − other)` came back
+  at a quarter as both windows closed, and its straight edge crossed the
+  frame).
 - **No run of camera moves without a beat to read** between them. The
   picture-rhythm row measures it over the whole part; looking finds the
   run itself.
@@ -133,3 +145,14 @@ that have since moved, reads as evidence and is not.
 - **Exit codes, not summary lines.**
 - **A verdict computed under an old rule** is stale once the rule changes;
   re-derive it.
+- **A measure that gates is robust first.** A threshold never sits on the
+  grid its inputs come in: word timings come in 20 ms steps, gaps of
+  exactly 0.12 s fell either side of a 0.12 s pause line, and the same
+  take read 0.1 syllables a second apart between runs; the line is 0.125
+  s. A step that moves timings moves them rather than re-measuring what
+  did not change (`voice.pace` shifts the words with its silence; a
+  re-alignment read the paced take faster with no word changed). A change
+  too short for anyone to see (under 0.2 s) counts as still. And before
+  trusting a fault, list what the measure counted (`rhythm.py moves`):
+  the list says what to fix, and whether the fault is the measure's own
+  limit.

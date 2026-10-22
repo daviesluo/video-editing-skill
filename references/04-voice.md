@@ -133,7 +133,10 @@ take, so it is chosen, not processed:
   and read 0.05 to 0.07 syllables a second faster with no word changed.
   Then `pace-report` again, `recue.py` for any wording that changed, and
   the music re-made, since every segment now starts later. A slightly
-  longer episode is fine; a rushed one is not.
+  longer episode is fine; a rushed one is not. The silence put in is
+  digital zero, below the take's own floor of about -85 dB; under the bed
+  (-20 to -37 dB in every pause) it is not heard, so a review notes it
+  and leaves it.
 
 ## Tone, measured against the reference parts
 

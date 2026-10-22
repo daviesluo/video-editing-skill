@@ -7,11 +7,18 @@ is fixed and confirmed on that file.
 
 ## The loop
 
-1. Build, then run every gate in `12-qa-gates.md` on the render.
+1. Build, run the pre-render pass (`11-render.md`, "Before the full
+   render") until it finds nothing, render once, then run every gate in
+   `12-qa-gates.md` on the render.
 2. Send the render to a reviewer with the exhaustive brief below.
 3. Reproduce each blocker on the artefact before fixing it; fix every
    blocker and every nit not marked "leave as is"; answer in writing any
-   finding you disagree with, with the reason.
+   finding you disagree with, with the reason. A fix the reviewer proposes
+   is a claim like any number: work it out on the timeline before using it
+   (one proposed end time was said to clear a card's arrival and did not),
+   and check that it brings no fault of another class (a map hidden under
+   a veil, as asked, faded with the veil and crossed the card that came
+   in). Fix every finding of a round together, then render once.
 4. Re-render, re-run every gate, and send the new render back **to the
    same reviewer** for a re-check.
 5. Repeat until a pass finds nothing the owner would comment on. Only
@@ -21,10 +28,13 @@ is fixed and confirmed on that file.
 could have caught is a failure of this process, not a new request. A
 review of an earlier render does not count once anything has changed.
 Nor is a finding shipped because time ran out: a blocker or a nit worth
-fixing that survives to release is the same failure. When the owner wants
-to publish by a time, the review starts early enough for its fix round,
-re-render and re-check to fit before it; a deadline moves the review
-earlier, never the bar lower.
+fixing that survives to release is the same failure. One part went out
+the night it was due with a whip pan, a tick of a shaft left on a
+planet's edge and, found only once it was live, a border line flashing
+across the frame; the owner's answer was that problems like these must
+never appear again. When the owner wants to publish by a time, the review
+starts early enough for its fix round, re-render and re-check to fit
+before it; a deadline moves the review earlier, never the bar lower.
 
 **When the owner is waiting to publish**, everything goes into that one
 deliverable until it ships. Other work may run (a review of another
@@ -35,7 +45,18 @@ even when the next step has already started.
 **When the owner raises something new**: fix it where it was pointed at;
 write the general rule into the project's standards in the same turn;
 search every episode and post for the same class of problem and fix those
-too. A rule written down is a rule every later review checks.
+too. A rule written down is a rule every later review checks. When the
+fault traces to a standard the owner had already given, say so plainly,
+and fix the rule or the check that let it through as well as the episode:
+a standard that did not catch its own case is not yet written well
+enough.
+
+**When the owner withdraws a request** ("forget I said it, render as
+before"), undo it cleanly: revert the trial, prove the tree is back where
+it was (the files' hashes, or `git diff` against the commit before the
+trial, empty), commit nothing of it, and say so in one line. A later
+finding that touches what the owner asked for and withdrew goes back to
+the owner to decide, rather than being fixed unasked.
 
 **When the owner brings another reviewer's report**, take it seriously:
 apply what you agree with, disagree in writing with the reason when you
@@ -237,9 +258,13 @@ Pass one, every category, in this order:
    of each key word and check what the row claims.
 3. Every frame: extract all frames; contact sheets every 0.5 s with the safe
    box drawn; every scene change and camera move in 0.03 to 0.1 s steps;
-   any run of camera moves with no beat to read between them; anything that
-   shows the answer to the question being asked before the voice gives it,
-   in the episode or on the cover.
+   each camera move's speed against its sibling moves (a half-turn four
+   times faster than its twin is a whip pan); any scene change made of
+   several short moves, or any run of camera moves with no beat to read
+   between them; anything that shows the answer to the question being
+   asked before the voice gives it, in the episode or on the cover; any
+   element left after its scene, or brought back by a fade; every plate
+   edge and every flat map view's span worked out from its scale.
 4. Type and layout: run ORPHANS=1 stills every 0.5 s; labels on lines or
    coasts, text over subjects, collisions, anything over the captions, key
    text outside x 90 to 960 / y 250 to 1,230, stray labels under end cards.

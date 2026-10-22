@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0-brightgreen.svg)](#version)
-[![Self-test](https://img.shields.io/badge/self--test-78%20cases-brightgreen.svg)](#install-and-invoke)
+[![Self-test](https://img.shields.io/badge/self--test-89%20cases-brightgreen.svg)](#install-and-invoke)
 [![Tools](https://img.shields.io/badge/runs%20on-Claude%20Code%2C%20Cursor%2C%20Codex-lightgrey.svg)](#requirements)
 
 A short explainer should reach the person who commissioned it with
@@ -72,10 +72,13 @@ grammar and rights rules for maps and globes, charts, timelines, archival
 photographs and documents, quotes and book text, companies and logos, and
 science diagrams.
 
-**The checks.** Thirteen automated gates on the delivered file
-(loudness, true peak, alignment, stray sounds and clicks in the
-narration, transcript against script, facts verified and logged, the
-spec), a scan of every on-screen text every half second for orphan words
+**The checks.** Every check that can run before the render runs first,
+and everything it finds is fixed in one round, so the video is rendered
+once. Then fifteen automated gates on the delivered file (the spec,
+loudness, true peak, alignment, the voice's pace and the picture's rhythm
+and the narrator's tone against the series' first approved parts, stray
+sounds and clicks in the narration, transcript against script, facts
+verified and logged), a scan of every on-screen text every half second for orphan words
 and the safe zone, a picture audit that checks what is on screen at every
 key word, caption pages listed and read, a music check (holes, seams, the
 held ending), a cover check in the grid tile, and a release text lint.
