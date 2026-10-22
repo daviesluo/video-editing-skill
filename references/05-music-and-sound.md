@@ -130,12 +130,40 @@ plan asked for is not the tempo it came back at (one asked-for lift was
 ## Picture on the drums
 
 When pictures and words arrive to music rather than to a voice, each one
-lands on a drum hit of the mix as heard: detect the percussive onsets of
-the final music stem (their attacks, the weaker half dropped), write them
-out, and take every cut-in and word time from that list, keeping a
-readable gap between words. A fixed rate on the beat grid is not the same
+lands on a drum accent of the mix as heard. A hat that ticks every
+sixteenth puts some hit near every moment, so "near an onset" proves
+nothing: read the final music stem on its sixteenth-note grid (the phase
+where its beats sum loudest), sum the onsets of the low, middle and high
+bands at every grid point, average each of the sixteen positions over two
+bars, and keep the positions at least about a third as strong as the
+strongest, each with its strength, nudged onto its onset. A section then
+starts on a beat, its words type in a group at a time on the strong
+accents (kick, snare, clap), and pile pictures land on accents between;
+after the drop, only on the strong ones, or they fall on a weak hit a
+sixteenth before the kick. Measure the delivered file against both the
+list and the audio itself. A fixed rate on the beat grid is not the same
 thing: where the track's hits are syncopated, half the words fall between
-them, and the owner hears it at once.
+them, and the owner heard it at once.
+
+A statement or payoff line ("With just 146 employees.") is not typed: it
+lands whole on its beat and stays whole for at least 0.9 s. Typed in
+groups, one payoff was complete for six frames.
+
+## Bites and the end
+
+- Level each sound bite to its own integrated loudness (EBU R128 on the
+  cut), not on its "voiced" samples: on a quiet clip those are only its
+  peaks, and one bite came out 4 dB under the others.
+- Check the bed's band balance and its loudness through a phone speaker
+  (a 300 Hz high-pass) against the reference's: one generated bed carried
+  almost all its weight under 150 Hz and played 4 dB quieter on a phone
+  than the reference at the same integrated loudness.
+- Limit at four times the sample rate, so the true peak holds: a brighter
+  mix passed -1 dBTP through a plain limiter.
+- A reel loops: the sound fades to silence over its last half second, and
+  the picture and the sound are the same whole number of frames. One end
+  chopped a hit's tail at -25 dBFS straight into the opening laugh, and a
+  mux with `-shortest` dropped three frames of picture.
 
 ## The bed is produced music
 

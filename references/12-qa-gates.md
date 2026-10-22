@@ -57,7 +57,13 @@ its pitch, its words' levels and its first sentence's level were outside.
 | release text | `python pipeline/publish.py check <release>` | "text and cover OK" |
 
 Run the orphan scan over the whole episode before every render, not only
-the parts that changed: a fix in one scene moves labels in another. In
+the parts that changed: a fix in one scene moves labels in another. The
+probe has to be mounted in the composition (`kit/Finish.tsx` mounts it; an
+episode that drops `Finish` mounts `<OrphanProbe />` itself): it logs
+that it ran on every still, and `stills.mjs` fails any still without that
+line ("NO-PROBE"). An episode once stopped mounting it, and its scans
+printed nothing with six texts outside the box. A line that types in
+(marked `data-typing` while incomplete) is judged once it is whole. In
 the scan the 3D globe is not drawn (`GlobeView` skips it when the
 `orphans` prop is set), so a whole episode scans in minutes; the text is
 laid out exactly as in the render. Its stills are for the probe, not for

@@ -47,6 +47,9 @@ const inlineOnly = (el: Element) =>
 const scan = () => {
   const found = new Set<string>();
   for (const el of document.querySelectorAll("div, span, p, b")) {
+    // A line still typing in (marked data-typing) is judged once it is
+    // whole: lines that grow from the centre leave a word alone for a beat.
+    if (el.closest("[data-typing]")) continue;
     const cs = getComputedStyle(el);
     let words: Word[] = [];
     if (cs.display.includes("flex") && cs.flexWrap === "wrap") {
@@ -68,7 +71,11 @@ const scan = () => {
         .map((c) => ({ text: (c.textContent ?? "").trim(), box: c.getBoundingClientRect() }))
         .filter((c) => c.text && c.box.width > 0)
         .map((c) => ({ text: c.text, top: c.box.top, height: c.box.height }));
-    } else if (!cs.display.startsWith("inline") && [...el.childNodes].some((c) => c.nodeType === 3 && c.textContent?.trim()) && inlineOnly(el)) {
+    } else if (!cs.display.startsWith("inline") && (el.textContent ?? "").trim() && inlineOnly(el)) {
+      // The lowest block holding text, whether its words are its own text
+      // or sit in inline spans (a line typed a word at a time sets each
+      // word in a span; a probe that wanted the block's own text skipped
+      // those).
       words = textWords(el);
     }
     const ls = lines(words);
@@ -140,6 +147,10 @@ export const OrphanProbe: React.FC = () => {
         scan();
         unsafe();
         glyphs();
+        // Proof the probe ran on this still: scripts/stills.mjs fails a
+        // still without it. A composition that stopped mounting the probe
+        // once "passed" every scan with six texts outside the box.
+        console.log("PROBE|ok");
         continueRender(handle);
       }),
     );

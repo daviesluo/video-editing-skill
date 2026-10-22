@@ -29,6 +29,7 @@ let hits = 0;
 for (const t of list) {
   const frame = Math.min(composition.durationInFrames - 1, Math.max(0, Math.round(t * composition.fps)));
   const output = path.resolve(outDir, `${id}-${t.toFixed(2)}.png`);
+  let probed = false;
   await renderStill({
     composition,
     serveUrl,
@@ -43,8 +44,15 @@ for (const t of list) {
           console.log(`${kind} ${t.toFixed(2)} ${log.text.slice(kind.length + 1)}`);
         }
       }
+      if (log.text === "PROBE|ok") probed = true;
     },
   });
+  // No findings prove nothing unless the probe ran: every composition
+  // mounts <OrphanProbe /> (kit/Finish.tsx does).
+  if (process.env.ORPHANS && !probed) {
+    hits++;
+    console.log(`NO-PROBE ${t.toFixed(2)} the probe did not run; mount <OrphanProbe /> in ${id}`);
+  }
   if (!process.env.ORPHANS) console.log(output);
 }
 // Each bundle is about 100 MB in the temporary folder; left behind, a day
