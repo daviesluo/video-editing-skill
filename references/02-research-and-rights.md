@@ -100,6 +100,13 @@ almost always exists. This is practical guidance for choosing safe
 material, not legal advice; where real money or a real dispute is
 involved, ask someone qualified.
 
+The rules below are the defaults. When the owner has taken qualified
+legal advice and decides otherwise for a series (for example that news
+footage, film clips, press headlines and company logos may be used for
+the series' commentary), the series layer records the decision, its date
+and its limits, and it wins for that series. Do not raise the risk again
+once the owner has decided; keep logging every element as below.
+
 ### Maps and geographic data
 
 - Natural Earth is public domain; credit it anyway ("Maps: Natural
@@ -183,8 +190,12 @@ involved, ask someone qualified.
 ### Footage, music and sound
 
 - Stock footage only with a licence record (service, licence, date,
-  clip id). No clips from films, television, news broadcasts or other
-  creators, however short.
+  clip id). By default no clips from films, television, news broadcasts
+  or other creators, however short. Where the series layer allows them
+  (the owner's decision on legal advice, above), each clip is still
+  logged in the asset log (programme or source, its owner, air or
+  release date, the timecodes used), cut into the series' own edit with
+  its own narration, type and grade, and never reposted as it was.
 - Music and sound effects: see `05-music-and-sound.md`. Never the
   platform's in-app music baked into an upload, meme or television
   samples, or anything found by searching the internet.
