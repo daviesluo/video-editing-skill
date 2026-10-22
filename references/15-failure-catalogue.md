@@ -141,6 +141,8 @@ new class of failure appears, in the same commit as the fix.
 | Failure | Rule | Check |
 |---|---|---|
 | stills bundles (100 MB each) filled the disk | scripts delete their bundle | `stills.mjs` |
+| raw downloads (1.9 GB) sat under the studio's `public/`, which Remotion copies into every bundle; a render and a scan at once filled the disk | only the cut clips the episode uses live in `public/`; the sources stay outside it | `du -sh public` |
+| a render failed on a full disk, its error hidden by an output filter, and the previous video was muxed and nearly sent | delete the old output before rendering, check the render's exit status, never filter its output in a way that hides an error, and look at the new file's frames before sending | the exit status; the new file's time and frames |
 | an episode stopped mounting the component that held the orphan probe; every scan printed nothing and was reported as "0 findings" while six texts sat outside the safe box | the probe logs that it ran on every still, and a still without that line fails the scan ("NO-PROBE"); a check is trusted only once it is known to be able to fail | `stills.mjs` |
 | a reframed photo's bottom edge ran across the tops of the last line's letters for 2.3 s; the text scan only reads text, so it passed | the probe compares dark page type with every layer marked `data-picture` ("CLASH"); a new check is first run where the fault is known to be | `stills.mjs` |
 | a one-frame cover composition always showed frame 0 | a cover composition is as long as its episode | `coverMetadata` |

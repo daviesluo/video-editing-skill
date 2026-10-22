@@ -137,12 +137,12 @@ const glyphs = () => {
   }
 };
 
-// Page type that runs into a picture: dark text (the page's ink, not the
-// white subtitles set on a clip on purpose) whose letters meet the box of
-// an element marked data-picture (a photo or clip layer), as
-// clipped by its masks. Logged as "CLASH|<text>|<overlap in px>". A
-// framing change once laid a photo's edge across the last line for 2.3 s,
-// and no other check could see it.
+// Page type that runs into a picture: text set on the page (not marked
+// data-on-picture, as subtitles and credits set on a clip on purpose are)
+// whose letters meet the box of an element marked data-picture (a photo or
+// clip layer), as clipped by its masks. Logged as "CLASH|<text>|<overlap
+// in px>". A framing change once laid a photo's edge across the last line
+// for 2.3 s, and no other check could see it.
 const visibleBox = (el: Element) => {
   let { left: l, top: t, right: rt, bottom: b } = el.getBoundingClientRect();
   for (let e = el.parentElement; e; e = e.parentElement) {
@@ -160,9 +160,7 @@ const clash = () => {
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const text = n.textContent?.trim();
     const own = n.parentElement;
-    if (!text || !own || seenOpacity(own) < 0.05 || own.closest("[data-picture]")) continue;
-    const [r, g, bl] = (getComputedStyle(own).color.match(/[\d.]+/g) ?? ["255", "255", "255"]).map(Number);
-    if (0.299 * r + 0.587 * g + 0.114 * bl > 128) continue;
+    if (!text || !own || seenOpacity(own) < 0.05 || own.closest("[data-picture], [data-on-picture]")) continue;
     const range = document.createRange();
     range.selectNodeContents(n);
     let worst = 0;
