@@ -177,7 +177,21 @@ voice; raise both for a higher one, then re-measure the standard).
 ## Choosing among seeds, by measurement
 
 A take can sound different on every seed. Generate three to six, then
-keep the one that measures best, not the one that happened first:
+keep the one that measures best, not the one that happened first.
+
+**Seeds cost credits.** Each whole take costs its length in characters,
+every time, and a music bed costs more. Before a batch, read the
+account's remaining characters (`/v1/user/subscription`), work out what
+the batch will spend, and say so to the owner when it is a real share of
+the month. Two parts' seed searches (about 45 whole takes and two dozen
+music beds) once used up a plan's month in two days, and a one-line fix
+had to wait on new credit. Search in stages: a handful of seeds, measure,
+then more only if none passes. Keep several keys behind one server-side
+proxy that moves to the next when one runs out, and check each key's
+plan once: a free-tier key cannot use a library voice through the API or
+the higher-quality formats, so it fails exactly when it is needed.
+
+What to measure:
 
 - **The transcript reads as written.** A recogniser hears the take; a
   question meant as one must be heard as one ("Where would you come out
