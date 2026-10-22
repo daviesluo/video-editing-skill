@@ -83,6 +83,12 @@ that have since moved, reads as evidence and is not.
 - **Every scene change and camera move** in 0.03 to 0.1 s steps: no
   double exposure, no crossing movers, no pop, no flash, no empty caption
   band, no plate edge, no straight edge where a picture should continue.
+- **Every map inset and card to its edges**: a flat map wider than 360°
+  of longitude, or centred so that one side passes ±180°, shows a blank
+  strip where its plate ends. An end card's small map, 880 px wide at 200
+  px a radian, spanned 251° and showed one through two renders and two
+  reviews; work out each view's span from its scale, do not trust a still
+  that happened to look full.
 - **The first frame complete** (title set, subject up) and **the last
   frame** a clean end card.
 - **Key text** inside x 90 to 960 and y 250 to 1,230; no label collisions;
