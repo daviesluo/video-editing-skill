@@ -137,6 +137,49 @@ const glyphs = () => {
   }
 };
 
+// Page type that runs into a picture: dark text (the page's ink, not the
+// white subtitles set on a clip on purpose) whose letters meet the box of
+// an element marked data-picture (a photo or clip layer), as
+// clipped by its masks. Logged as "CLASH|<text>|<overlap in px>". A
+// framing change once laid a photo's edge across the last line for 2.3 s,
+// and no other check could see it.
+const visibleBox = (el: Element) => {
+  let { left: l, top: t, right: rt, bottom: b } = el.getBoundingClientRect();
+  for (let e = el.parentElement; e; e = e.parentElement) {
+    if (getComputedStyle(e).overflow === "visible") continue;
+    const c = e.getBoundingClientRect();
+    [l, t, rt, b] = [Math.max(l, c.left), Math.max(t, c.top), Math.min(rt, c.right), Math.min(b, c.bottom)];
+  }
+  return { l, t, rt, b };
+};
+
+const clash = () => {
+  const pictures = [...document.querySelectorAll("[data-picture]")].filter((p) => seenOpacity(p) >= 0.05).map(visibleBox).filter((p) => p.rt - p.l > 1 && p.b - p.t > 1);
+  if (!pictures.length) return;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent?.trim();
+    const own = n.parentElement;
+    if (!text || !own || seenOpacity(own) < 0.05 || own.closest("[data-picture]")) continue;
+    const [r, g, bl] = (getComputedStyle(own).color.match(/[\d.]+/g) ?? ["255", "255", "255"]).map(Number);
+    if (0.299 * r + 0.587 * g + 0.114 * bl > 128) continue;
+    const range = document.createRange();
+    range.selectNodeContents(n);
+    let worst = 0;
+    for (const box of range.getClientRects()) {
+      // The letters, not the line box: a tenth off the top and the bottom.
+      const t = box.top + box.height * 0.1;
+      const b = box.bottom - box.height * 0.1;
+      for (const p of pictures) {
+        const w = Math.min(box.right, p.rt) - Math.max(box.left, p.l);
+        const h = Math.min(b, p.b) - Math.max(t, p.t);
+        if (w > 0 && h > 0) worst = Math.max(worst, Math.round(h));
+      }
+    }
+    if (worst > 0) console.log(`CLASH|${text}|${worst}`);
+  }
+};
+
 export const OrphanProbe: React.FC = () => {
   useEffect(() => {
     if (!ON) return;
@@ -147,6 +190,7 @@ export const OrphanProbe: React.FC = () => {
         scan();
         unsafe();
         glyphs();
+        clash();
         // Proof the probe ran on this still: scripts/stills.mjs fails a
         // still without it. A composition that stopped mounting the probe
         // once "passed" every scan with six texts outside the box.

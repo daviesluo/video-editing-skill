@@ -142,6 +142,7 @@ new class of failure appears, in the same commit as the fix.
 |---|---|---|
 | stills bundles (100 MB each) filled the disk | scripts delete their bundle | `stills.mjs` |
 | an episode stopped mounting the component that held the orphan probe; every scan printed nothing and was reported as "0 findings" while six texts sat outside the safe box | the probe logs that it ran on every still, and a still without that line fails the scan ("NO-PROBE"); a check is trusted only once it is known to be able to fail | `stills.mjs` |
+| a reframed photo's bottom edge ran across the tops of the last line's letters for 2.3 s; the text scan only reads text, so it passed | the probe compares dark page type with every layer marked `data-picture` ("CLASH"); a new check is first run where the fault is known to be | `stills.mjs` |
 | a one-frame cover composition always showed frame 0 | a cover composition is as long as its episode | `coverMetadata` |
 | `pkill -f` killed its own shell | kill by process id | |
 | a run printed "passed" and exited 1 | read exit codes | |

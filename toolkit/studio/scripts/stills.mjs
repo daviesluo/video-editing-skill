@@ -4,7 +4,9 @@
 // With ORPHANS=1 the orphan and safe-zone probe runs on every still and
 // prints "ORPHAN <time> <text>" for a block whose last line holds one word
 // "UNSAFE <time> <text>|<box>" for text outside the safe box, and "GLYPH
-// <time> <char>|<text>" for a character the vendored face cannot set. Scan
+// <time> <char>|<text>" for a character the vendored face cannot set, and
+// "CLASH <time> <text>|<px>" for dark page type that runs into a picture
+// marked data-picture. It fails a still where the probe did not run. Scan
 // the whole episode every 0.5 s, and every cover, before any render; it
 // must report 0 findings.
 import { bundle } from "@remotion/bundler";
@@ -38,7 +40,7 @@ for (const t of list) {
     inputProps,
     chromiumOptions: { gl: "swangle" },
     onBrowserLog: (log) => {
-      for (const kind of ["ORPHAN", "UNSAFE", "GLYPH"]) {
+      for (const kind of ["ORPHAN", "UNSAFE", "GLYPH", "CLASH"]) {
         if (log.text.startsWith(`${kind}|`)) {
           hits++;
           console.log(`${kind} ${t.toFixed(2)} ${log.text.slice(kind.length + 1)}`);

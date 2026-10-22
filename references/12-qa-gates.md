@@ -49,7 +49,7 @@ its pitch, its words' levels and its first sentence's level were outside.
 
 | Gate | Command | Pass |
 |---|---|---|
-| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block whose last line holds one word ("ORPHAN"), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH") |
+| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block whose last line holds one word ("ORPHAN"), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH"), no dark page type running into a picture marked `data-picture` ("CLASH"), and the probe ran on every still (no "NO-PROBE") |
 | caption pages | `node --experimental-strip-types scripts/caption-pages.ts <id>` | every page read; none flagged; no phrase the eye reads as one unit split |
 | music | `python pipeline/music.py check episodes/<id> <take>` on the take in use | `"passed": true` |
 | sound-effect plan | the `sfx:` lines `build.py ... mix` prints | none |
@@ -63,7 +63,11 @@ episode that drops `Finish` mounts `<OrphanProbe />` itself): it logs
 that it ran on every still, and `stills.mjs` fails any still without that
 line ("NO-PROBE"). An episode once stopped mounting it, and its scans
 printed nothing with six texts outside the box. A line that types in
-(marked `data-typing` while incomplete) is judged once it is whole. In
+(marked `data-typing` while incomplete) is judged once it is whole. Mark
+every photo or clip layer `data-picture`: a new framing once laid a
+photo's edge across the tops of the last line's letters for 2.3 s, which
+only a reviewer saw. Before trusting a new check, run it once where the
+fault is known to be and see it fire. In
 the scan the 3D globe is not drawn (`GlobeView` skips it when the
 `orphans` prop is set), so a whole episode scans in minutes; the text is
 laid out exactly as in the render. Its stills are for the probe, not for
