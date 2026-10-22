@@ -196,6 +196,15 @@ once the owner has decided; keep logging every element as below.
   logged in the asset log (programme or source, its owner, air or
   release date, the timecodes used), cut into the series' own edit with
   its own narration, type and grade, and never reposted as it was.
+- Fetch each clip at the best format its source holds, with no height
+  cap (`yt-dlp -f 'bv*+ba/b'`), from the owner's own upload where there
+  is one, and read its resolution before cutting: a soft or upscaled
+  copy is a fault the review will find. A host may refuse a cloud machine
+  (YouTube answers 403 on media files when the outgoing IP changes
+  between the page and the download): fetch through one fixed outgoing
+  IP that the owner provides and approves for the machine, without
+  cookies, or have the owner send the files; never settle for a lower
+  copy because the better one was refused.
 - Music and sound effects: see `05-music-and-sound.md`. Never the
   platform's in-app music baked into an upload, meme or television
   samples, or anything found by searching the internet.
