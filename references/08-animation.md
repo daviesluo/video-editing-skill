@@ -189,6 +189,31 @@ never the caption.
   boredom.
 - Reveal in sequence; never dump a full slide.
 
+## Imitating a reference reel
+
+When the owner asks for a video in the form of a reference reel, the
+reference is the specification, and it is read at every frame, never by
+samples (an owner, on a first draft built from frames 0.5 s apart: "far
+worse than the original"; "every 0.5 s is not nearly enough"):
+
+- Compare each frame with the one before it, group the changes into
+  events, and list every event to the frame: what appears, where, at what
+  size, and how (in one frame, sliding in from an edge over a few frames,
+  growing in steps, typing a word or a letter at a time). Then look at
+  every event as a strip of consecutive frames.
+- Copy its motion grammar exactly. Where the reference cuts layers in
+  within one frame, steps a clip from small to large to full-bleed in hard
+  steps, and types whole words, do the same: a default eased pop, a
+  scale-fade or a letter-by-letter fade on top of it reads as a template.
+- Measure what it shows as well as how: type sizes by frame width, how
+  densely pictures overlap, which pictures move, how long each line holds,
+  and how often something new arrives (count events per 10 s and compare).
+- Read its sound the same way (`05-music-and-sound.md`, "Matching a
+  reference's sound") before writing a music request.
+- Write the beat-by-beat plan against the reference's own times, build
+  the first part, and show it beside the reference at the same moments
+  before building the rest.
+
 ## The picture's rhythm
 
 How busy the picture is belongs to the series as much as how fast the

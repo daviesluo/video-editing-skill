@@ -111,12 +111,31 @@ failures above, not taste.
 - Prompts for generated effects stay soft, close, dry and short; keep the
   plan and date of every generated take.
 
+## Matching a reference's sound
+
+When a video imitates a reference reel, its sound is measured before any
+music is requested: a spectrogram of each section, the loudness every
+0.5 s, the tempo from the onsets, which picture changes land on the
+music's own accents, and what sounds come from the clips themselves. One
+reference's quiet first half carried a crisp sixteenth-note pulse (ticking
+hats and a plucked figure) at -22 dBFS, the drop added 11 dB on one
+downbeat, the pictures cut in on the music's accents with no effects of
+their own, and the end was one low hit with a two-second tail. A first
+draft against it had a sustained pad with nothing above 4 kHz, bites as
+loud as the drive, a 4 dB lift and a pop on every picture, and the owner
+heard at once that it was far worse. Measure the take too: the tempo the
+plan asked for is not the tempo it came back at (one asked-for lift was
+3 s late and the beat 2 percent off), so time the edit from the take.
+
 ## Never, and the licence record
 
 - Never the platform's in-app music baked into an upload (it is licensed
   for that platform's own use, and a claim follows the file elsewhere),
-  meme, film or television samples, or anything found by searching the
-  internet.
+  meme, film or television samples, or audio from anywhere without a
+  licence that covers the use. Ready-made effects from a library whose
+  licence allows commercial use without attribution (Mixkit's free
+  licence, Freesound's CC0 sounds) are welcome; not every effect has to be
+  generated.
 - Every bed and effect has a record: service, model or library, seed or
   clip id, plan and terms version with date, and what use the terms allow.
   Generate only on a plan whose terms allow commercial use, and while on
