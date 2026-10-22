@@ -127,6 +127,26 @@ heard at once that it was far worse. Measure the take too: the tempo the
 plan asked for is not the tempo it came back at (one asked-for lift was
 3 s late and the beat 2 percent off), so time the edit from the take.
 
+## Picture on the drums
+
+When pictures and words arrive to music rather than to a voice, each one
+lands on a drum hit of the mix as heard: detect the percussive onsets of
+the final music stem (their attacks, the weaker half dropped), write them
+out, and take every cut-in and word time from that list, keeping a
+readable gap between words. A fixed rate on the beat grid is not the same
+thing: where the track's hits are syncopated, half the words fall between
+them, and the owner hears it at once.
+
+## The bed is produced music
+
+An owner who heard a generated take beside a reference reel's produced
+track said the sound was still far worse, after the take had been cut to
+the picture and levelled to the reference's profile. Where the reference's
+bed is a produced track, so is ours: a licensed library track, or the
+reference's own when it can be identified and licensed. Shortlist by
+measurement against the reference (tempo, the quiet half, the drop, the
+end), then the owner picks by ear.
+
 ## Never, and the licence record
 
 - Never the platform's in-app music baked into an upload (it is licensed
