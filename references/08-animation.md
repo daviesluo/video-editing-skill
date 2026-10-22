@@ -214,6 +214,31 @@ worse than the original"; "every 0.5 s is not nearly enough"):
   the first part, and show it beside the reference at the same moments
   before building the rest.
 
+## The finishing pass on collage footage
+
+When a film is built from archive footage and press photos (a reel of
+pictures cutting in on the drums, not a drawn explainer), these lift it
+from assembled to finished; an owner asked for all of them after seeing
+the edit "a level below" a reference reel:
+
+- **One grade over every picture and clip**, not over the page or the
+  type: a touch more contrast, a little less saturation, a slight warmth,
+  so footage from five decades and four broadcasters reads as one film,
+  while a black page stays pure black and white type pure white.
+- **Film grain and a soft vignette over the frame**, the grain in overlay
+  so it shows on the pictures and not on pure black or white.
+- **People cut out of their press photos** (rembg with the BiRefNet
+  portrait model on CPU, about 35 s an image; run one image per process, as
+  a batch in one process grew past 14 GB and was killed), cropped to the
+  bust and fading into the page at their foot, so they stand on nothing.
+  Check every edge by eye: take a coloured backdrop's spill off the hair
+  (clamp green to the larger of red and blue), crop away legs and chairs.
+- **Motion blur on every move** (Remotion's `CameraMotionBlur`, 180 degree
+  shutter, about ten samples, only on the frames that move, since it
+  renders each of them that many times): a picture sliding in streaks in
+  as a camera would see it; without it, a slide reads as drawn.
+- Not upscaling: a GAN invents face detail, which is the look to avoid.
+
 ## The picture's rhythm
 
 How busy the picture is belongs to the series as much as how fast the
