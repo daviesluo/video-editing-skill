@@ -189,4 +189,12 @@ Then
 - The bio never mentions how the videos are made and gives a concrete
   reason to follow: what the account posts, two of its real questions as
   examples, and how often, in short grammatical lines.
-- The avatar is simple, bold and stylised, striking at 110 px.
+- The avatar is simple, bold and stylised, striking at 110 px. Its figure
+  fills about half to two thirds of the circle, not more (an owner found a
+  grid filling 59 percent of the width too big), and is centred by its
+  visual weight, never by the bounding box: an asymmetric figure (a grid
+  with one square pushed out) centred by its box sits visibly off to one
+  side. Show it to the owner at full size and as the app shows it, a
+  circle at about 160, 44 and 28 px on light and dark, and send the
+  1080x1080 originals so they can upload and look before choosing.
+- In the bio, "every day" (adverb) not "everyday" (adjective).
