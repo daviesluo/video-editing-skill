@@ -14,6 +14,11 @@ The checks, and the failure each one exists for:
   voice in syllables a second and its shortest pauses, the picture in how
   much of the time it moves, how often and how long it holds still; a part
   passed every other check and two reviews and was still rushed;
+- the narrator's tone at the reference parts' (brand.json `voice_tone`,
+  `voicestyle.measure`, on the take): pitch, its movement within
+  sentences, the words' loudness, brightness and the hook's energy; a take
+  slowed by a direction tag kept the pace and was heard at once as a
+  different, listless reading;
 - no stray sounds or clicks in the narration (`voice_flaws`);
 - the transcript matches the script (WER at or under 3 percent; read every
   difference by eye, because one wrong word is under 3 percent);
@@ -31,6 +36,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from config import brand, public_dir
 import rhythm
+import voicestyle
 from voice import TAG, _norm, _pcm16k, whisper_model
 
 
@@ -242,6 +248,12 @@ def run(episode, timeline, final_mp4, out_dir, ep_dir):
     else:
         flaws = [f"no take at {voice_wav}"]
     check("no stray sounds or clicks in the narration", not flaws, flaws)
+    if voice_wav.exists():
+        tone = voicestyle.measure(voice_wav, timeline["words"])
+        off = voicestyle.faults(tone)
+        check("narrator's tone at the reference parts'", not off, {"faults": off, **tone})
+    else:
+        check("narrator's tone at the reference parts'", False, f"no take at {voice_wav}")
     script = " ".join(s["text"] for s in episode["segments"])
     hotwords = episode.get("qa", {}).get("hotwords")
     heard = transcribe(final_mp4, hotwords, whisper_model(episode))

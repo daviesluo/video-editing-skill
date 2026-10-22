@@ -11,15 +11,18 @@ after them comes the independent review (`13-review-and-agents.md`).
 Writes `out/qa.json` and `out/contact-sheet.png`, and exits non-zero on
 any failure.
 
-The two rhythm rows hold every part to the series' first approved parts,
-which are the measured standard for how fast the voice speaks and how busy
-the picture is (`04-voice.md`, "Pace, measured against the reference
-parts"; `08-animation.md`, "The picture's rhythm"). A part that felt rushed
-beside its four reference parts was outside on every measure: 5.22
-syllables a second in speech against 4.86 to 5.19, the picture moving 29
+The rhythm and tone rows hold every part to the series' first approved
+parts, which are the measured standard for how fast the voice speaks, how
+the narrator sounds and how busy the picture is (`04-voice.md`, "Pace,
+measured against the reference parts" and "Tone, measured against the
+reference parts"; `08-animation.md`, "The picture's rhythm"). A part that
+felt rushed beside its four reference parts was outside on every measure:
+5.22 syllables a second in speech against 4.86 to 5.13, the picture moving 29
 percent of the time against at most 18, 2.81 movements per 10 s against at
 most 1.89, a median hold of 2.03 s against at least 2.57. Words a second
-had not shown it.
+had not shown it. A take slowed into the pace range by a direction tag kept
+the pace and lost the tone: the owner heard a listless opening at once, and
+its pitch, its words' levels and its first sentence's level were outside.
 
 | Check | Pass |
 |---|---|
@@ -32,7 +35,8 @@ had not shown it.
 | loudness | -14 LUFS integrated, within 1 LU, on the delivered file |
 | true peak | at or under -1 dBTP, on the delivered file |
 | alignment | every script word matched by the aligner (none interpolated) |
-| voice pace | inside the reference parts' range (`brand.json` `rhythm.limits`, measured by `rhythm.py standard`): syllables a second within speech and over the whole narration between their slowest and fastest, no sentence pause or section break shorter than their shortest; judged beside every earlier part with `voice.py pace-report` |
+| voice pace | inside the reference parts' range (`brand.json` `rhythm.limits`, measured by `rhythm.py standard`): syllables a second within speech (pauses over 0.125 s taken out; up to 0.05 outside allowed, the alignment's own noise) and over the whole narration between their slowest and fastest, no sentence pause or section break shorter than their shortest; judged beside every earlier part with `voice.py pace-report` |
+| narrator's tone | on the take, inside the reference parts' range on every measure, within `voice_tone.tolerance` (`brand.json` `voice_tone.limits`, measured by `voicestyle.py standard`): pitch median, spread and movement within sentences, the spread of the words' levels, brightness, and the hook's pitch movement and level against the take (`voicestyle.py report episodes/<id>`) |
 | picture rhythm | on the delivered file, the picture band between the headline and the captions moving no more of the time than the busiest reference part, in no more separate movements per 10 s, with a median hold between movements no shorter than theirs (`rhythm.py report episodes/<id>`) |
 | narration flaws | no stray sound on no word, no splice into sound, no click in a pause, silent first and last samples |
 | transcript | word error rate at or under 3 percent against the script; read every listed difference by eye, because one wrong word is under 3 percent |
@@ -109,8 +113,8 @@ that have since moved, reads as evidence and is not.
 - **Each cover** at full size and in the 3:4 tile.
 - **Listen** to the opening, each musical lift and the ending of the
   delivered file, at phone volume and on headphones, and to the whole of
-  it once for pace against the earlier parts: a part can pass every check
-  and still sound rushed.
+  it once for pace and tone against the earlier parts: a part can pass
+  every check and still sound rushed, or like another reading.
 
 ## What counts as evidence
 

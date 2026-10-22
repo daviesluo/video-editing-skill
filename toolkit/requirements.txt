@@ -9,5 +9,9 @@ faster-whisper==1.2.1
 fonttools==4.67.0
 brotli==1.2.0
 pyshp==2.3.1
+# The narrator's tone (voicestyle.py: pyin pitch, level, spectral centroid).
+# numba is pinned with it because its releases follow numpy's.
+librosa==0.10.2.post1
+numba==0.68.0
 # Optional, pipeline tests only (VOICE_PROVIDER=kokoro); never ships:
 # kokoro==0.9.4

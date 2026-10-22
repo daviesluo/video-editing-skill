@@ -62,13 +62,15 @@ topic → research → script → voice → music → scenes → captions → co
   check that fails without it. A number from a sub-agent is a claim until
   recomputed.
 - **The first parts the owner approves are the measured standard for the
-  rhythm of the voice and of the picture, enforced by QA.** They are
-  listed in `brand.json`, measured by `rhythm.py standard` (syllables a
-  second and the shortest pauses of the voice; how much of the time the
-  picture moves, how often, and how long it holds still), and every later
+  voice's pace and tone and for the picture's rhythm, enforced by QA.**
+  They are listed in `brand.json`, measured by `rhythm.py standard`
+  (syllables a second and the shortest pauses of the voice; how much of
+  the time the picture moves, how often, and how long it holds still) and
+  `voicestyle.py standard` (the narrator's pitch, its movement, the words'
+  loudness, brightness and the opening line's energy), and every later
   part is kept inside their range. A part can pass every other check and
-  two reviews and still be heard as rushed; this is the gate that catches
-  it.
+  two reviews and still be heard as rushed, or as another reading; this
+  is the gate that catches it.
 - **Every requirement the owner states becomes a written standard in the
   project, in the same turn**, and every episode and post is searched for
   the same class of problem and fixed too. A rule written down is a rule
@@ -143,15 +145,17 @@ resume from the repository alone.
 - A changed sentence is re-voiced alone (`voice.py replace`), from a
   pause, cut only in true silence, every splice recorded and checked.
   No stray sound, breath fragment or click, ever (`qa.voice_flaws`).
-- **Pace is a gate, against the reference parts** (the rule above): in
-  syllables a second, within speech and overall, and the shortest
-  sentence pause and section break, measured before the render and in QA
-  and printed beside every earlier part (`voice.py pace-report`). The
-  voice is never slowed in post (it is heard): a fast take is replaced by
-  a seed that speaks in the reference range (a `[slowly]` tag at the start
-  of each section is what slowed the current model, by about 4 percent),
-  then given its pauses in silence (`voice.py pace`), realigned and the
-  music re-made.
+- **Pace and tone are gates, against the reference parts** (the rule
+  above): the pace in syllables a second, within speech and overall, and
+  the shortest sentence pause and section break, measured before the
+  render and in QA and printed beside every earlier part (`voice.py
+  pace-report`); the tone on the take (`voicestyle.py report`). The voice
+  is never slowed in post, and never with a direction tag (both are
+  heard: a `[slowly]` tag kept the pace and made the opening listless). A
+  take is chosen from many untagged seeds: those inside the tone first,
+  then the slowest of them, then its pauses lengthened in silence for the
+  overall pace (`voice.py pace`, which moves the word timings with the
+  silence, no re-alignment), and the music re-made.
 
 ### 5. Music and sound: `references/05-music-and-sound.md`
 
@@ -245,7 +249,7 @@ All of these, on the delivered file, every time:
 
 - `build.py <ep> qa`: spec, loudness (-14 LUFS ±1) and true peak (≤ -1
   dBTP), every word aligned, the voice and picture at the reference parts'
-  rhythm, no narration flaws, transcript word error rate
+  rhythm and the narrator at their tone, no narration flaws, transcript word error rate
   ≤ 3 percent with every difference read, every fact verified and logged;
 - the orphan and safe-zone scan every 0.5 s over the whole episode and
   every cover prints nothing;
@@ -262,8 +266,8 @@ All of these, on the delivered file, every time:
   exhaustive brief: one pass over every category (the script read cold,
   every audit row at its word, every frame, type and layout, captions
   against the voice, sound and music measured, facts, cues against the
-  timeline, release text, cover, the voice and picture rhythm against the
-  reference parts, and
+  timeline, release text, cover, the voice's pace and tone and the
+  picture's rhythm against the reference parts, and
   design quality: "does this look designed, and does it look like what it
   represents?", judged even where nothing is a fault), then a second
   pass asking **"what would the owner still notice?"**
@@ -361,6 +365,8 @@ python pipeline/voice.py replace episodes/07-slug <seg> <first> <last> [seed]   
 python pipeline/voice.py add-line episodes/07-slug <seg> [seed]                  # voice an added line
 python pipeline/rhythm.py standard                          # measure the reference parts into brand.json
 python pipeline/rhythm.py report episodes/07-slug           # voice and picture against them
+python pipeline/voicestyle.py standard                      # the reference parts' tone into brand.json
+python pipeline/voicestyle.py report episodes/07-slug [take.wav]   # a take's tone against them
 python pipeline/voice.py pace-report episodes/07-slug       # pace beside every earlier part
 python pipeline/voice.py pace episodes/07-slug              # short pauses to the reference parts' pauses
 python pipeline/build.py episodes/07-slug realign           # forced alignment

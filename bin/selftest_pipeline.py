@@ -9,8 +9,10 @@
 #
 #   python bin/selftest_pipeline.py
 #
-# Needs numpy, soundfile and Pillow (toolkit/requirements.txt). No network,
-# no ffmpeg, no API key. Writes only inside a temporary directory.
+# Needs numpy, soundfile and Pillow (toolkit/requirements.txt), and librosa
+# for the narrator's tone, whose cases are reported as skipped without it.
+# No network, no ffmpeg, no API key. Writes only inside a temporary
+# directory.
 
 import json
 import re
@@ -37,10 +39,22 @@ import recue  # noqa: E402
 import rhythm  # noqa: E402
 import scaffold  # noqa: E402
 import voice  # noqa: E402
+import voicestyle  # noqa: E402
 
 SR = 48000
 RNG = np.random.default_rng(7)
-passed = failed = 0
+passed = failed = skipped = 0
+try:
+    import librosa  # noqa: F401
+    LIBROSA = True
+except ImportError:
+    LIBROSA = False
+
+
+def skip(label, why):
+    global skipped
+    skipped += 1
+    print(f"  skip {label}: {why}")
 
 
 def case(label, fn):
@@ -288,6 +302,69 @@ def t_pace_splices():
 
 
 case("pace moves the take's splice records with the stretch and every silence before them", t_pace_splices)
+
+
+def grid_words(offset_steps=0):
+    """Words timed as forced alignment times them, in 20 ms steps, most of
+    them 0.12 s apart, two sentence ends 0.5 s long; the whole take starting
+    `offset_steps` steps later."""
+    lens = [11, 14, 9, 17, 12, 10, 15, 13, 9, 16, 12, 11]
+    gaps = [6, 6, 25, 6, 6, 6, 3, 6, 25, 6, 6]
+    out, k = [], 10 + offset_steps
+    for i, n in enumerate(lens):
+        out.append({"text": "word." if i in (2, 8) else "word", "seg": "a",
+                    "start": round(k * 0.02, 3), "end": round((k + n) * 0.02, 3)})
+        k += n + (gaps[i] if i < len(gaps) else 0)
+    return out
+
+
+def t_pace_grid():
+    # Gaps of exactly 0.12 s are speech, wherever the take starts: on a
+    # 0.12 line they fell either side by float rounding, and the same
+    # timings shifted by whole steps read 3.41 to 3.95 syllables a second.
+    reads = {voice.pace_measure(grid_words(j))["speech_syllables_per_s"] for j in range(0, 200, 7)}
+    span = (sum([11, 14, 9, 17, 12, 10, 15, 13, 9, 16, 12, 11]) + sum([6, 6, 25, 6, 6, 6, 3, 6, 25, 6, 6])) * 0.02
+    assert reads == {round(12 / (span - 1.0), 2)}, reads
+
+
+case("a pause is a gap over 0.125 s, so 0.12 s gaps on the 20 ms grid read the same every time", t_pace_grid)
+
+
+def t_pace_moves_words():
+    with tempfile.TemporaryDirectory() as d:
+        pub = Path(d)
+        w = paced_words()
+        a = np.zeros(int(4.6 * SR), np.float32)
+        for x in w:
+            place(a, x["start"], tone(x["end"] - x["start"]))
+        sf.write(pub / "voice.wav", a, SR)
+        segs = {"a": {"start": 0.0, "end": 3.5, "first": 0, "last": 6}, "b": {"start": 4.0, "end": 4.3, "first": 7, "last": 7}}
+        tl = {"duration": 4.6, "words": w, "segments": segs, "voice": {"splices": [{"t": 3.75, "kept": "before"}]}}
+        (pub / "timeline.json").write_text(json.dumps(tl))
+        before = voice.pace_measure(w)
+        ins = voice.pace_plan(w, 1.0, 0.78, 0.92, 0.1)
+        length = voice.pace(pub, 1.0, sentence=0.78, section=0.92, comma=0.1)
+        out = json.loads((pub / "timeline.json").read_text())
+        b, sr = sf.read(pub / "voice.wav", dtype="float32")
+        # Every word, segment and splice moved by the silence put in before
+        # it, and the length is the new audio's.
+        assert [(x["start"], x["end"]) for x in out["words"]] == \
+            [(voice.paced_time(x["start"], 1.0, ins), voice.paced_time(x["end"], 1.0, ins)) for x in w], out["words"]
+        assert out["segments"]["b"]["start"] == voice.paced_time(4.0, 1.0, ins) and out["voice"]["splices"][0]["t"] > 3.75
+        assert out["duration"] == length == round(len(b) / sr, 3)
+        # The moved timings still sit on the words' sound: each word is
+        # loud inside its new span and the paused take is silent between.
+        for x, n in zip(out["words"], out["words"][1:]):
+            mid = b[int((x["start"] + 0.1) * sr):int((x["end"] - 0.1) * sr)]
+            gap = b[int((x["end"] + 0.03) * sr):int((n["start"] - 0.03) * sr)]
+            assert np.abs(mid).max() > 0.1 and (len(gap) == 0 or np.abs(gap).max() < 1e-3), x
+        # Only pauses grew: the rate within speech is the same, overall slower.
+        after = voice.pace_measure(out["words"])
+        assert after["speech_syllables_per_s"] == before["speech_syllables_per_s"], (before, after)
+        assert after["syllables_per_s"] < before["syllables_per_s"] and after["sentence_pause"] == 0.78, after
+
+
+case("pace moves the word timings with the silence it puts in, so the paced take needs no re-alignment", t_pace_moves_words)
 
 
 def t_join():
@@ -758,6 +835,12 @@ def t_rhythm_faults():
     within = {"voice": {"speech_syllables_per_s": 5.0, "syllables_per_s": 3.7, "sentence_pause": 0.45, "section_pause": 0.6},
               "picture": {"moving_share": 0.15, "moves_per_10s": 1.5, "median_move_s": 1.2, "median_hold_s": 2.6}}
     assert rhythm.faults(within, lim) == [], rhythm.faults(within, lim)
+    # Within speech, a take up to 0.05 outside the range is inside the
+    # alignment's own noise; one past it is not.
+    hi = lim["speech_syllables_per_s"][1]
+    near = dict(within, voice=dict(within["voice"], speech_syllables_per_s=round(hi + 0.04, 2)))
+    past = dict(within, voice=dict(within["voice"], speech_syllables_per_s=round(hi + 0.06, 2)))
+    assert rhythm.faults(near, lim) == [] and len(rhythm.faults(past, lim)) == 1, (rhythm.faults(near, lim), rhythm.faults(past, lim))
 
 
 case("a rushed part leaves the reference range on every measure; one inside it passes", t_rhythm_faults)
@@ -799,6 +882,104 @@ def t_standard_brand():
 
 case("standard keeps brand.json as written and refuses to run with no reference parts", t_standard_brand)
 
+# ---------------------------------------------------------------- tone
+print("voicestyle: the narrator's tone against the reference parts")
+
+
+def spoken(f, dur, amp):
+    """A voiced word: a harmonic tone at `f` Hz, faded over 20 ms."""
+    t = np.arange(int(dur * SR)) / SR
+    x = sum(np.sin(2 * np.pi * k * f * t) / k for k in range(1, 9))
+    return (amp * x * np.minimum(1, np.minimum(t, dur - t) / 0.02) / 2.7).astype(np.float32)
+
+
+def tone_take(d, name, pitches, amps):
+    """A take of four-word sentences, each word 0.3 s at its pitch and
+    level, 0.1 s between words and 0.5 s between sentences; its path and
+    word timings."""
+    words, clips, t = [], [], 0.2
+    for ps, am in zip(pitches, amps):
+        for i, (f, amp) in enumerate(zip(ps, am)):
+            words.append({"text": "word." if i == len(ps) - 1 else "word", "seg": "a", "start": round(t, 3), "end": round(t + 0.3, 3)})
+            clips.append((t, spoken(f, 0.3, amp)))
+            t += 0.3 + (0.5 if i == len(ps) - 1 else 0.1)
+    a = np.zeros(int((t + 0.3) * SR), np.float32)
+    for s, c in clips:
+        place(a, s, c)
+    path = Path(d) / f"{name}.wav"
+    sf.write(path, a, SR)
+    return path, words
+
+
+PITCHES = [[130, 150, 175, 140], [125, 145, 160, 135], [135, 160, 150, 128], [130, 140, 170, 138]]
+LEVELS = [[0.3, 0.25, 0.33, 0.27]] * 4
+
+
+def semis(f):
+    return 12 * np.log2(np.array(f) / 100.0)
+
+
+def t_tone_measure():
+    with tempfile.TemporaryDirectory() as d:
+        m = voicestyle.measure(*tone_take(d, "ref", PITCHES, LEVELS), (60, 320))
+    # As constructed: the median word pitch, each sentence's spread of
+    # pitch, the spread of the words' levels.
+    assert abs(m["pitch_median_hz"] - 140) < 1.5, m
+    assert abs(m["pitch_movement_st"] - np.mean([np.std(semis(s)) for s in PITCHES])) < 0.2, m
+    assert abs(m["hook_movement_st"] - np.std(semis(PITCHES[0]))) < 0.3, m
+    assert abs(m["loudness_sd_db"] - np.std(20 * np.log10(sum(LEVELS, [])))) < 0.2, m
+
+
+def t_tone_faults():
+    with tempfile.TemporaryDirectory() as d:
+        def take(name, pitches, levels):
+            return voicestyle.measure(*tone_take(d, name, pitches, levels), (60, 320))
+        # Three reference parts, a little apart in pitch and level.
+        refs = {"r1": take("r1", PITCHES, LEVELS),
+                "r2": take("r2", [[f * 1.02 for f in s] for s in PITCHES], LEVELS),
+                "r3": take("r3", PITCHES, [[x * 1.05 for x in LEVELS[0]]] + LEVELS[1:])}
+        lim = voicestyle.limits_from(refs)
+        assert all(voicestyle.faults(r, lim, {}) == [] for r in refs.values())
+        # A take that keeps the pace but opens 4.4 dB quieter (a listless
+        # first sentence) fails on the hook's level.
+        quiet = take("quiet", PITCHES, [[x * 0.6 for x in LEVELS[0]]] + LEVELS[1:])
+        out = voicestyle.faults(quiet, lim, {})
+        assert any("hook's level" in x for x in out), out
+        # A flat opening line fails on the hook's pitch movement; a take a
+        # semitone low, on its pitch.
+        flat = voicestyle.faults(take("flat", [[150] * 4] + PITCHES[1:], LEVELS), lim, {})
+        assert any("hook's pitch movement" in x for x in flat), flat
+        low = voicestyle.faults(take("low", [[f * 0.94 for f in s] for s in PITCHES], LEVELS), lim, {})
+        assert any(x.startswith("pitch median") for x in low), low
+    # No standard written is a fault, never a pass.
+    assert voicestyle.faults(refs["r1"], {}, {}) and "no tone standard" in voicestyle.faults(refs["r1"], {}, {})[0]
+
+
+def t_tone_brand():
+    tone = CFG["voice_tone"]
+    assert set(tone["tolerance"]) <= set(tone["limits"]) == set(voicestyle.LABELS), tone
+    assert all(lo <= hi for lo, hi in tone["limits"].values()) and tone["pitch_hz"][0] < tone["pitch_hz"][1]
+    with tempfile.TemporaryDirectory() as d:
+        b = Path(d) / "brand.json"
+        text = (config.ROOT / "brand.json").read_text()
+        b.write_text(text)
+        try:
+            voicestyle.standard(b)
+            raise AssertionError("a tone standard with no reference parts was written")
+        except SystemExit:
+            pass
+        assert b.read_text() == text
+
+
+TONE = [("the tone is measured as constructed: pitch, its movement within sentences, the words' levels", t_tone_measure),
+        ("a quiet opening fails on the hook's level, a flat one on its pitch, a low take on the median", t_tone_faults)]
+for label, fn in TONE:
+    if LIBROSA:
+        case(label, fn)
+    else:
+        skip(label, "librosa is not installed (pip install -r toolkit/requirements.txt)")
+case("brand.json's tone limits are consistent, and standard refuses with no reference parts", t_tone_brand)
+
 # ---------------------------------------------------------------- brand
 print("brand.json: the geometry every check relies on")
 
@@ -818,5 +999,5 @@ def t_brand():
 
 case("the safe box, grid tile, layout and picture band are consistent", t_brand)
 
-print(f"PY {passed} {failed}")
+print(f"PY {passed} {failed} {skipped}")
 sys.exit(1 if failed else 0)

@@ -28,9 +28,14 @@
   "type": { "family": "Archivo", "fontFile": "fonts/Archivo-Variable.woff2", "smallMinPx": 29 },
   "rhythm": {
     "reference": [],
-    "limits": { "speech_syllables_per_s": [4.86, 5.19], "syllables_per_s": [3.58, 3.81], "sentence_pause_min": 0.4, "moving_share_max": 0.183, "moves_per_10s_max": 1.89, "median_hold_s_min": 2.57 },
+    "limits": { "speech_syllables_per_s": [4.86, 5.13], "syllables_per_s": [3.58, 3.81], "sentence_pause_min": 0.4, "moving_share_max": 0.183, "moves_per_10s_max": 1.89, "median_hold_s_min": 2.57 },
     "pauses": { "sentence": 0.5, "section": 0.6 },
     "band": [0.33, 0.72]
+  },
+  "voice_tone": {
+    "limits": { "pitch_median_hz": [130.9, 141.1], "pitch_spread_st": [11.9, 13.6], "pitch_movement_st": [4.65, 5.19], "loudness_sd_db": [2.94, 3.28], "brightness_hz": [1114.0, 1234.0], "hook_movement_st": [4.71, 5.69], "hook_level_db": [0.0, 1.04] },
+    "tolerance": { "pitch_median_hz": 1.5, "pitch_spread_st": 0.5, "pitch_movement_st": 0.25, "loudness_sd_db": 0.15, "brightness_hz": 60.0, "hook_movement_st": 0.5, "hook_level_db": 0.2 },
+    "pitch_hz": [60, 320]
   },
   "release": { "minHashtags": 3, "maxHashtags": 5, "maxAudioName": 50, "maxCaption": 2200, "maxReply": 150 },
   "music": { "licence": "<the music licence: service, plan, terms version and date, what use it allows>" }

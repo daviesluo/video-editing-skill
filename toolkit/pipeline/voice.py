@@ -651,11 +651,20 @@ def spoken_syllables(text, say=None):
     return sum(_syllables(x) for x in re.split(r"[\s\-]+", (say or {}).get(core, core)))
 
 
+# A gap between words longer than this is a pause, not speech.
+PAUSE = 0.125
+# Two forced alignments of the same words place their ends a few
+# hundredths of a second apart, which moves the rate within speech by up to
+# about 0.05 syllables a second: a take that close to the reference range
+# is not faster or slower than it by anything the measure can tell.
+SPEECH_NOISE = 0.05
+
+
 def pace_measure(words, say=None):
     """The narration's pace, as the series is judged on it. Syllables a
     second over the whole narration (`syllables_per_s`, first word's start
     to last word's end) and within speech (`speech_syllables_per_s`, every
-    pause over 0.12 s taken out), the shortest and the median sentence
+    pause over 0.125 s taken out), the shortest and the median sentence
     pause and section break, in seconds; and words a second, for planning
     a script's length. Syllables, not words, are the measure: a script of
     short words ("Dig straight down into the Earth") reads fast in words
@@ -666,7 +675,11 @@ def pace_measure(words, say=None):
     silent = 0.0
     for w, n in zip(words, words[1:]):
         gap = n["start"] - w["end"]
-        if gap > 0.12:
+        # Over 0.125 s, not 0.12: forced alignment places words in 20 ms
+        # steps, and gaps of exactly 0.12 s fell either side of a 0.12 line
+        # by float rounding, moving one take's speech rate by 0.1 syllables
+        # a second between two readings of the same timings.
+        if gap > PAUSE:
             silent += gap
         kind = _pause_kind(w, n)
         if kind in gaps:
@@ -689,14 +702,18 @@ def pace_measure(words, say=None):
 def pace_faults(m, limits=None):
     """Where a pace measure leaves the reference parts' range (brand.json
     `rhythm.limits`, written by `rhythm.py standard`), as readable lines;
-    empty when it keeps it. A limit that is not set is not checked."""
+    empty when it keeps it. The rate within speech may sit SPEECH_NOISE
+    outside the range, the most two alignments of the same words differ
+    by. A limit that is not set is not checked."""
     lim = limits or brand()["rhythm"]["limits"]
     out = []
-    for key, label in (("speech_syllables_per_s", "syllables/s within speech"), ("syllables_per_s", "syllables/s overall")):
+    for key, label, noise in (("speech_syllables_per_s", "syllables/s within speech", SPEECH_NOISE),
+                              ("syllables_per_s", "syllables/s overall", 0.0)):
         if key in lim:
             lo, hi = lim[key]
-            if not lo <= m[key] <= hi:
-                out.append(f"{m[key]} {label}, outside the reference parts' {lo} to {hi}")
+            if not lo - noise <= m[key] <= hi + noise:
+                out.append(f"{m[key]} {label}, outside the reference parts' {lo} to {hi}"
+                           + (f" (±{noise}, the alignment's own noise)" if noise else ""))
     for key, label in (("sentence_pause", "a sentence pause"), ("section_pause", "a section break")):
         floor = lim.get(key + "_min")
         if floor is not None and m[key] is not None and m[key] < floor:
@@ -767,9 +784,13 @@ def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
     heard as unnatural; speed comes from choosing the take). A sentence end
     and a section break are brought up to the reference parts' typical
     pauses (brand.json `rhythm.pauses`, written by `rhythm.py standard`)
-    unless `sentence` and `section` are given. The take's splice records
-    move with the audio. The caller re-times the words with `build.py <ep>
-    realign` and re-makes the music. Returns the new length in seconds."""
+    unless `sentence` and `section` are given. The word timings, the
+    segments' times, the take's length and its splice records move with the
+    silence put in before them, so the words need no re-alignment: a forced
+    alignment of a paced take placed the same words' ends differently and
+    read the rate within speech 0.05 to 0.07 syllables a second faster with
+    no word changed. The caller re-makes the music, since every later
+    segment now starts later. Returns the new length in seconds."""
     # The words are never slowed: a 4 percent pitch-kept slow-down was heard
     # at once as unnatural. `tempo` stays for the planner's arithmetic only.
     if tempo != 1.0:
@@ -799,7 +820,13 @@ def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
         last = i
     out.append(a[last:])
     sf.write(wav, np.concatenate(out), sr)
-    tl["voice"]["splices"] = [dict(x, t=paced_time(x["t"], tempo, inserts)) for x in tl["voice"].get("splices", [])]
+    moved = lambda t: paced_time(t, tempo, inserts)  # noqa: E731
+    tl["voice"]["splices"] = [dict(x, t=moved(x["t"])) for x in tl["voice"].get("splices", [])]
+    for w in tl["words"]:
+        w["start"], w["end"] = moved(w["start"]), moved(w["end"])
+    for seg in tl.get("segments", {}).values():
+        seg["start"], seg["end"] = moved(seg["start"]), moved(seg["end"])
+    tl["duration"] = round(sum(len(x) for x in out) / sr, 3)
     tl["voice"]["paced"] = {"tempo": tempo, "sentence": sentence, "section": section, "comma": comma}
     (public_dir / "timeline.json").write_text(json.dumps(tl, indent=1))
     return round(sum(len(x) for x in out) / sr, 3)
@@ -811,7 +838,8 @@ USAGE = """usage:
   python pipeline/voice.py add-line episodes/<id> <seg> [seed]
   python pipeline/voice.py pace-report episodes/<id>
   python pipeline/voice.py pace     episodes/<id>
-Then run build.py <ep> realign (after pace, re-make the music too). Copy voice.wav and timeline.json aside
+Then run build.py <ep> realign after replace or add-line; after pace the word timings are moved, not re-aligned,
+and the music is re-made. Copy voice.wav and timeline.json aside
 first when trying several seeds. Other steps run through pipeline/build.py."""
 
 
@@ -843,6 +871,6 @@ if __name__ == "__main__":
         ep, pub = _episode(a[1])
         before = pace_measure(json.loads((pub / "timeline.json").read_text())["words"], readings(ep))
         print("before", before)
-        print("length", pace(pub), "s; now run build.py <ep> realign, then pace-report and re-make the music")
+        print("length", pace(pub), "s, the word timings moved with the silence; now pace-report and re-make the music")
     else:
         raise SystemExit(USAGE)

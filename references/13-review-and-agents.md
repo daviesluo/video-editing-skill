@@ -226,7 +226,11 @@ Pass one, every category, in this order:
    10 s and median hold with the reference parts; a part outside their
    range is a blocker even when every other check passes (one at 5.22
    syllables a second in speech, its picture moving 29 percent of the time
-   in 2.81 movements per 10 s, did, and was heard as rushed).
+   in 2.81 movements per 10 s, did, and was heard as rushed). The tone
+   too: run `voicestyle.py report episodes/<id>`, and listen to the
+   opening beside a reference part's; a take outside their tone is a
+   blocker (one slowed by a direction tag opened listless, and the owner
+   heard it at once).
 2. Every audit row at its word: render or extract a still at the exact start
    of each key word and check what the row claims.
 3. Every frame: extract all frames; contact sheets every 0.5 s with the safe

@@ -25,7 +25,8 @@
 #    packages are installed (cd toolkit/studio && npm ci).
 # 4. The pipeline's pure functions (bin/selftest_pipeline.py), on signals
 #    and texts whose right answer is known by construction. Needs numpy,
-#    soundfile and Pillow (toolkit/requirements.txt).
+#    soundfile and Pillow (toolkit/requirements.txt); the narrator's tone
+#    cases need librosa too, and are reported as skipped without it.
 # 5. The studio's pure modules (bin/selftest_studio.ts): caption pages and
 #    word cues. Needs Node 22.18 or newer, nothing installed.
 #
@@ -164,10 +165,11 @@ else skp "caption pages not listed: Node 22.18 or newer needed"; fi
 echo "4. the pipeline's pure functions"
 if "$PY" -c 'import numpy, soundfile, PIL' 2>/dev/null; then
   "$PY" "$HERE/selftest_pipeline.py" > "$T/py" 2>&1
-  grep -E '^  (ok|FAIL) |^[a-z].*:' "$T/py" | grep -v '^PY '
-  p=$(sed -n 's/^PY \([0-9]*\) \([0-9]*\)$/\1/p' "$T/py"); f=$(sed -n 's/^PY \([0-9]*\) \([0-9]*\)$/\2/p' "$T/py")
+  grep -E '^  (ok|FAIL|skip) |^[a-z].*:' "$T/py" | grep -v '^PY '
+  p=$(sed -n 's/^PY \([0-9]*\) \([0-9]*\) \([0-9]*\)$/\1/p' "$T/py"); f=$(sed -n 's/^PY \([0-9]*\) \([0-9]*\) \([0-9]*\)$/\2/p' "$T/py")
+  s=$(sed -n 's/^PY \([0-9]*\) \([0-9]*\) \([0-9]*\)$/\3/p' "$T/py")
   if [ -z "$p" ]; then bad "the pipeline tests did not finish: $(tail -3 "$T/py" | tr '\n' ' ')"
-  else pass=$((pass+p)); fail=$((fail+f)); fi
+  else pass=$((pass+p)); fail=$((fail+f)); skip=$((skip+s)); fi
 else
   skp "pipeline tests: $PY lacks numpy, soundfile or Pillow (pip install -r toolkit/requirements.txt, or set PYTHON)"
 fi

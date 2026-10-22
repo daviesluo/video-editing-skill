@@ -24,10 +24,11 @@ into brand.json; QA and `build.py render` read them from there.
     python pipeline/rhythm.py report episodes/<id> [video.mp4]
 
 A part that felt rushed beside its four reference parts measured 5.22
-syllables a second in speech against 4.86 to 5.19, its picture moving 29
+syllables a second in speech against 4.86 to 5.13, its picture moving 29
 percent of the time against at most 18, 2.81 movements per 10 s against at
 most 1.89, and a median hold of 0.8 s against at least 2.27: every measure
-outside, where words a second had not shown it.
+outside, where words a second had not shown it. The narrator's tone is
+held to the same parts in voicestyle.py.
 """
 
 import json
