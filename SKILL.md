@@ -355,11 +355,12 @@ not rebuilt each time; a new one only for a wholly new task.
 | video reviewer - 1, video reviewer - 2 | the exhaustive review and re-checks | the same model, high effort |
 | video release writer | post text, hashtags with their checks, replies | the same model, high effort |
 | video chores | listing, counting, frames, file moves | the same model, low effort |
-| video render helper - N (standing remote sessions, `11-render.md`) | render a frame range at a named commit, push it, report its hash and frame count; nothing else | low effort (the owner, 2026-10-23): they only run commands, and every part they return is checked here by its SHA-256, its frame count and stills at its seams |
+| video render helper - N (standing remote sessions, `11-render.md`) | render a frame range at a named commit, push it, report its hash and frame count; nothing else | a smaller model (Sonnet) at low effort (the owner, 2026-10-23): they only run commands, and every part they return is checked here by its SHA-256, its frame count and stills at its seams |
 
 Every agent runs on the main session's own model, never a smaller one:
 high effort for anything that changes what ships, low effort only for
-chores and the render helpers. An agent opened before a rule changed finishes the task in hand;
+chores. The render helpers are the one exception to the model: a
+smaller one at low effort. An agent opened before a rule changed finishes the task in hand;
 new work goes to an agent opened under the rule. At most three at a time.
 A usage limit stops them all mid-task: record what was running in the
 ledger and resume each by message once it resets. While the owner waits
