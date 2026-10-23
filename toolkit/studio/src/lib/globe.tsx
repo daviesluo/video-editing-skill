@@ -28,6 +28,14 @@ export type Loaded = { tex: THREE.Texture | null; handle: number };
 export const useTexture = (file: string, linear = false): Loaded => {
   const [handle] = useState(() => delayRender(`texture ${file}`));
   const [tex, setTex] = useState<THREE.Texture | null>(null);
+  // A texture loads once, when the component mounts: a file that changes
+  // later is drawn with the old one until the new one arrives, with nothing
+  // holding the frame. So it fails the render instead; pass texture props on
+  // every frame.
+  const [first] = useState(file);
+  useEffect(() => {
+    if (file !== first) cancelRender(new Error(`texture "${first}" changed to "${file}" mid-shot; pass it on every frame`));
+  }, [file, first]);
   useEffect(() => {
     new THREE.TextureLoader().load(
       staticFile(file),
