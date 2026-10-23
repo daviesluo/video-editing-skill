@@ -81,7 +81,7 @@ Reply: <at most 150 characters, no link>
   roll); check the 3:4 tile in the grid once it is up.
 - Upload at highest quality, from the original file, not a draft (a draft
   is recompressed).
-- AI label: on (the voice is synthetic). Closed captions: off (the video
+- AI label: <on or off, as the owner decided on the platform's policy>. Closed captions: off (the video
   carries its own).
 - Audio name: "<the hook, <Series name>>" (at most 50 characters; it can be
   set only once).

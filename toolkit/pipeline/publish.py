@@ -182,8 +182,10 @@ def text_problems(md, live=False, cfg=None):
                 out.append(f"audio name is {len(audio.group(1))} characters, over {cfg['maxAudioName']}")
             if any(ch in audio.group(1) for ch in QUOTES):
                 out.append("audio name contains a straight apostrophe or an opening quote mark; write ’")
-        if not re.search(r"AI label: on\b", md):
-            out.append("post.md's settings do not say 'AI label: on' (the voice is synthetic)")
+        # The platform's AI label is the owner's decision; the settings
+        # must state it either way.
+        if not re.search(r"AI label: (on|off)\b", md):
+            out.append("post.md's settings do not state the AI label ('AI label: on' or 'AI label: off', as the owner decided)")
     out += platform_problems(found, cfg)
     return out
 

@@ -328,8 +328,9 @@ All of these, on the delivered file, every time:
   `post.md`, and `check` lints them: apostrophes ’, no tells, no mention of
   how it was made, three to five researched hashtags with their check
   table, a question ending the caption, a Sources line, a pinned comment
-  that invites a follow, an audio name of at most 50 characters, the AI
-  label on, the cover design.
+  that invites a follow, an audio name of at most 50 characters, the
+  platform's AI label as the owner decides (stated in the settings), the
+  cover design.
 - The owner gets one pack: the posting guide, the video, the cover, and
   the text in the message. Post from the original file, never a draft.
 - After posting, read the live post back and compare it with the release
@@ -430,12 +431,16 @@ python pipeline/publish.py stage|text|check|done|when ...
 
 ## Disclosure
 
-The narration and music are synthetic. Each platform's disclosure is
-answered from its current policy, read and dated in the release: on
-Instagram the "AI label" is on; YouTube's "altered or synthetic content"
-lists AI-generated music, so it is answered Yes; TikTok's AI-generated
-content label exempts generic text-to-speech that is no real person's
-voice, so it follows the owner's reading of that policy. Text on screen
+The narration and music are synthetic. Each platform's AI label is the
+owner's call, made on that platform's current policy, read and dated in
+the release, and stated in its settings ("AI label: on" or "off"). Read
+in October 2026: TikTok's AI-generated content label exempts generic
+text-to-speech that is no real person's voice; Meta asks for its label on
+"photorealistic video or realistic-sounding audio that was digitally
+created or altered"; YouTube's "altered or synthetic content" lists
+AI-generated music. Put the policy in front of the owner once; then
+follow the decision on every post (one owner chose off on Instagram and
+TikTok, 2026-10-23). Text on screen
 and in the caption never says how the video was made. A generated
 reconstruction, if one is ever used, is marked "AI reconstruction" on
 screen and always labelled.

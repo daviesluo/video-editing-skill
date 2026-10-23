@@ -41,7 +41,7 @@ apostrophes, audio name and cover had never been checked.
 | a Sources line | credit, as the data licences ask, and trust |
 | the pinned comment invites a follow and carries no hashtag | its one job is follows; tags in comments count against the five |
 | the audio name at most 50 characters | the platform refuses a longer one, and it can be set only once |
-| the settings say "AI label: on" | a realistic synthetic voice requires the platform's label |
+| the settings state the AI label as the owner decided ("AI label: on" or "off") | the platform's AI label is the owner's call on its current policy (see SKILL.md, "Disclosure"), made once and then followed on every post |
 | TikTok and YouTube limits (caption 4,000; title 100; description 5,000, no < or >; replies 150, no links) | each platform's own limits, read October 2026 |
 | the cover passes `covercheck.py`; the staged video matches its recorded SHA-256 | the folder is the master |
 
@@ -146,7 +146,8 @@ Post
    preview: title and picture inside it.
 5. Caption: paste caption.txt exactly. Check the apostrophes are ’.
 6. Audio: rename the original audio to: <audio name> (it can be set once).
-7. More options: Add AI label, on. Closed captions, off (the video has its
+7. More options: Add AI label as the settings say (the owner's decision).
+   Closed captions, off (the video has its
    own). No location, no tagged people, no collaborators. Share to a
    linked Page only as you have set it, never to a personal profile.
 8. Share.
