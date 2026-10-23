@@ -99,6 +99,13 @@ new class of failure appears, in the same commit as the fix.
 | a card's flat map at 200 px a radian spanned about 250° and showed a blank strip past -180° through two renders and two reviews | a flat map view's span is worked out from its scale and kept inside its plate | pre-render arithmetic; review |
 | a big map hidden under a veil, as a review asked, faded with the veil and crossed the card that replaced it for seven frames | the outgoing picture leaves on its own ramp, gone before the arrival; a fix is checked for the faults it can bring | re-check frames |
 
+| four long globe turns peaked at 4,400 to 5,250 px/s, two to three times the accepted half-turn; the biggest change of the part (the sea dropping from 3,682 to 6,000 m) ran during one of them and was not seen | long turns fly out and back, each peak computed and kept near the accepted turn; a described change runs after the landing | `08`, a per-frame camera model |
+| a turn needed 1.5 s between two named places the voice said 0.9 s apart, so "France" never reached full strength and "Asia" was labelled after its word | widen the pause between the two words in its own silence (`voice.widen`), never speed the picture | stills at each word |
+| the "ridge" line drawn from a plate model's ridge and transform classes also drew the Caribbean, the Azores to Gibraltar line and the Scotia arc, which are not the ridge, and piled up on the globe's outline and under the captions | a line that names one feature is filtered to that feature (connectivity, length, the source's own classes read with care), faded towards the limb and masked out of the caption band | stills at its words; a plot of the exported line |
+| one line carried two names in two scenes ("Mid-Atlantic Ridge", then "Mid-ocean ridge") and each label sat 200 px off it | one name per feature, the voice's; a label starts 20 to 40 px beside its line | stills |
+| a drained sea floor read as a flat sheet with the continents laid on it as lit cut-outs: the live relief lit the land only, so the old coast drew a step | anything revealed on a globe is lit from the same height field as the land beside it | 1:1 crops at the coast |
+| the line "Most of the rest is a rough estimate from satellites" had nothing in the picture for nine seconds | a payoff's point is shown with its data, not only written | picture audit |
+
 ## Type and layout
 
 | Failure | Rule | Check |
@@ -165,4 +172,5 @@ new class of failure appears, in the same commit as the fix.
 | a reviewer's proposed end time was said to clear a card's arrival and did not | a proposed fix is worked out on the timeline before it is used | re-check |
 | a request the owner then withdrew ("forget I said it") had a trial in the tree | revert it cleanly, prove the tree unchanged, commit nothing of it, and say so | `git diff` empty |
 | an interrupt sent to a render helper by mistake left its render running with nobody to push it | follow a mistaken interrupt with a message at once | helper's reply |
+| the mux's `-shortest` with a stream copy cut the last one to four frames of four parts | the mix is padded or trimmed to the picture's length, and QA counts the delivered frames against the render's | `build.py mux`; QA "every rendered frame delivered" |
 | a stray `rm -f /dev/null` was typed into a loop | re-read every compound command; never remove a path built from a variable without `${VAR:?}` | by eye |

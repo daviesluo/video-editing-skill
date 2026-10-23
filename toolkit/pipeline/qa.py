@@ -234,6 +234,13 @@ def run(episode, timeline, final_mp4, out_dir, ep_dir):
     check("audio AAC 48 kHz", p["acodec"] == "aac" and p["arate"] == 48000, f"{p['acodec']} {p['arate']}")
     check("under 300 MB", p["mb"] < 300, round(p["mb"], 2))
     check("length 3 s to 3 min", 3 <= p["duration"] <= 180, round(p["duration"], 2))
+    # Every rendered frame delivered: the final file holds as many frames as
+    # the muted render beside it (out/video.mp4).
+    rendered = Path(final_mp4).with_name("video.mp4")
+    if rendered.exists():
+        from build import frame_count
+        got, want = frame_count(final_mp4)[0], frame_count(rendered)[0]
+        check("every rendered frame delivered", got == want, f"{got} of {want}")
     i, tp = loudness(final_mp4)
     check("loudness -14 LUFS +-1", abs(i + 14) <= 1.0, i)
     check("true peak <= -1 dBTP", tp <= -1.0, tp)

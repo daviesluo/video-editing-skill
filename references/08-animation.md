@@ -74,6 +74,19 @@ every time in them comes from a word cue.
   turn's start to wait for a cut while its end stayed on its word. When a
   move's start moves, its end moves with it, or the words make room for it
   (`04-voice.md`, pauses only).
+- **A long turn of a globe flies out and back.** Turning more than about
+  45° close in races the surface across the frame: four turns of 95° to
+  172° in 1.3 to 1.5 s peaked at 4,400 to 5,250 px/s at the frame's
+  centre, two to three times a half-turn the owner had accepted (1,865
+  px/s), between it and a rejected whip pan. Compute each move's peak
+  surface speed per frame (angle per frame × focal length ÷ (distance −
+  1)) and keep long turns at or under about 2,000 px/s: the camera climbs
+  to 7 to 10 radii at the middle of the turn (distance × (1 + k·sin πe))
+  and comes back, over 1.5 to 2 s. Keep longitude and latitude going
+  straight rather than on a great circle when the great circle passes
+  near a pole: a north-up camera spins there. A change the narration
+  describes (the sea draining) happens after the camera lands, never
+  during the turn, or it is not seen.
 - **Hold still between beats.** Nothing drifts, floats or breathes for its
   own sake. Nothing travels more than a third of the frame without a
   keyframe, and no more than a third of the elements move at once.

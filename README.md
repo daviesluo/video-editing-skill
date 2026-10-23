@@ -74,7 +74,7 @@ science diagrams.
 
 **The checks.** Every check that can run before the render runs first,
 and everything it finds is fixed in one round, so the video is rendered
-once. Then fifteen automated gates on the delivered file (the spec,
+once. Then sixteen automated gates on the delivered file (the spec,
 loudness, true peak, alignment, the voice's pace and the picture's rhythm
 and the narrator's tone against the series' first approved parts, stray
 sounds and clicks in the narration, transcript against script, facts

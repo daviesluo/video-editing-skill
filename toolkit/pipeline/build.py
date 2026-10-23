@@ -131,10 +131,30 @@ def step_join(out, total=None):
     print(f"join: {len(parts)} parts, {total} frames; check frames {', '.join(f'{s} and {s + 1}' for s in seams)}")
 
 
+def frame_count(video):
+    """The number of video frames in a file, counted from its packets, and
+    its frame rate."""
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-count_packets",
+                        "-show_entries", "stream=nb_read_packets,avg_frame_rate", "-of", "json", str(video)],
+                       capture_output=True, text=True, check=True)
+    s = json.loads(r.stdout)["streams"][0]
+    num, den = (int(x) for x in s["avg_frame_rate"].split("/"))
+    return int(s["nb_read_packets"]), num / den
+
+
 def step_mux(out, video=None):
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video or out / "video.mp4"), "-i", str(out / "mix.wav"),
-                    "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
-                    "-movflags", "+faststart", "-shortest", str(out / "final.mp4")], check=True)
+    # Every rendered frame is kept: the mix is padded or trimmed to exactly
+    # the picture's length (`-shortest` with a stream copy cut the last one
+    # to four frames).
+    video = video or out / "video.mp4"
+    frames, fps = frame_count(video)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(out / "mix.wav"),
+                    "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-af", "apad", "-t", f"{frames / fps:.6f}",
+                    "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-movflags", "+faststart", str(out / "final.mp4")],
+                   check=True)
+    got, _ = frame_count(out / "final.mp4")
+    if got != frames:
+        raise SystemExit(f"mux: final.mp4 has {got} frames, the render {frames}")
 
 
 def step_remux(out):

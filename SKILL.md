@@ -283,7 +283,8 @@ resume from the repository alone.
 
 All of these, on the delivered file, every time:
 
-- `build.py <ep> qa`, fifteen checks: spec, loudness (-14 LUFS ±1) and
+- `build.py <ep> qa`, sixteen checks: spec, every rendered frame
+  delivered, loudness (-14 LUFS ±1) and
   true peak (≤ -1 dBTP), every word aligned, the voice and picture at the
   reference parts' rhythm and the narrator at their tone, no narration
   flaws, transcript word error rate ≤ 3 percent with every difference

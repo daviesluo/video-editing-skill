@@ -8,7 +8,7 @@ after them comes the independent review (`13-review-and-agents.md`).
 
 ## 1. Automated (`build.py episodes/<id> qa`)
 
-Fifteen checks. Writes `out/qa.json` and `out/contact-sheet.png`, and
+Sixteen checks. Writes `out/qa.json` and `out/contact-sheet.png`, and
 exits non-zero on any failure. Every one of them that can run before the
 render already has (`11-render.md`, "Before the full render"), so this run
 confirms on the delivered file what the pre-render pass found clean.
@@ -34,6 +34,7 @@ its pitch, its words' levels and its first sentence's level were outside.
 | audio | AAC, 48 kHz |
 | file size | under 300 MB |
 | length | 3 s to 3 min (longer is not recommended to new viewers) |
+| every frame | the delivered file holds as many frames as the muted render (`out/video.mp4`): a mux with `-shortest` once cut up to four from the end |
 | loudness | -14 LUFS integrated, within 1 LU, on the delivered file |
 | true peak | at or under -1 dBTP, on the delivered file |
 | alignment | every script word matched by the aligner (none interpolated) |
