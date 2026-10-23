@@ -122,6 +122,10 @@ identical settings, so its frames are the same frames.
   with the same checkout and setup, run with the same brief; and when no
   helper is free, render here with the same `build.py` steps: the settings
   are identical, so the frames are too.
+- **Low effort.** A helper only runs the brief's commands; nothing it
+  decides changes a frame, and what it returns is checked here (SHA-256,
+  frame count, seam stills). Start every helper at low effort and keep it
+  there (the owner, 2026-10-23).
 - **Brief by the full commit hash**, pushed first, never by a branch name
   that can move.
 - **An interrupt sent by mistake is followed at once by a message.** The
