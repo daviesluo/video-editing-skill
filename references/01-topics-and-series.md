@@ -82,9 +82,10 @@ people, health claims, a myth that the episode could accidentally repeat.
   first; alternate visual types (globe and flat map, chart and document)
   so consecutive episodes do not look alike; no two similar stories back
   to back; check each pair for repetition.
-- **The teaser chain.** Each episode ends on the next one's question, in
-  about ten words inside the end line, and the next episode's hook asks
-  that same question: a viewer who followed for it must recognise it.
+- **The teaser chain.** Each episode ends on the next one's question. The
+  teaser's wording is the next episode's hook, word for word, and the next
+  episode's hook is then voiced in exactly those words: a viewer who
+  followed for that question must hear it asked the same way.
 - **The line into the teaser follows from what was just shown.** Never a
   bare "So" (it reads as a non sequitur); "And you may wonder…" or a
   sentence that hands the last picture to the next question.
@@ -97,9 +98,9 @@ people, health claims, a myth that the episode could accidentally repeat.
   Earth appears. Where is it?" names the surprise and still asks. Being
   the next hook word for word, its fact is verified and logged before the
   episode that says it ships, like any other.
-- **The end line.** Every episode ends its content with one line of
-  about 5 s over the profile and the Follow tap: "Enjoy stories like
-  this? Follow for part N: <the next question>." The next part's title
+- **The end line.** Every episode ends its content with one line over
+  the profile and the Follow tap: "Enjoy stories like this? Follow for
+  part N: <the next hook, word for word>." The next part's title
   rises above the profile on the question's first word, where the
   episode's own picture was, and nothing moves into a header. Viewers
   leave the moment this line begins, so it is short and comes last.

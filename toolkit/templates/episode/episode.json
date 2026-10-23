@@ -23,7 +23,7 @@
     { "id": "layer1", "text": "<One layer deeper, a new verified fact on a new picture.>" },
     { "id": "layer2", "text": "<Another layer.>" },
     { "id": "payoff", "text": "<The number, reveal or comparison worth sending to someone.>" },
-    { "id": "cta", "text": "<Enjoy stories like this? Follow for part N: the next episode's question, in about ten words.>" }
+    { "id": "cta", "text": "<Enjoy stories like this? Follow for part N: the next episode's hook, word for word.>" }
   ],
   "sfx": [
     { "cue": "hook", "offset": -0.25, "name": "whoosh", "gain_db": -17 },

@@ -180,8 +180,8 @@ sources allow (its year noted; an old one only with the research's reason
 that nothing newer is as solid); complete
 sentences when heard (no colon shorthand, no hanging fragment); no ambiguous
 pointer; the hook and the teaser each one plain question; the end line one
-sentence of about 5 s that names the next episode's question (<next hook>),
-nothing after it; the line into the
+breath, "Follow for part N:" then the next episode's hook word for word
+(<next hook>), nothing after it; the line into the
 teaser following from what was shown (never a bare "So"); spelling and `say`
 readings in the narrator's accent (<accent>); the unslop list; word count for
 <length> s.

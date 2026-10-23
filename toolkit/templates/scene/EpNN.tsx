@@ -25,7 +25,7 @@ export const {{COMPONENT}}: React.FC<EpisodeProps> = ({ timeline, lead, qa, bare
           <Badge part={{{NUMBER}}} opacity={1 - veil} />
           <KineticTitle text="<the hook, | with *the accent phrase*>" start={-1.0} end={at("answer") - 0.1} size={96}
             style={{ position: "absolute", left: 100, right: 120, top: LAYOUT.top }} />
-          <FollowBeat cta={at("cta")} tap={at("cta@4")} next={at("cta@8")} short part={{{NEXT}}} title="<the next question, as in the end line>" />
+          <FollowBeat cta={at("cta")} tap={at("cta@4")} next={at("cta@8")} short part={{{NEXT}}} title="<the next hook; shortened only to fit above the profile>" />
           <Captions words={shiftWords(timeline, lead)} keep={timeline.keep} split={timeline.split} />
         </>
       )}

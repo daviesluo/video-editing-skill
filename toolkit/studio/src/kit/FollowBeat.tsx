@@ -78,7 +78,7 @@ export const FollowBeat: React.FC<{
   // `t` is the episode's own progress into the card (default: the veil's).
   hole?: { y: number; r: number; t?: number };
   // The short end, for every new series: one line, "Enjoy stories
-  // like this? Follow for part N: <the next question>", about 5 s. On a
+  // like this? Follow for part N: <the next hook>". On a
   // series' first parts the retention curve fell from about a quarter of
   // the viewers to about 5% on "Enjoy", so the teaser after a separate
   // follow line was seen by almost no one. The profile stays where it
