@@ -33,6 +33,9 @@ const TAP = { x: GROUP.x + GROUP.w / 2 + 210, y: GROUP.y + BUTTON.y + BUTTON.h /
 export const FOLLOW_CARD = { x: 100, y: 290, w: 880, h: 380 } as const;
 // The pressed "Following" state: the page colour, a shade darker.
 const FOLLOWING = COLORS.pressed;
+// The short end's title block: "Coming up" on the headline line, the title
+// under it, all above the profile with room to spare.
+const SHORT_TITLE_TOP = 314;
 
 const mix = (a: string, b: string, t: number) => {
   const p = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
@@ -50,7 +53,11 @@ export const followVeil = (frame: number, fps: number, cta: number) => ramp(fram
 // What does not go into the header (the promise, the button, an episode's
 // picture card) leaves first, before the title rises, fading evenly through the
 // start of the move rather than popping out.
-export const followLeave = (frame: number, fps: number, next: number) => ramp(frame, fps, next - 0.6, 0.55, fade);
+// The short end (`short`) moves nothing into a header: only the episode's
+// picture card leaves, and it has gone before the next title rises in its
+// place.
+export const followLeave = (frame: number, fps: number, next: number, short = false) =>
+  short ? ramp(frame, fps, next - 0.85, 0.55, fade) : ramp(frame, fps, next - 0.6, 0.55, fade);
 
 export const FollowBeat: React.FC<{
   // Video times (s): the start of "Enjoy stories like this?", the word
@@ -70,7 +77,18 @@ export const FollowBeat: React.FC<{
   // would leave.
   // `t` is the episode's own progress into the card (default: the veil's).
   hole?: { y: number; r: number; t?: number };
-}> = ({ cta, tap, next, part, title, card, hole }) => {
+  // The short end, for every new series: one line, "Enjoy stories
+  // like this? Follow for part N: <the next question>", about 5 s. On a
+  // series' first parts the retention curve fell from about a quarter of
+  // the viewers to about 5% on "Enjoy", so the teaser after a separate
+  // follow line was seen by almost no one. The profile stays where it
+  // rose, its button left at Following; the picture card leaves after the
+  // tap, and the next title rises in its place above the profile on the
+  // question's first word (`next`).
+  short?: boolean;
+  // The next title's size: below 96 when its lines would not fit.
+  titleSize?: number;
+}> = ({ cta, tap, next, part, title, card, hole, short = false, titleSize = 96 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const veil = followVeil(frame, fps, cta);
@@ -96,12 +114,16 @@ export const FollowBeat: React.FC<{
   const tick = ramp(frame, fps, tap + 0.06, 0.3, enter);
 
   // State B: the profile moves into the end card's header.
-  const toHeader = ramp(frame, fps, next - 0.35, 0.8, move);
-  const leave = followLeave(frame, fps, next);
+  const toHeader = short ? 0 : ramp(frame, fps, next - 0.35, 0.8, move);
+  const leave = followLeave(frame, fps, next, short);
+  // What leaves on the long end: in the short one the promise and the
+  // button stay.
+  const stays = short ? 0 : leave;
   const k = lerp(1, HEADER.k, toHeader);
   const gx = lerp(GROUP.x, HEADER.x, toHeader);
   const gy = lerp(GROUP.y, HEADER.y, toHeader);
-  const titleIn = ramp(frame, fps, next + 0.3, 0.45, enter);
+  // On the short end the title leads its first word, as every reveal does.
+  const titleIn = short ? ramp(frame, fps, next - 0.25, 0.4, enter) : ramp(frame, fps, next + 0.3, 0.45, enter);
 
   const rise = (p: number): React.CSSProperties => ({ opacity: p, translate: `0px ${(1 - p) * 18}px` });
   const fill = mix(COLORS.accent, FOLLOWING, done);
@@ -146,7 +168,7 @@ export const FollowBeat: React.FC<{
         <div style={{ position: "absolute", left: AVATAR + 40, top: 18, fontFamily: DISPLAY }}>
           <div style={{ fontWeight: 820, fontSize: 64, lineHeight: 1, letterSpacing: "-0.025em", color: COLORS.paper, ...rise(nameIn) }}>{SERIES}</div>
           <div style={{ marginTop: 14, fontWeight: 600, fontSize: 37, lineHeight: 1, color: COLORS.note, ...rise(handleIn) }}>{HANDLE}</div>
-          <div style={{ marginTop: 16, fontWeight: 600, fontSize: 34, lineHeight: 1, color: COLORS.accent, ...rise(promiseIn), opacity: promiseIn * (1 - leave) }}>{PROMISE}</div>
+          <div style={{ marginTop: 16, fontWeight: 600, fontSize: 34, lineHeight: 1, color: COLORS.accent, ...rise(promiseIn), opacity: promiseIn * (1 - stays) }}>{PROMISE}</div>
         </div>
         {/* The button. */}
         <div
@@ -160,7 +182,7 @@ export const FollowBeat: React.FC<{
             background: fill,
             overflow: "hidden",
             ...rise(buttonIn),
-            opacity: buttonIn * (1 - leave),
+            opacity: buttonIn * (1 - stays),
             scale: `${1 - 0.035 * press}`,
           }}
         >
@@ -215,14 +237,14 @@ export const FollowBeat: React.FC<{
 
       {/* The end card: the next part's title under the header. */}
       {titleIn > 0 ? (
-        <div style={{ position: "absolute", left: 100, right: 100, top: 560 }}>
+        <div style={{ position: "absolute", left: 100, right: 100, top: short ? SHORT_TITLE_TOP : 560 }}>
           {/* "Coming up" and the part, set like the series badge, the part in the accent. */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 14, fontFamily: DISPLAY, fontSize: 36, fontWeight: 760, letterSpacing: "-0.005em",
             textShadow: THEME.haloStrong, opacity: titleIn }}>
             <span style={{ color: COLORS.paper }}>Coming up</span>
             <span style={{ color: COLORS.accent }}>Part {part}</span>
           </div>
-          <KineticTitle text={title} start={next + 0.35} size={96} style={{ marginTop: 30 }} />
+          <KineticTitle text={title} start={short ? next - 0.2 : next + 0.35} size={titleSize} style={{ marginTop: short ? 22 : 30 }} />
         </div>
       ) : null}
     </AbsoluteFill>

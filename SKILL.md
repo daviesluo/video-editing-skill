@@ -109,9 +109,9 @@ resume from the repository alone.
   on curiosity, medium, verifiability, shareability, demand, density and
   **fit with the series**, which is a gate: a series that wanders between
   themes in its growth phase loses the followers it has.
-- Order for momentum, alternating visual types. Each episode's teaser is
-  the next episode's hook, word for word. Approved by the owner before
-  production.
+- Order for momentum, alternating visual types. Each episode's teaser
+  names the next episode's question, which that episode's hook then asks.
+  Approved by the owner before production.
 
 ### 2. Research, data and rights: `references/02-research-and-rights.md`
 
@@ -132,7 +132,10 @@ resume from the repository alone.
   for 45 s, 140 for 60 s. The pace itself is held to the reference parts
   in syllables (Voice, below).
 - Hook (the question, in full, in the first 1.5 s), answer by 6 s, two or
-  three layers, a payoff worth sending, the follow beat, the teaser.
+  three layers, a payoff worth sending, then one short end line (about
+  5 s) that asks for the follow and names the next part's question:
+  viewers leave the moment a follow line begins, so nothing worth
+  seeing comes after it.
 - **Read cold** before voicing and before release: names in full the
   first time, recent examples, complete sentences when heard (no colon
   shorthand), no ambiguous "it", one plain question in the hook and the

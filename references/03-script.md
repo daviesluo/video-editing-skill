@@ -33,12 +33,17 @@ it. Write slightly under the target: scripts run long when voiced.
 2. **Answer** by about 6 s.
 3. **Two or three layers**, each a new verified fact on a new picture.
 4. **Payoff**: the number, reveal or comparison worth sending to someone.
-5. **Follow beat**: "Enjoy stories like this? Follow for a new one every
-   day." (`cta` segment; the promise must be one the series keeps).
-6. **Teaser**: "Next, in part N: <the next episode's hook, word for
-   word>" (`next` segment).
+5. **The end line**, one sentence of about 5 s (`cta` segment): "Enjoy
+   stories like this? Follow for part N: <the next question, in about ten
+   words>." The insights of a series' first six parts showed why: the
+   retention curve fell from about a quarter of the viewers to about 5%
+   on the very word "Enjoy", while the likes peaked on that question; a
+   follow line followed by a ten-second teaser was watched by almost no
+   one and counted against the average watch percentage of every view.
+   So the question stays, the teaser rides in the same breath, and the
+   payoff sits as late as it can before it.
 
-Segment ids are short words (`hook`, `newyork`, `payoff`, `cta`, `next`)
+Segment ids are short words (`hook`, `newyork`, `payoff`, `cta`)
 because cues read `newyork@7`.
 
 ## The script, read cold
@@ -69,10 +74,10 @@ finished, checked episode failed:
 - **The hook and the teaser ask the question in full**, and are heard as
   one question: "Where would you come out, on the other side?" was voiced
   as two questions because of its comma.
-- **The teaser gives something concrete to look forward to**, and may run
-  a little longer for it: "What if we drained the ocean?" sounded odd and
-  promised nothing; "Drain every ocean, and the longest mountain range on
-  Earth appears. Where is it?" names the surprise and still asks
+- **The teaser gives something concrete to look forward to**, inside the
+  end line's ten words or so: "What if we drained the ocean?" sounded odd
+  and promised nothing; "the island that was never there" or "two
+  islands, 70 kilometres apart, a whole day apart" names the surprise
   (`01-topics-and-series.md`, "Open loops"). Its fact is verified and
   logged like any other.
 - **Connectives carry the turns when heard.** On the page a new paragraph
@@ -81,8 +86,8 @@ finished, checked episode failed:
   correction. Without them a correction runs on as one more item in a
   list. Each is voiced as part of its line (`04-voice.md`), and the line
   must still sound natural read aloud.
-- **The next part's hook matches the teaser that promised it**, word for
-  word.
+- **The next part's hook asks the question the teaser promised**, in
+  words a viewer who followed for it recognises.
 - **The line into the teaser follows from what was just shown.** Never a
   bare "So"; "And you may wonder…" or a sentence that hands the last
   picture to the next question.
