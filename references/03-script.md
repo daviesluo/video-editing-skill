@@ -86,6 +86,13 @@ finished, checked episode failed:
 - **The line into the teaser follows from what was just shown.** Never a
   bare "So"; "And you may wonder…" or a sentence that hands the last
   picture to the next question.
+- **Plain physical words, never the technical description of a method.**
+  Say what was done to the picture as a viewer would say it: "Europe only
+  moved sideways, never up or down. It really is this far north", not
+  "Sliding due west keeps every place on its own latitude", which the
+  owner, who commissioned the part, could not follow. Test each sentence:
+  could a 12-year-old repeat it back after one hearing? If not, rewrite
+  it, and offer the owner the plain version.
 - **Nothing a viewer could misread or have to replay.** If a sentence
   can be read two ways, rewrite it; do not rely on the picture to settle
   it.

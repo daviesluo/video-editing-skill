@@ -9,6 +9,8 @@ new class of failure appears, in the same commit as the fix.
 
 | Failure | Rule | Check |
 |---|---|---|
+| a part's first 35 s, built on a chain of ideas (three dates at once, UTC, midnight sweeping west, the date line), confused the owner after passing the script edit and two reviews; the part was rewritten round one concrete case (two islands 120 km and a day apart) | one concrete thing per topic; count the ideas a viewer must hold before the answer | `01`; the review's comprehension pass |
+| "Sliding due west keeps every place on its own latitude" passed everything and the owner could not follow it | plain physical words, the 12-year-old test | `03`; the comprehension pass |
 | "the space station" on first mention; a viewer did not know which | every name in full the first time | cold read (`03`) |
 | examples from 2001 and 2008 sounded dated when newer ones existed | examples as recent as primary sources allow | cold read; fact checker |
 | "in a 1981 study" passed the script edit and two reviews; the owner asked at once for something newer | studies as recent as examples, each one's year in the research, an old one only with the reason nothing newer is as solid | cold read; fact checker |
@@ -105,6 +107,7 @@ new class of failure appears, in the same commit as the fix.
 | one line carried two names in two scenes ("Mid-Atlantic Ridge", then "Mid-ocean ridge") and each label sat 200 px off it | one name per feature, the voice's; a label starts 20 to 40 px beside its line | stills |
 | a drained sea floor read as a flat sheet with the continents laid on it as lit cut-outs: the live relief lit the land only, so the old coast drew a step | anything revealed on a globe is lit from the same height field as the land beside it | 1:1 crops at the coast |
 | the line "Most of the rest is a rough estimate from satellites" had nothing in the picture for nine seconds | a payoff's point is shown with its data, not only written | picture audit |
+
 
 ## Type and layout
 

@@ -12,6 +12,16 @@ researched, scored and approved before any production starts.
   "Why are shipping containers all one size?" A question the viewer has
   half-wondered about beats a fact they never asked for, because the
   hook is then their own curiosity.
+- **One concrete thing, not a chain of concepts.** The question and its
+  answer must make sense with nothing explained first. Count the ideas a
+  viewer must hold before the answer lands (time zones, then UTC, then
+  midnight moving west, then the date line, then "where people live"):
+  more than one or two and the opening is lost, however exact. "How many
+  dates can it be on Earth at once? Three, for one hour a day" passed the
+  research, the script edit and a full review, and the owner found its
+  first 35 seconds very confusing; the same material, told as "two islands
+  120 km apart are a whole day apart", needs one idea (a line between
+  them) and shows it. Prefer the concrete case to the general count.
 - **The answer must be shown, not just told.** Score how well the
   medium answers it: a map, a chart, a timeline, a document or a
   diagram that makes the answer visible. A topic whose answer is only

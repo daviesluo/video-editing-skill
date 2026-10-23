@@ -295,6 +295,13 @@ Pass one, every category, in this order:
     wanted a dot sized for the view.
 Pass two: what would the owner still notice? Watch it once more as the owner
 would, and add anything that a viewer would see, hear or misread.
+Then a comprehension pass: watch it as a first-time viewer with no
+background, and write in one plain sentence what that viewer has
+understood after each section. Any section where that sentence cannot be
+written, or a line that needs a second hearing, is a blocker: the owner
+found a part's first 35 seconds confusing, and one of its lines
+("Sliding due west keeps every place on its own latitude") impossible to
+follow, after they had passed the script edit and two full reviews.
 
 Report in the format below to <path>/review-<short hash>.md. For every
 problem: the time (video seconds), what is wrong, the evidence (a still or a
