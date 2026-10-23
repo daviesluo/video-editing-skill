@@ -42,7 +42,7 @@ its pitch, its words' levels and its first sentence's level were outside.
 | narrator's tone | on the take, inside the reference parts' range on every measure, within `voice_tone.tolerance` (`brand.json` `voice_tone.limits`, measured by `voicestyle.py standard`): pitch median, spread and movement within sentences, the spread of the words' levels, brightness, and the hook's pitch movement and level against the take (`voicestyle.py report episodes/<id>`) |
 | picture rhythm | on the delivered file, the picture band between the headline and the captions moving no more of the time than the busiest reference part, in no more separate movements per 10 s, with a median hold between movements no shorter than theirs (`rhythm.py report episodes/<id>`) |
 | narration flaws | no stray sound on no word, no splice into sound, no click in a pause, silent first and last samples |
-| transcript | word error rate at or under 3 percent against the script; read every listed difference by eye, because one wrong word is under 3 percent |
+| transcript | word error rate at or under 3 percent against the script; read every listed difference by eye, because one wrong word is under 3 percent. A word read through `say` ("100" as "a hundred", a place name in its local form) is heard in its spoken form: it is listed apart as a reading and not counted, when what was heard sounds like the reading (a part with three such words failed at 3.8 percent with nothing misread) |
 | facts | every fact in `episode.json` marked verified |
 | fact log | every fact id has a row in `verification.md` |
 

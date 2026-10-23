@@ -95,7 +95,7 @@ def _cmp(w):
     return NUMBERS.get(n, n)
 
 
-def word_errors(script, heard):
+def word_errors(script, heard, say=None):
     """Word error rate of what was heard against the script, with the
     differences listed. Units and percentages are read alike on both sides,
     and a compound split differently ("equal-area" heard as "equal area") is
@@ -114,14 +114,36 @@ def word_errors(script, heard):
     a = [_cmp(w) for w in TAG.sub(" ", script).split() if _norm(w)]
     b = [_cmp(w) for w in heard.split() if _norm(w)]
     sm = difflib.SequenceMatcher(a=a, b=b, autojunk=False)
-    diffs, errors = [], 0
+    diffs, readings, errors = [], [], 0
     for op, i1, i2, j1, j2 in sm.get_opcodes():
         if op == "replace" and "".join(a[i1:i2]) == "".join(b[j1:j2]):
+            continue
+        # A word the narrator reads through `say` ("100" as "a hundred",
+        # "Kiritimati" as "Kirismass") is heard in its spoken form, spelt as
+        # the recogniser spells it: listed as a reading, not an error.
+        if op == "replace" and say and _as_said(a[i1:i2], b[j1:j2], say):
+            readings.append({"script": " ".join(a[i1:i2]), "heard": " ".join(b[j1:j2])})
             continue
         if op != "equal":
             errors += max(i2 - i1, j2 - j1)
             diffs.append({"script": " ".join(a[i1:i2]), "heard": " ".join(b[j1:j2])})
+    if readings:
+        diffs.append({"read as `say`": readings})
     return errors / max(1, len(a)), diffs
+
+
+def _as_said(script_words, heard_words, say):
+    """True when every script word here has a `say` reading and the
+    words heard sound like those readings (letters 75% alike)."""
+    import difflib
+
+    spoken = []
+    keys = {_cmp(k): v for k, v in say.items()}
+    for w in script_words:
+        if w not in keys:
+            return False
+        spoken += [_cmp(x) for x in keys[w].split() if _norm(x)]
+    return difflib.SequenceMatcher(a="".join(spoken), b="".join(heard_words), autojunk=False).ratio() >= 0.75
 
 
 def contact_sheet(video, times, labels, out_png, cols=4):
@@ -264,7 +286,10 @@ def run(episode, timeline, final_mp4, out_dir, ep_dir):
     script = " ".join(s["text"] for s in episode["segments"])
     hotwords = episode.get("qa", {}).get("hotwords")
     heard = transcribe(final_mp4, hotwords, whisper_model(episode))
-    wer, diffs = word_errors(script, heard)
+    say = episode.get("say", {})
+    if "british" in say or "american" in say:
+        say = say.get(episode.get("voice", {}).get("accent", "british"), {})
+    wer, diffs = word_errors(script, heard, say)
     check("narration matches script (WER <= 3%)", wer <= 0.03, {"wer": round(wer, 4), "diffs": diffs})
     unverified = [f["claim"] for f in episode.get("facts", []) if f.get("status") != "verified"]
     check("every on-screen or spoken fact verified", not unverified, unverified)
