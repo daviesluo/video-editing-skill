@@ -242,6 +242,13 @@ Common to all:
   `realesr-general-x4v3`, denoise blended with its `wdn` weights), never a
   face model, which draws a new face. Compare the result with the source
   frame by frame: edges cleaner, nothing added to the face or the text.
+- **A clip that fills the upright frame is chosen for it.** A landscape
+  clip filled to 9:16 keeps a slice 0.56 of its width, enlarged 1.78
+  times: what reads in the wide shot (two founders at a laptop) becomes a
+  fragment (one of them looking down, cut at the shoulders), and the
+  owner found it odd. The full frame gets an upright source, or a shot
+  whose subject is whole and readable inside that slice; check the slice
+  on a still before using it.
 - **Credit lines** in the form each licence asks for, on screen as a
   source line and in the caption's Sources.
 - **Reconstructions** of what no camera saw are labelled "AI
