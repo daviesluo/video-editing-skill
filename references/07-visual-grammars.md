@@ -10,6 +10,10 @@ Common to all:
 - **The picture is the evidence.** Show the thing the sentence is about:
   the map, the figure from the filing, the line in the document, the page
   of the book. Generic mood pictures over talk are the weakest episodes.
+  A real thing is drawn from its data, never as a stand-in shape: a
+  mountain as its cross-section from a terrain model, a coast from the
+  map, a building from its plan. Symmetric cones for three summits read
+  as AI-made clip art, even with true heights.
 - **One focal point at a time**, the subject in accent.
 - **Every number on screen says what it measures**, with its unit and,
   where it has one, its source line.
