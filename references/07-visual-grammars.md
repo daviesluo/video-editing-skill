@@ -256,10 +256,13 @@ Common to all:
   on a still before using it.
 - **Moving footage where the series cuts on footage.** In an edit built on
   clips, a page that stands for a company or a person is a clip, not a
-  photograph, best with the name in the frame (a company's own film that
-  ends on its wordmark over a real shot); the owner sent stage photographs
-  back: "use video, not photos". Cut before any line the frame cannot hold
-  whole.
+  photograph, from the company's own stage: a keynote or talk with its
+  name on the wall behind the speaker. The owner sent back stage
+  photographs ("use video, not photos") and then the company's brand films
+  ending on its wordmark ("not that kind; a launch event or a talk, with
+  the name as the backdrop"). A full talk posted by the company's own
+  people on X is often fetchable where the conference's YouTube copy is
+  not.
 - **A speaker filled into the upright frame** from a 16:9 shot has the
   head at the very top, under the player's top bar: stop the box at the
   safe top (y 250) and let the page show above it. A line set over a person
