@@ -208,6 +208,12 @@ never the caption.
   and not a beat more; a pause around a bite is the narrator's own pause
   length, not longer; a clip's own breath, room noise or a word's tail
   from the next sentence never rides in at a bite's head or end.
+- **A change to the clock or to a timing rule is followed through.** A
+  trimmed bite, a shortened pause or a wider beat window moves every time
+  derived from it; list what moved and check each against what depends on
+  it before rendering. Widening the window moved five cuts, and two
+  caption pages that ended on those cuts left before their last word was
+  said.
 
 ## First frame, last frame, covers
 

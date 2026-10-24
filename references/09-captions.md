@@ -47,6 +47,22 @@ timeline (redone after any re-alignment), and the captions lead by their
 two to three frames on top of that. Subtitles under a real voice follow
 the same rule against that voice.
 
+Subtitles under a real voice are timed the same way, never by ear: each
+line's first word is force-aligned on the bite's own cut and its onset
+read on the waveform; the line shows the lead ahead of it and never
+before its picture's cut. A film whose bite subtitles had been set by ear
+had four lines 0.02 to 0.1 s late and one 0.24 s early, found only when
+the owner asked for the check to be run on it: a sync rule set on one
+film is measured on every film of the series the same day.
+
+The sync is a script, not a look, run after every timing change: it
+fails on a word shown after its start, a page that leaves before its last
+word ends (beyond the lead when the next page takes over, past a frame
+when the band empties), a narrated word said over an empty band that the
+picture does not show, and a page or subtitle outliving its picture's cut.
+It is trusted once it has failed on the faults it was written for (two
+pages leaving early, "is worth" said over an empty band).
+
 ## Pages (`kit/paginate.ts`)
 
 The pagination is a small search for the fewest pages that break no rule:
@@ -90,6 +106,13 @@ reads as one unit ("in the" / "South Pacific,") goes into `caption_keep`
 even when no rule fails. A spelled-out number too wide to share a line
 with its neighbour at any size cannot be kept whole; accept it and say so
 in the picture audit.
+
+## Captions on light footage
+
+White type never sits on near-white footage: a white caption on a white
+web page read as nothing. It moves to the page's black or to the shot's
+own dark area, with its shadow; check every caption on a still over its
+picture.
 
 ## Captions never cover a key label
 

@@ -222,6 +222,11 @@ new take changes every timing and every delivery around it.
   spliced in with 15 ms ramps. The extra length comes out of the pause
   after it. Then `realign`, `recue.py`, the music retime and the caption
   pages.
+- **The words before a re-voiced phrase keep their times.** Re-aligning
+  the whole take moved five earlier words by 0.02 s, enough to make parts
+  already rendered differ from a new render; the words up to the splice
+  are restored from the timeline the picture was rendered on, so only the
+  last part is rendered again.
 - **Replace whole sentences, from a pause.** A start inside connected
   speech is refused, because the nearest silence can be words earlier and
   the cut would silently drop them; this once dropped "plans to bring

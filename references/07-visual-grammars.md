@@ -238,7 +238,9 @@ Common to all:
   is read. No boxes, no marker-pen overlays. `kit/Document.tsx` sets a
   page as a print with a soft shadow, either a scan (`src`, with the
   line's box) or set text (`paragraphs`), pushes in gently on the line's
-  word and dims the rest; its credit is the source line.
+  word and dims the rest; its credit is the source line. On a dark film a
+  white page shows at about 0.9 of its brightness: cut in at full white
+  from the black page, four documents were the film's hardest jolts.
 - **Portraits** carry the person's name and dates as a label, with the
   source line. No generated portraits of real people, no face-swaps, no
   "restoration" that invents detail.
@@ -259,7 +261,9 @@ Common to all:
   the price it sold for". A number in it that differs from the narration's
   (an announced price later cut) is reconciled on screen before the shot,
   each value with its date, so the viewer never sees two prices for one
-  thing unexplained.
+  thing unexplained. One name per speaker: our own credit is left off
+  where the broadcaster's lower third already names who is speaking (a
+  correspondent was named twice at once).
 - **A logo that is the subject is shown whole, with room round it.** A
   sign cut through its letters reads as careless (the owner: "the Verizon
   logo is cut off; show it whole"). Find the mark's foot on the source

@@ -190,6 +190,15 @@ picture are cut together, not laid one over the other:
   to the beat nearest the word;
 - the cuts that no word cues, the cards and the chart's arrivals land on
   the bed's beats (listed by the mix, in video seconds);
+- after a real voice's bite, the bed comes back on the cut away from it
+  (the frame the speaker falls silent), and the narrator's next word
+  lands inside the bar: held for the word, the new picture played over
+  0.23 s of digital silence and the film's biggest return landed on
+  nothing;
+- a cut led by the bed's beats looks for one in a window wide enough to
+  outlast small moves of the clock: with 0.22 s before the word, the
+  hook's two cuts lost their beats when two bites were trimmed and the bed
+  moved 60 ms; 0.27 s (about a third of a beat at 152 BPM) held them;
 - the bed's sections answer the story's: a breakdown under a quote, the
   full groove on a turn, the biggest section on the payoff, a last hit on
   the last word, each measured where it lands;
