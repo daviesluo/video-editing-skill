@@ -197,8 +197,14 @@ never the caption.
   mid-gesture or holds a frame of its source's own next shot; cuts closer
   than about half a second only in a deliberate burst.
 - **No dead length** (the same owner: "some clips have extra, unneeded
-  sound or length"): a bite's picture leaves within about a beat of its
-  last word; a card, a year or a number holds as long as it takes to read
+  sound or length"): a bite's source ends where its last word fades into
+  the room, read on the waveform, and its picture leaves on that frame;
+  what follows takes over there, in the short pause before the narrator's
+  next word (about 0.2 s, never more than the cut lead). Held to the next
+  word's cut, the speaker is seen falling silent, drawing breath or
+  starting a sentence the viewer never hears; the owner saw three to
+  seven such frames on two bites and sent them back twice ("the last few
+  frames of the interview and the CNN clip are still extra"). A card, a year or a number holds as long as it takes to read
   and not a beat more; a pause around a bite is the narrator's own pause
   length, not longer; a clip's own breath, room noise or a word's tail
   from the next sentence never rides in at a bite's head or end.
@@ -215,6 +221,19 @@ never the caption.
   "longest" fell alone on a line).
 - **Covers never catch a fade**: after any re-timing, look at each cover
   at full size for half-transparent type or a shape mid-move.
+
+- **A call to follow is one designed lockup.** When an end card carries
+  a Follow button, the mark, the handle and the button are composed as
+  one block: the button's edges flush with the handle's ink (or with the
+  mark's), its corners the mark's own, the spaces between the three
+  equal, measured on the ink (the mark's squares, the ascenders, the
+  baseline), never on the boxes, and the block centred on the page. A tap
+  reads as a phone's: a fingertip comes in, the button gives under it,
+  then changes state, with a ring from the touch and a soft click in the
+  mix on the touch; the button's colours for each state are the series'
+  (in its layer). Options go to the owner as a short side-by-side clip
+  with the sound, since a tap is judged in motion (the owner: "the whole
+  page needs careful design").
 
 ## Density and pacing
 

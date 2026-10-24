@@ -37,6 +37,11 @@ shows and checked by measurement.
   audience will not know, wastes the place (the owner, on a series cover:
   "staggered like before, not rising one way; it must look designed", "who
   is that, isn't he unknown? use someone like Netflix's founder").
+- **Every face has its eyes open** and its mouth at rest. A speaker
+  looking down between words reads as eyes closed once cut out small;
+  pick the frame by comparing the footage at 0.1 s steps around the
+  moments the person looks up (the owner chose a cover and then saw one founder
+  "with his eyes closed").
 
 ## The rules, checked (`pipeline/covercheck.py`)
 

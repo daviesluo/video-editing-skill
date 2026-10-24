@@ -260,6 +260,12 @@ Common to all:
   (an announced price later cut) is reconciled on screen before the shot,
   each value with its date, so the viewer never sees two prices for one
   thing unexplained.
+- **A logo that is the subject is shown whole.** When a news shot's own
+  band covers the foot of a sign, the crop is set under the mark and
+  above the band, measured on the source frame (the wordmark's foot at y
+  600, the band from 606: cut at 604), and a frame where the mark is
+  clear is used; a sign cut through its letters reads as careless (the
+  owner: "the Verizon logo is cut off; show it whole").
 - **A clip that fills the upright frame is chosen for it.** A landscape
   clip filled to 9:16 keeps a slice 0.56 of its width, enlarged 1.78
   times: what reads in the wide shot (two founders at a laptop) becomes a
