@@ -149,6 +149,11 @@ when every fact is right. Cut on sight:
   first.
 - **No politics, no taking sides on borders or disputes.** Debate
   perception or method, never sides.
+- **The channel is never the one caught out.** A fault found in the data
+  the series itself draws with is told as the wider world's ("map data
+  that many maps are built on", "some maps count it as …"), never as "the
+  map we use on this channel": the owner read that as the channel looking
+  unprofessional. The source line still names the data.
 - **A slide or scene that repeats an earlier finding says so** ("At the
   hot end, also a near tie").
 - **Ask once when an instruction can be read two ways** ("no X" against
