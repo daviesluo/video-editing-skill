@@ -54,7 +54,12 @@ Common to all:
   px wide) and move the image; zoom at most plate width ÷ 1,080; split a
   deep zoom into a second, higher-resolution plate rather than upscaling,
   and keep the wider plate drawn underneath so a plate edge can never
-  slide into frame during a pull-back (one did, for five frames).
+  slide into frame during a pull-back (one did, for five frames). Where
+  no finer source exists (open ocean), the plate may give way to the
+  sea's own colour instead, on an eased band of the zoom's log scale that
+  ends where the plate is enlarged about 3.5 times; driven by the scale
+  alone, one such change fell on the zoom's fastest stretch and went in
+  five frames.
   The detail plate also fades out before its own edge (a gradient mask
   from a little inside the edge to the edge, worked out in the view's
   projection), or its edge shows as a hard line where the coarser plate
@@ -69,8 +74,10 @@ Common to all:
   shows a blank strip where a world plate ends at ±180°. One card did,
   through two renders and two reviews, because the stills taken happened
   to look full; at 240 px a radian it spans 210° and fills. Work out every
-  inset, card and opening view this way, and centre it so neither side
-  passes the plate's edge.
+  inset, card and opening view this way, both across and up and down, and
+  centre it so no side passes the plate's edge: a regional plate fetched
+  only to the equator, under a wide view whose top row reached 2.6° N,
+  drew a hard edge across the top of 52 seconds of frames.
 - **Overlays in screen space** from the projection, with stroke widths
   constant through zooms. Blur only plate images, never live vector
   layers.

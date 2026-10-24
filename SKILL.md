@@ -360,7 +360,7 @@ not rebuilt each time; a new one only for a wholly new task.
 | video reviewer - 1, video reviewer - 2 | the exhaustive review and re-checks | the same model, high effort |
 | video release writer | post text, hashtags with their checks, replies | the same model, high effort |
 | video chores | listing, counting, frames, file moves | the same model, low effort |
-| video render helper - N (standing remote sessions, `11-render.md`) | render a frame range at a named commit, push it, report its hash and frame count; nothing else | a smaller model (Sonnet) at low effort (the owner, 2026-10-23): they only run commands, and every part they return is checked here by its SHA-256, its frame count and stills at its seams |
+| video render helper - N (standing remote sessions, `11-render.md`) | render a frame range at a named commit, push it, report its hash and frame count; nothing else | a smaller, cheaper model at low effort (the owner, 2026-10-23): they only run commands, and every part they return is checked here by its SHA-256, its frame count and stills at its seams |
 
 Every agent runs on the main session's own model, never a smaller one:
 high effort for anything that changes what ships, low effort only for

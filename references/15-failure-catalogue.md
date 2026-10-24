@@ -71,7 +71,7 @@ new class of failure appears, in the same commit as the fix.
 | a shape slid to compare sizes arrived on its side | rotate on the sphere, `upright` | still |
 | a map faded in over a card for 0.1 s | scenes sequenced, not cross-dissolved, when they collide | frames at 0.03 to 0.1 s |
 | a profile rose into a still-shrinking picture | two moving things never cross | frames |
-| a veil dissolved in four frames, a flash | dissolves eased at both ends | frames |
+| a veil dissolved in four frames, a flash; a plate's change to the sea's flat colour, driven by a zoom's scale, went in five frames at its fastest stretch | dissolves eased at both ends; a change tied to a zoom runs on an eased band of its log scale | frames |
 | the caption band empty for a frame at every page change | a page's first word shows at once | frames |
 | a plate's edge slid into frame for five frames during a pull-back | the wider plate is always drawn under the detail plate | edge scan of frames |
 | a region left tinted while the narration named another | a tint means "this is what the sentence is about" | audit |
@@ -99,7 +99,8 @@ new class of failure appears, in the same commit as the fix.
 | a chip said "The line moved" before the line moved; a "Lined up" label came before its slide | a label that names a change appears with the change | audit stills |
 | a headline was written out a second before the voice reached its words; another said "too" where the voice said "the same way"; "Memory lines them up" named nothing | a headline says what the voice says, in its words, and starts on its own first word | audit stills; review |
 | a detail plate ending at 55°N drew a hard seam across the top of a wide opening, on frame 0 | a detail plate fades out before its own edge | frames at full size |
-| a card's flat map at 200 px a radian spanned about 250° and showed a blank strip past -180° through two renders and two reviews | a flat map view's span is worked out from its scale and kept inside its plate | pre-render arithmetic; review |
+| a card's flat map at 200 px a radian spanned about 250° and showed a blank strip past -180° through two renders and two reviews; a regional plate ending at the equator drew a hard edge across the top of a wide view for 52 s | a flat map view's span is worked out from its scale, across and up and down, and kept inside its plate | pre-render arithmetic; review |
+| a relief grid still held a seabed high under a phantom island's footprint, and the part about that island showed it as a pale wedge where the voice said deep ocean | look at what a dataset draws under the subject; where it contradicts the primary measurement, correct it from that measurement and log the edit | `02`; review frames |
 | a big map hidden under a veil, as a review asked, faded with the veil and crossed the card that replaced it for seven frames | the outgoing picture leaves on its own ramp, gone before the arrival; a fix is checked for the faults it can bring | re-check frames |
 
 | four long globe turns peaked at 4,400 to 5,250 px/s, two to three times the accepted half-turn; the biggest change of the part (the sea dropping from 3,682 to 6,000 m) ran during one of them and was not seen | long turns fly out and back, each peak computed and kept near the accepted turn; a described change runs after the landing | `08`, a per-frame camera model |

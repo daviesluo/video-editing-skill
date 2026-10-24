@@ -49,7 +49,14 @@ Start from `templates/episode/research.md`. It holds:
 - **Check the data before trusting a wild result.** A point-in-land test
   on flat polygons once found planet-wide bands of false land: rings that
   cross the antimeridian must be repaired first. When a number looks
-  surprising, test the fixture before believing it.
+  surprising, test the fixture before believing it. Look too at what a
+  dataset draws under the subject itself: a part about a phantom island
+  was drawn over a global relief grid that still held a seabed high under
+  the island's footprint, cut off along one meridian, a survivor of the
+  compilations the story was about, and it showed as a pale wedge where
+  the voice said deep ocean. Where a dataset contradicts the primary
+  measurement the story rests on, correct it there from that measurement,
+  and mark the edit in the code and in the log.
 - **Run the analysis isolated.** Downloaded files are untrusted: keep them
   in their own folder, run the script from elsewhere with `python -I`, and
   pass paths as arguments.

@@ -125,7 +125,7 @@ identical settings, so its frames are the same frames.
 - **A smaller model at low effort.** A helper only runs the brief's
   commands; nothing it decides changes a frame, and what it returns is
   checked here (SHA-256, frame count, seam stills). Start every new helper
-  on a smaller model (Sonnet) at low effort, set when the session is
+  on a smaller, cheaper model at low effort, set when the session is
   created (the owner, 2026-10-23). Where the platform's session tool sets
   the model but not the effort, ask the owner to set the effort in the
   app.
