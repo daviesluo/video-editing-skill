@@ -250,6 +250,16 @@ Common to all:
   and drawn edges, and the owner read it as AI-made and asked for the
   original back. A soft archive picture reads as real; a restored one does
   not.
+- **A broadcaster's caption that carries the story stays readable.** A
+  news shot's lower third is cropped off when it only names the channel
+  or the show, but when it states what the story is about (a deal and its
+  price, a record, a verdict), the shot is held whole with the caption
+  readable: no punch-in, no crop that cuts into it. The owner asked for a
+  CNN bite to be shown "without pushing in, so viewers can see clearly
+  the price it sold for". A number in it that differs from the narration's
+  (an announced price later cut) is reconciled on screen before the shot,
+  each value with its date, so the viewer never sees two prices for one
+  thing unexplained.
 - **A clip that fills the upright frame is chosen for it.** A landscape
   clip filled to 9:16 keeps a slice 0.56 of its width, enlarged 1.78
   times: what reads in the wide shot (two founders at a laptop) becomes a
