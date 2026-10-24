@@ -254,6 +254,16 @@ Common to all:
   owner found it odd. The full frame gets an upright source, or a shot
   whose subject is whole and readable inside that slice; check the slice
   on a still before using it.
+- **Moving footage where the series cuts on footage.** In an edit built on
+  clips, a page that stands for a company or a person is a clip, not a
+  photograph, best with the name in the frame (a company's own film that
+  ends on its wordmark over a real shot); the owner sent stage photographs
+  back: "use video, not photos". Cut before any line the frame cannot hold
+  whole.
+- **A speaker filled into the upright frame** from a 16:9 shot has the
+  head at the very top, under the player's top bar: stop the box at the
+  safe top (y 250) and let the page show above it. A line set over a person
+  sits on the body, never across the face.
 - **Credit lines** in the form each licence asks for, on screen as a
   source line and in the caption's Sources.
 - **Reconstructions** of what no camera saw are labelled "AI
