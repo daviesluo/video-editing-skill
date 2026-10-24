@@ -30,6 +30,14 @@ shows and checked by measurement.
 - **The audio name** that goes with the cover is at most 50 characters
   and can be set only once (`publish.py check`).
 
+- **A group of people is composed, not lined up.** Cut-out faces on a
+  cover stand like a group photograph: a front row and a back row, heads
+  at staggered heights, every face whole. Heights rising from one side to
+  the other read as a ramp, and a face hidden behind another, or one the
+  audience will not know, wastes the place (the owner, on a series cover:
+  "staggered like before, not rising one way; it must look designed", "who
+  is that, isn't he unknown? use someone like Netflix's founder").
+
 ## The rules, checked (`pipeline/covercheck.py`)
 
 | Rule | Why |

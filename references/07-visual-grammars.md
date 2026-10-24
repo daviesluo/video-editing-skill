@@ -266,6 +266,11 @@ Common to all:
   the name as the backdrop"). A full talk posted by the company's own
   people on X is often fetchable where the conference's YouTube copy is
   not.
+- **No step in brightness inside a shot.** Darkening a clip from a beat
+  partway through it (so a line reads) drops the shot's brightness by a
+  notch at once, and the owner saw it as the page flickering. Darken a
+  clip from its first frame or not at all, and choose shots whose own dark
+  area holds the line.
 - **A speaker filled into the upright frame** from a 16:9 shot has the
   head at the very top, under the player's top bar: stop the box at the
   safe top (y 250) and let the page show above it. A line set over a person
