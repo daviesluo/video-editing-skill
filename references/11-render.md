@@ -31,6 +31,20 @@ npx remotion render <Composition> out/video.mp4 --gl=swangle --concurrency=2 \
   Render stills and look at them.
 - **Vendor every asset** under `studio/public/` (fonts, images, data) and
   pin every package (`npm i --save-exact`); a render fetches nothing.
+- **Assets kept out of the main history reach the helpers on an orphan
+  asset branch**, holding only the files the episode uses, at their paths
+  under `studio/public/`. The helper fetches it and unpacks it over its
+  checkout (`git fetch origin <branch> && git archive FETCH_HEAD | tar
+  -x`). A host's file limit (GitHub refuses files over 100 MB) is met by
+  cutting a clip without re-encoding, never by compressing it (the owner:
+  "the picture quality must never be sacrificed"): stream-copy it in parts
+  at a keyframe, cut where no use of it crosses, and map each time in the
+  code onto the part that holds it. A part cut this way can start at a
+  presentation time above zero (one started 0.066 s in, from its B-frame
+  delay), and the renderer seeks on that time, so the mapping adds the
+  part's start time. Prove the mapping on stills rendered with the whole
+  file and with the parts, through every use: identical bytes, or it is
+  wrong.
 
 ## Stills first
 
