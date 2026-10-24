@@ -188,6 +188,16 @@ picture are cut together, not laid one over the other:
   end of a bar or a beat (never mid-note) and comes back on a downbeat,
   and the word it comes back on is placed there or the return is moved
   to the beat nearest the word;
+- the cut itself is made at the hit's attack, not at a beat tracker's
+  beat, which sits 30 to 50 ms after it: a stop on the tracker's beat kept
+  the first 30 to 50 ms of the next hit and cut it off, a pop on the
+  silence after "He walked away." that the owner heard ("there's a burst
+  in the sound"), and a return there lost its hit's attack. Find the
+  attack on the take (the sharpest rise of its level in the 80 ms before
+  the beat), end 4 ms before it with a 25 ms fade, start 4 ms before it,
+  and let a hit meant to land on a word ring out instead of chopping it;
+  splice two places of the take where the first now ends, crossfaded,
+  never with a gap;
 - the cuts that no word cues, the cards and the chart's arrivals land on
   the bed's beats (listed by the mix, in video seconds);
 - after a real voice's bite, the bed comes back on the cut away from it

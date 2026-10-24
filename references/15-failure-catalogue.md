@@ -204,3 +204,4 @@ new class of failure appears, in the same commit as the fix.
 | white captions on near-white web pages read as nothing | captions moved to the black or the shot's dark area | 09 "Captions on light footage" |
 | four white documents cut in from the black page were the film's hardest jolts | white pages at about 0.9 brightness on a dark film | 07 "Documents" |
 | a re-alignment after a late re-voice moved five earlier words by 0.02 s | the words before a re-voiced phrase keep the rendered times | 04 |
+| the bed stopped on the beat tracker's beats, 30 to 50 ms after the hits' attacks: every stop chopped the next hit, a pop the owner heard after "He walked away." | cut at the attack found on the take, 4 ms before it, with a fade; a stab rings out | 05 "The music fits the cut" |
