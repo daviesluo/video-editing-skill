@@ -178,6 +178,24 @@ groups, one payoff was complete for six frames.
   chopped a hit's tail at -25 dBFS straight into the opening laugh, and a
   mux with `-shortest` dropped three frames of picture.
 
+## The music fits the cut
+
+An owner heard a narrated reel's bed as not "fitting perfectly" though
+it ran under every word at the right level (2026-10-24). The bed and the
+picture are cut together, not laid one over the other:
+
+- a stop and a return fall on the bed's own grid: the bed stops at the
+  end of a bar or a beat (never mid-note) and comes back on a downbeat,
+  and the word it comes back on is placed there or the return is moved
+  to the beat nearest the word;
+- the cuts that no word cues, the cards and the chart's arrivals land on
+  the bed's beats (listed by the mix, in video seconds);
+- the bed's sections answer the story's: a breakdown under a quote, the
+  full groove on a turn, the biggest section on the payoff, a last hit on
+  the last word, each measured where it lands;
+- the bed's level and energy are read section by section under the voice,
+  not only as one integrated number.
+
 ## The bed under a reference reel
 
 A generated take cut to the picture and levelled to the reference's

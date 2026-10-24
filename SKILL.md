@@ -306,7 +306,8 @@ All of these, on the delivered file, every time:
 
 - The render goes to **"video reviewer - 1"** (or "- 2") with the
   exhaustive brief: one pass over every category (the script read cold,
-  every audit row at its word, every frame, type and layout, captions
+  every audit row at its word, every frame (its samples offset half a
+  step from the main session's own scan), type and layout, captions
   against the voice, sound and music measured, facts, cues against the
   timeline, release text, cover, the voice's pace and tone and the
   picture's rhythm against the reference parts, and

@@ -267,7 +267,12 @@ Pass one, every category, in this order:
 2. Every audit row at its word: render or extract a still at the exact start
    of each key word and check what the row claims.
 3. Every frame: extract all frames; contact sheets every 0.5 s with the safe
-   box drawn; every scene change and camera move in 0.03 to 0.1 s steps;
+   box drawn, the samples offset by half a step from the main session's
+   own scan (it samples 0.00, 0.50, 1.00 s, the reviewer 0.25, 0.75,
+   1.25 s; at a 0.25 s step, 0.125, 0.375 s and so on), so the review's
+   frames fall where the main session never looked (an owner, 2026-10-24:
+   "stagger the reviewer's samples from yours, so it finds what was
+   overlooked"); every scene change and camera move in 0.03 to 0.1 s steps;
    each camera move's speed against its sibling moves (a half-turn four
    times faster than its twin is a whip pan); any scene change made of
    several short moves, or any run of camera moves with no beat to read

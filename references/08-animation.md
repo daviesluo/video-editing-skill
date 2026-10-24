@@ -179,6 +179,19 @@ never the caption.
 - **Nothing pops out in two frames** while something else is still moving.
 - **The caption band never empties at a page change**: a page's first
   word shows at once.
+- **Every cut is meant and smooth** (an owner, on a story reel cut on the
+  words, 2026-10-24: "the cut points need strengthening, smoother"): a cut
+  lands on the onset of the word it belongs to, or on a beat of the bed
+  where no word cues it; the two shots meet: the subject's place, scale
+  and brightness carry across, or change on purpose; neither shot starts
+  mid-gesture or holds a frame of its source's own next shot; cuts closer
+  than about half a second only in a deliberate burst.
+- **No dead length** (the same owner: "some clips have extra, unneeded
+  sound or length"): a bite's picture leaves within about a beat of its
+  last word; a card, a year or a number holds as long as it takes to read
+  and not a beat more; a pause around a bite is the narrator's own pause
+  length, not longer; a clip's own breath, room noise or a word's tail
+  from the next sentence never rides in at a bite's head or end.
 
 ## First frame, last frame, covers
 
