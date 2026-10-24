@@ -8,9 +8,14 @@ with the voice, and never leave a word stranded on a page.
 
 - **Word by word in place**: each word appears as it is spoken, in its
   final position, so the line never runs ahead of the voice and never
-  reflows. A page shows two frames before its first word; each later word
-  fades in over 0.07 s from two frames before its start. A page does not
-  scale, slide or pop in: it is simply there.
+  reflows: the whole page is laid out from its first frame and the words
+  not yet spoken are hidden, never left out (a page built from the words
+  so far re-centres at every word and jumps lines when it wraps; a review
+  measured "Yahoo" moving 72 px as "had" landed). A page shows two to
+  three frames before its first word; each later word fades in over two
+  frames, starting two to three frames before its start, so it is fully
+  drawn by the time it is heard. A page does not scale, slide or pop in:
+  it is simply there.
 - **The spoken word in the accent colour**, the rest in the type colour,
   both with the tight halo, so a caption reads even over a tint of its own
   colour.
@@ -30,6 +35,17 @@ The timings come from forced alignment of the finished take
 250 ms late after pauses. Measure disputed words on a spectrogram. A word
 lights within 0.1 s of its voiced onset; later than that is a finding
 (0.13 s on "65%" was visible, 0.07 s on "km²" was not).
+
+The lead is not optional. A story reel whose captions lit on the aligned
+start, with no lead, and six words after a pause aligned 0.1 to 0.14 s
+late, read to the owner as behind the voice ("make sure the captions and
+the voice are in sync; the current version feels slightly slow"). So,
+before every render: every word after a pause is checked against its
+voiced onset (10 ms RMS rising over -30 dBFS after a dip under -45), any
+start 0.07 s or more late is moved to the onset and recorded in the
+timeline (redone after any re-alignment), and the captions lead by their
+two to three frames on top of that. Subtitles under a real voice follow
+the same rule against that voice.
 
 ## Pages (`kit/paginate.ts`)
 
