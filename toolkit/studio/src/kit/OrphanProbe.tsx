@@ -4,7 +4,7 @@ import { SAFE } from "../brand/tokens";
 import { CHARS } from "./archivoChars";
 
 // QA only (input prop `orphans: true`, see scripts/stills.mjs): after the
-// frame is laid out, finds every block of text whose last line holds a
+// frame is laid out, finds every block of text with a line that holds a
 // single word, and logs it as "ORPHAN|<text>". A line never ends with one
 // word alone on it: a lone last word reads as a layout accident, and it is
 // checked by measurement because the eye misses it on a contact sheet. A
@@ -79,7 +79,9 @@ const scan = () => {
       words = textWords(el);
     }
     const ls = lines(words);
-    if (ls.length >= 2 && ls[ls.length - 1].length === 1) found.add(words.map((w) => w.text).join(" "));
+    // Any line of one word, not only the last: a title set in forced lines
+    // left one word alone in its middle, and a last-line test passed it.
+    if (ls.length >= 2 && ls.some((l) => l.length === 1)) found.add(words.map((w) => w.text).join(" "));
   }
   for (const t of found) console.log(`ORPHAN|${t}`);
 };

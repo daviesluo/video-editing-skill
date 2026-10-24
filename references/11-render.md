@@ -85,7 +85,10 @@ were in the code and the timeline before the first render. The pass:
    `voicestyle.py report`); the transcript; every caption page listed and
    read (`09-captions.md`).
 2. **Stills at every key word** of the picture audit, and every scene
-   change and camera move in 0.1 s steps (above).
+   change and camera move in 0.1 s steps (above). Stills are fresh pages:
+   they cannot show a fault that a sequence builds up (a material compiled
+   once and never rebuilt), so every change of state in the 3D scene is
+   also seen on a short sequence render from a part's first frame.
 3. **The text scan and the covers**: the orphan and safe-zone scan over the
    whole episode, `covers.mjs`, each cover looked at.
 4. **The picture's rhythm from the code**: list every camera move with

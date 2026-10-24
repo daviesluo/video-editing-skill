@@ -50,7 +50,7 @@ its pitch, its words' levels and its first sentence's level were outside.
 
 | Gate | Command | Pass |
 |---|---|---|
-| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block whose last line holds one word ("ORPHAN"), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH"), no dark page type running into a picture marked `data-picture` ("CLASH"), and the probe ran on every still (no "NO-PROBE") |
+| orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block with a line of one word anywhere in it ("ORPHAN"; a title set in forced lines once left one in its middle), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH"), no dark page type running into a picture marked `data-picture` ("CLASH"), and the probe ran on every still (no "NO-PROBE") |
 | caption pages | `node --experimental-strip-types scripts/caption-pages.ts <id>` | every page read; none flagged; no phrase the eye reads as one unit split |
 | music | `python pipeline/music.py check episodes/<id> <take>` on the take in use | `"passed": true` |
 | sound-effect plan | the `sfx:` lines `build.py ... mix` prints | none |

@@ -13,7 +13,10 @@ Common to all:
   A real thing is drawn from its data, never as a stand-in shape: a
   mountain as its cross-section from a terrain model, a coast from the
   map, a building from its plan. Symmetric cones for three summits read
-  as AI-made clip art, even with true heights.
+  as AI-made clip art, even with true heights, and so did true sections
+  cut to 3 km and stood on columns: draw the thing wide enough to show its
+  shape, from its own base up, its cut ends fading out, with nothing
+  under it that it does not have.
 - **One focal point at a time**, the subject in accent.
 - **Every number on screen says what it measures**, with its unit and,
   where it has one, its source line.

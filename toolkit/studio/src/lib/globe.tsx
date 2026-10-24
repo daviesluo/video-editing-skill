@@ -98,6 +98,10 @@ export const Earth: React.FC<{
   <mesh renderOrder={seeThrough < 1 ? 2 : 0}>
     <sphereGeometry args={[1, 256, 256]} />
     <meshStandardMaterial
+      // Keyed on the glass: three.js does not rebuild a material when its
+      // transparency changes, so a sequence that began solid stayed solid;
+      // stills, each a fresh page, never showed it.
+      key={seeThrough < 1 ? "glass" : "solid"}
       map={texture}
       color={tint}
       bumpMap={bump ?? null}

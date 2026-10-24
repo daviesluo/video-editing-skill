@@ -93,6 +93,7 @@ new class of failure appears, in the same commit as the fix.
 | an opening map started in close; the owner asked for it bigger, then a zoom in | open wide enough to place the story, then a designed move in | picture audit |
 | a map under a white veil read as fog | diagrams sit on the clean page | review |
 | a globe's half-turn ran 140° in 0.55 s beside its twin's 2.25 s, a whip pan, after its start was moved to wait for a cut and its end stayed on its word | a camera move is judged by its speed against its sibling moves; when its start moves, its end moves with it | pre-render pass; review frames |
+| a planet meant to turn to glass stayed solid for a whole render part, the lines inside it never seen: its material was compiled once, solid, and not rebuilt; every still (each a fresh page) was right, so the stills, the audit and every gate passed | a 3D material whose transparency or other compiled state changes is keyed on that state, so it is rebuilt | a short sequence render through every change of 3D state, from a part's first frame; never stills alone |
 | a tick of a shaft stayed on a planet's edge for half a second after its cut had shut | an element is drawn only while its scene is | pre-render search; frames |
 | a country outline faded as `on × (1 − other)` came back at a quarter as both windows closed, and its straight border flashed across the frame on a posted part | what gives way is tied to the arrival of what replaces it, never to the whole window; every scene searched for the product | pre-render search; frames at 0.03 s |
 | each change of scene was two short moves with a beat between, and the picture measured busier than the reference parts while each move looked right alone | a change of scene is one continuous move | QA rhythm check; `rhythm.py moves` |
@@ -116,6 +117,7 @@ new class of failure appears, in the same commit as the fix.
 | Failure | Rule | Check |
 |---|---|---|
 | a series badge sat under the platform's top bar | the safe zone is measured on the real player | `UNSAFE` scan |
+| an end card's title set in forced lines left "appear." alone in its middle line; the probe tested only each block's last line | no line of one word anywhere in a block | the orphan probe flags any one-word line |
 | then the badge sat 65 px under the bar, a gap that read as loose | the badge's type starts about 34 px under the bar | measured on a screenshot |
 | a 72 px title ran 12 px past x 960 | key text inside the safe box, to the pixel | `UNSAFE` scan |
 | a caption page "compass bearings" wrapped to two one-word lines | pages measured with the font's own widths | `paginate`; orphan scan |
