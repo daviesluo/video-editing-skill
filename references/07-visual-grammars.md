@@ -260,12 +260,17 @@ Common to all:
   (an announced price later cut) is reconciled on screen before the shot,
   each value with its date, so the viewer never sees two prices for one
   thing unexplained.
-- **A logo that is the subject is shown whole.** When a news shot's own
-  band covers the foot of a sign, the crop is set under the mark and
-  above the band, measured on the source frame (the wordmark's foot at y
-  600, the band from 606: cut at 604), and a frame where the mark is
-  clear is used; a sign cut through its letters reads as careless (the
-  owner: "the Verizon logo is cut off; show it whole").
+- **A logo that is the subject is shown whole, with room round it.** A
+  sign cut through its letters reads as careless (the owner: "the Verizon
+  logo is cut off; show it whole"). Find the mark's foot on the source
+  frame row by row: if its letters' pixel count holds steady down to a
+  news band, the band covers the mark in the source itself and no crop
+  shows it whole (a crop at 604 left the letters touching the edge, their
+  feet under CBSN's band from row 608; it was judged whole on a reduced
+  still and a review sent it back). Then take another shot of the same
+  mark: a photograph inside another broadcast's split screen, its panel
+  alone, served (CNN's Getty picture of the sign, at 1.8 times). A panel
+  whose neighbour cuts a second logo is shown alone.
 - **A clip that fills the upright frame is chosen for it.** A landscape
   clip filled to 9:16 keeps a slice 0.56 of its width, enlarged 1.78
   times: what reads in the wide shot (two founders at a laptop) becomes a
