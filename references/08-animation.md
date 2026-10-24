@@ -31,6 +31,16 @@ every time in them comes from a word cue.
   (a little ahead, as any reveal), never on the start of a sentence whose
   opening words are not in it: one began on "Actually," and was written
   out a second before the voice reached it.
+- **A line built word by word is laid out whole from its first frame**,
+  each word shown in its final place: a title assembled from the words
+  so far ("It blew both.") re-centred at every word and dropped its
+  baseline when the large last word landed, and its first word, held for
+  its own onset, left three black frames after the cut. The first word
+  shows on the cut; the others lead their words.
+- **Words on a picture leave with it**: a caption, subtitle or credit ends
+  at the cut that ends its picture at the latest. A real voice's subtitle
+  that ran its 0.3 s tail past the cut sat over the next shot, on top of
+  that shot's own caption.
 - **A label that names a change appears with the change**, not before
   it: a chip saying "The line moved to New York" came up before the line
   moved, and "Lined up" now names its card as the shape slides into line.

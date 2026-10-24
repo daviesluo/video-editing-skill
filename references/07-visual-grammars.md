@@ -300,6 +300,13 @@ Common to all:
   the narrator reads it exactly; an omission is marked with an ellipsis
   and does not change the meaning. `kit/Quote.tsx` takes the words and the
   time of each from the word cues.
+- **Every quoted passage carries its source on screen**, the whole time
+  it is shown, including a close-up of one line: a press release opened
+  straight on its key passage lost the attribution line the full view
+  had. And a quote cut short is cut where it does not narrow what it
+  says: an annual report's "65 million Web pages per day on Yahoo! …" read
+  as Yahoo.com alone, where the sentence went on "and other
+  Yahoo!-branded online media properties".
 - **A book is shown by its title set in type**, or by a public-domain
   edition's page; in-copyright cover art is not decoration.
 - Long passages are never put on screen; a short quotation with a stated
