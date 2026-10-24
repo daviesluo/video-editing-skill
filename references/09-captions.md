@@ -54,7 +54,9 @@ The pagination is a small search for the fewest pages that break no rule:
   timeline by `build.py <id> captions`) never split across pages: "a new
   one", "South Pacific", "the 2nd". A kept phrase runs across a comma
   ("Reno, Nevada," is one page; without the keep, "Nevada," stood alone),
-  and may run up to five words.
+  and may run up to five words. Keep a page from reading as another
+  phrase on its own: "that many maps" read as a quantity ("so many maps")
+  until "map data that" was kept together.
 - **Split compounds** (`caption_split`): a hyphenated word too long to
   share a line ("gauge-changing") may break after its hyphen into two
   caption words, its time shared by letters.

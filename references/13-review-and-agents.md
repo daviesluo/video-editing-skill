@@ -85,7 +85,7 @@ exhausted, and then brief it from the old one's report file.
 | Name | Job | When | Tier |
 |---|---|---|---|
 | video researcher | topic research and the fact sheet: demand evidence, primary sources, data downloads with provenance, analysis scripts | before a topic is approved; before a script | the main session's model, high effort |
-| video fact checker | re-verifies every claim at its source or by re-running the computation, independently of the researcher | after the script is drafted; after any wording change | the same model, high effort |
+| video fact checker | re-verifies every claim at its source or by re-running the computation, independently of the researcher | after the script is drafted, and again once the release text exists (a first pass run before it left the ready replies unchecked, and two of them were wrong); after any wording change | the same model, high effort |
 | video script editor | the cold read, the unslop pass, readings, spelling, the teaser chain | before voicing; before release | the same model, high effort |
 | video designer | style frames, scene designs, covers, layout fixes proposed with exact values | before a scene is built; on any change of look | the same model, high effort |
 | video reviewer - 1, video reviewer - 2 | the exhaustive review of a render; re-checks of its fixes | after every render that might ship | the same model, high effort |

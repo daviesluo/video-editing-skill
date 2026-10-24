@@ -85,9 +85,15 @@ were in the code and the timeline before the first render. The pass:
 5. **The code's own faults by search**: every fade written as one
    element's window against another's (`on × (1 − other)`), every element
    drawn outside its scene's window, every flat map view whose span at
-   its scale passes its plate or ±180°, every detail plate whose edge can
-   enter the frame (`07-visual-grammars.md`, "Maps and globes";
-   `08-animation.md`, "Designed, not drawn the quick way").
+   its scale passes its plate or ±180°, across and up and down, every
+   detail plate whose edge can enter the frame, every change of look tied
+   to a camera's scale without its own ease, every drawn thing with no
+   source behind it and no "drawn schematically", every label nearer
+   something else than what it names (`07-visual-grammars.md`, "Maps and
+   globes"; `08-animation.md`, "Designed, not drawn the quick way"). Walk
+   this list item by item with the code open and write each answer down:
+   run from memory, it once let four faults through that rules already
+   covered.
 6. **The sound**: `music.py check` on the take in use, the effects plan.
 7. **The release**: staged and `publish.py check`.
 
@@ -204,8 +210,12 @@ move whose end time changed reaches every frame up to that end: one fix
 moved a slide's end by a fraction of a second into the next part, which
 would have left eight frames of the kept part out of step with the new
 code at the seam, and the part had to be re-rendered too. When in doubt,
-re-render it. The seam check above then runs on every seam, kept parts'
-included, and the ledger records which commit each part was rendered at.
+re-render it. Then prove it on the result: decode the re-rendered part
+and the one it replaces, and only the frames worked out may differ (a
+change to one caption page re-rendered one quarter, and exactly that
+page's 87 frames differed). The seam check above then runs on every seam,
+kept parts' included, and the ledger records which commit each part was
+rendered at.
 A round of partial re-renders is still a round: find everything first
 (above).
 

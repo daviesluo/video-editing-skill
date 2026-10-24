@@ -14,8 +14,12 @@ Common to all:
 - **Every number on screen says what it measures**, with its unit and,
   where it has one, its source line.
 - **Draw to scale, or say so.** Anything drawn at true scale is checked
-  and logged; anything schematic says "drawn schematically" in its
-  source line.
+  and logged; anything schematic (a path whose course is not published,
+  a count or shape the source does not give) says "drawn schematically"
+  in its source line.
+- **A name sits nearer its own place than any other marked thing.** A
+  country's name set level with the ringed place of something else, 90 px
+  from the ring and further from the country, read as the ring's name.
 - **Mark the cover's subject** with `data-cover-subject`, so the cover
   check can measure it.
 - **Start from the kit.** `studio/src/kit/` has a designed component for
