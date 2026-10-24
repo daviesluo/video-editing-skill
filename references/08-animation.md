@@ -201,6 +201,11 @@ never the caption.
 - Vary the interval between beats (2 to 4 s): a metronome reads as
   boredom.
 - Reveal in sequence; never dump a full slide.
+- Nothing that looks broken. A line alone on an empty page for about two
+  seconds, between full-frame footage, reads as a render fault to a
+  viewer (the owner asked what had gone wrong there): put darkened
+  footage under it. A still held where the story moves on reads as a
+  frozen player: after a sound bite ends, cut to motion that pays it off.
 
 ## Imitating a reference reel
 
