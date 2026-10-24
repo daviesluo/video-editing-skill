@@ -212,6 +212,26 @@ once the owner has decided; keep logging every element as below.
   IP that the owner provides and approves for the machine, without
   cookies, or have the owner send the files; never settle for a lower
   copy because the better one was refused.
+- What a cloud machine could still fetch, when YouTube, Facebook and
+  Wikimedia's API refused it (2026-10):
+  - posts on X, through `api.fxtwitter.com` (a status gives every mp4
+    variant up to the original; `/2/profile/<user>/statuses` pages
+    through an account with its `cursor`, and answers 404 now and then,
+    so retry). A company's staff often post the whole recording of a
+    conference talk there, where the conference's own copy is on
+    YouTube;
+  - companies' own sites and CDNs (newsroom and product pages, their
+    asset hosts), NASA's image library (`images-api.nasa.gov`), research
+    projects' pages (`<name>.github.io`, whose own test videos are often
+    there in full);
+  - Wikimedia Commons through its category pages as HTML and their
+    `thumb.wikimedia.org` thumbnails, then each original from
+    `upload.wikimedia.org` one at a time with a pause, when the API
+    answers 429;
+  - YouTube's thumbnails (`i.ytimg.com/vi/<id>/hq1.jpg` to `hq3.jpg`, at
+    a quarter, a half and three quarters) to judge a video before asking
+    the owner's other machine for just the stretch needed
+    (`yt-dlp --download-sections "*25:00-32:00"`).
 - Music and sound effects: see `05-music-and-sound.md`. Never the
   platform's in-app music baked into an upload, meme or television
   samples, or anything found by searching the internet.

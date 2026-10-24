@@ -56,6 +56,9 @@ new class of failure appears, in the same commit as the fix.
 | the last chord was cut off under the last word, leaving a silent end card | a held final chord through the end card (`tail_s`, `end_fade_s`) | hold test |
 | a section landed louder at a chunk seam | the same loudness and density in every chunk | seam test |
 | the same effect sample twice running | several takes per effect, cycled | `mix.sfx_problems` |
+| a drop stopped lifting: later changes let the first half creep 2 dB over the drive | the first half at least about 9 dB under the drive, measured on every mix | loudness by section |
+| a bite cut at the aligner's word end lost the last syllable of "keyboard" | a bite ends where its sound falls into silence on the waveform | waveform at the cut |
+| pictures and words taking turns on the hits made pages slow | the first words and the first picture together on the downbeat, pictures spread over the beat points | `pops.ts` list; the owner's ear |
 
 ## Picture and animation
 
@@ -103,6 +106,10 @@ new class of failure appears, in the same commit as the fix.
 | a card's flat map at 200 px a radian spanned about 250° and showed a blank strip past -180° through two renders and two reviews; a regional plate ending at the equator drew a hard edge across the top of a wide view for 52 s | a flat map view's span is worked out from its scale, across and up and down, and kept inside its plate | pre-render arithmetic; review |
 | a relief grid still held a seabed high under a phantom island's footprint, and the part about that island showed it as a pale wedge where the voice said deep ocean | look at what a dataset draws under the subject; where it contradicts the primary measurement, correct it from that measurement and log the edit | `02`; review frames |
 | a big map hidden under a veil, as a review asked, faded with the veil and crossed the card that replaced it for seven frames | the outgoing picture leaves on its own ramp, gone before the arrival; a fix is checked for the faults it can bring | re-check frames |
+| a clip darkened from a beat partway through it stepped down a notch mid-shot, and the owner saw the page flicker | no step in brightness inside a shot | mean brightness per frame through every shot |
+| a hall with a black screen, darkened under a line, read as "most of the screen is black" | footage under a line is a bright shot whose own dark area holds the line | stills; mean brightness |
+| a speaker filled into the upright frame had his head under the player's top bar, and a word sat across his face | the box stops at the safe top; lines sit on the body | text scan; stills |
+| an approved page was rebuilt by a later pass, four times, and the owner asked for each back | what the owner approved stays; findings against it go to the owner first | `13` |
 
 | four long globe turns peaked at 4,400 to 5,250 px/s, two to three times the accepted half-turn; the biggest change of the part (the sea dropping from 3,682 to 6,000 m) ran during one of them and was not seen | long turns fly out and back, each peak computed and kept near the accepted turn; a described change runs after the landing | `08`, a per-frame camera model |
 | a turn needed 1.5 s between two named places the voice said 0.9 s apart, so "France" never reached full strength and "Asia" was labelled after its word | widen the pause between the two words in its own silence (`voice.widen`), never speed the picture | stills at each word |
@@ -137,6 +144,7 @@ new class of failure appears, in the same commit as the fix.
 | a cover froze island names mid-fade | look at every cover at full size after any re-timing | by eye |
 | a mask that did not move with the cover's picture hid a city's dot and cut a line short | masks move with the picture | cover look |
 | a level line left out of the measured subject | zero-height boxes count | `CoverProbe` |
+| a group of cut-out faces with one face hidden, one the audience would not know, and heights rising one way | two rows, staggered, every face whole and known | the cover at full size and in the tile |
 
 ## Release and posting
 
@@ -166,6 +174,7 @@ new class of failure appears, in the same commit as the fix.
 | a stale picture audit with first-take times read as evidence | re-take the audit after any re-timing | review |
 | flat point-in-polygon tests found false land bands | repair antimeridian rings before computing | analysis script |
 | two values for one quantity across screen and caption | one quantity, one value | fact log |
+| two helpers' parts failed: the asset branch was listed by searching the code for file names and missed paths the code builds | the branch's list comes from the episode's own media list, diffed with the branch before every brief | `assets.ts` against `git ls-tree` |
 | a render waited on one helper while the other sat idle | split it across both (`RENDER_FRAMES`), each part briefed with its range and frame count and checked by its SHA-256, `join` after the counts are checked to meet and add up to the composition, every seam compared with stills | `build.py join` |
 | a usage limit stopped every agent mid-task | record what was running in the ledger; resume each by message once the limit resets | ledger |
 | work on another episode competed with the one the owner was waiting to post | everything into the waiting deliverable; other reports filed until it ships; the owner told when a background step finishes | ledger |

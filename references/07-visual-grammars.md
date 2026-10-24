@@ -305,6 +305,16 @@ Common to all:
   company's.
 - **Products** from press-kit images or our own photographs; competitors'
   marks only in a fair, factual comparison.
+- **Products in use are real footage**: a robot on its engineering
+  walking test, a headset worn by a person, a drone in flight, never the
+  company's advert (an owner, of a humanoid's polished ad: "a robot
+  people made themselves, engineering test footage, not a marketing
+  video") and never a generated screen or game demo ("too AI").
+- **People in a collage**: each face once in the film (one allowed
+  exception at most), faces the audience knows (an owner, of a founder
+  less known abroad: "who is that? use someone like Netflix's founder"),
+  each framed on the person at the moment it is shown (a frame of legs, a
+  blur or pillarbox bars is replaced or cropped).
 - **Business figures** as charts in the house style, with the fiscal year
   and currency in the label and "Source: <company> annual report <year>"
   as the source line.

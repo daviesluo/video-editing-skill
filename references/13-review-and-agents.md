@@ -51,6 +51,15 @@ and fix the rule or the check that let it through as well as the episode:
 a standard that did not catch its own case is not yet written well
 enough.
 
+**What the owner approved stays.** A later pass that rebuilds the film
+does not reach into a section the owner has approved: an owner asked four
+times for approved pages back ("why change it, the earlier version was
+good"). An approved section is restored from the commit the owner saw,
+rect for rect; a reviewer's finding against it, or a new rule it seems to
+break, goes to the owner as a proposal with stills before anything is
+rebuilt, and only faults (a flash, a cut word, a wrong fact) are fixed
+unasked.
+
 **When the owner withdraws a request** ("forget I said it, render as
 before"), undo it cleanly: revert the trial, prove the tree is back where
 it was (the files' hashes, or `git diff` against the commit before the

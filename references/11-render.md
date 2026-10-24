@@ -44,7 +44,11 @@ npx remotion render <Composition> out/video.mp4 --gl=swangle --concurrency=2 \
   delay), and the renderer seeks on that time, so the mapping adds the
   part's start time. Prove the mapping on stills rendered with the whole
   file and with the parts, through every use: identical bytes, or it is
-  wrong.
+  wrong. The branch's list comes from the episode's own media list as the
+  code builds it (a script that imports it and prints every source),
+  diffed with `git ls-tree` of the branch before every brief: a search of
+  the code for file names missed paths built in code (cut-out busts named
+  from a list), and two helpers' parts failed on them.
 
 ## Stills first
 
