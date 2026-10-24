@@ -103,6 +103,20 @@ finished, checked episode failed:
 - **Nothing a viewer could misread or have to replay.** If a sentence
   can be read two ways, rewrite it; do not rely on the picture to settle
   it.
+- **The evidence is the strongest there is, and it is a fact, not a
+  hint.** A line that backs a claim gives the hardest proof available, in
+  this order: a primary figure (the company's own filing, a dataset), a
+  dated first-hand account, then the rest; never an aside that only
+  implies it. "Back then, many people started on the web at Yahoo. Even
+  their own paper said so." (the founders' paper mentioning Yahoo in
+  passing) was "very weak supporting evidence" to the owner; it became
+  "65 million page views a day.", Yahoo's own figure from its annual report
+  filed weeks before the pitch, shown as the filing with the number swept.
+- **A kicker never claims "ever", "first" or "only" where a popular story
+  contradicts it**, even an unsupported one: the viewer who knows it hears
+  the payoff as wrong. Date the claim instead ("The first price Google
+  named, in 2002?" for "The first price Google ever named to Yahoo?", which
+  a widely repeated, unsourced "$1 million in 1997" would answer).
 - **Wording the owner gives is used as given**, in the voice, the
   captions and the post text alike. Where it reads awkwardly in English,
   offer it back first with one or two natural phrasings that keep its
