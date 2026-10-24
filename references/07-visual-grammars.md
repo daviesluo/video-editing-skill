@@ -239,13 +239,14 @@ Common to all:
 - **Portraits** carry the person's name and dates as a label, with the
   source line. No generated portraits of real people, no face-swaps, no
   "restoration" that invents detail.
-- **Old footage at its clearest.** Fetch the best copy there is first. When
-  even that is soft (a 2007 broadcast survives only as small, blocky
-  uploads), clean it: scale it down to its true detail, then up again with
-  a general upscaler that removes blocks and noise (Real-ESRGAN
-  `realesr-general-x4v3`, denoise blended with its `wdn` weights), never a
-  face model, which draws a new face. Compare the result with the source
-  frame by frame: edges cleaner, nothing added to the face or the text.
+- **Old footage as it survives.** Fetch the best copy there is, and show
+  it as it is, at a size its detail carries (a band at the full width, not
+  blown up to fill the frame). Never clean it with an upscaler: a 2007
+  broadcast scaled down to its true detail and back up with Real-ESRGAN
+  (`realesr-general-x4v3`, no face model) came out with smooth, waxy skin
+  and drawn edges, and the owner read it as AI-made and asked for the
+  original back. A soft archive picture reads as real; a restored one does
+  not.
 - **A clip that fills the upright frame is chosen for it.** A landscape
   clip filled to 9:16 keeps a slice 0.56 of its width, enlarged 1.78
   times: what reads in the wide shot (two founders at a laptop) becomes a
