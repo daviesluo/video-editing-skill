@@ -178,6 +178,19 @@ groups, one payoff was complete for six frames.
 - End a bite where its last word's sound has fallen into silence on the
   waveform (about -55 dB), not at the aligner's word end: one bite cut at
   the aligned end lost the last syllable of "keyboard".
+- **Sound joins are designed, never cut dead.** The owner heard a cut
+  whose bed stopped dead under three bites (2 s under -50 dBFS in all) and
+  whose film line switched its room on and off, and said "the sound joins
+  are not good enough". Now: the bed runs on under every real voice at
+  its low end (under 300 Hz, a few dB down), slid into over a third of a
+  second on an equal-power curve and back whole on the cut away, and
+  under a bare question too; each bite comes in and goes out on its own
+  room (a fifth to a third of a second of the room before its first word
+  and after its last, faded on equal-power curves), and where a stray
+  word sits right against the first one, the room is taken from just
+  before it and laid under the cut; a join inside a bite falls in the
+  room's quiet. Gate: no 50 ms stretch of the mix under -50 dBFS before
+  its last second, and every bite's edge read on its 10 ms levels.
 - Check the bed's band balance and its loudness through a phone speaker
   (a 300 Hz high-pass) against the reference's: one generated bed carried
   almost all its weight under 150 Hz and played 4 dB quieter on a phone
