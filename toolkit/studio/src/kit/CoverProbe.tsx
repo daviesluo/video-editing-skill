@@ -64,7 +64,10 @@ const measure = () => {
   let subject: Box | null = null;
   for (const el of document.querySelectorAll("[data-cover-subject]")) subject = merge(subject, merge(shapeBox(el, 0.05), textBox(el, 0.05)));
   const round = (b: Box | null) => (b ? b.map((v) => Math.round(v)) : null);
-  console.log(`COVER|${JSON.stringify({ title: round(title), subject: round(subject) })}`);
+  // The title's text as printed, so a markup character left in it (a "|"
+  // that did not break the line) is caught.
+  const text = [...document.querySelectorAll("[data-cover-title]")].map((el) => el.textContent ?? "").join(" ");
+  console.log(`COVER|${JSON.stringify({ title: round(title), subject: round(subject), text })}`);
 };
 
 export const CoverProbe: React.FC = () => {

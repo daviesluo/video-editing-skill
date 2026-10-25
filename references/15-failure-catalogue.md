@@ -45,6 +45,7 @@ new class of failure appears, in the same commit as the fix.
 | a part at 2.54 words a second, sentence pauses down to 0.31 s, passed every check and two reviews and was heard as rushed | pace is a gate against the series' reference parts, its first approved ones; a fast take is replaced by a seed in their range and its pauses lengthened in their own silence, the words never slowed | QA rhythm check; `voice.py pace-report`; review brief |
 | a 4 percent pitch-kept slow-down of that take was heard at once as slowed by hand | the voice is never slowed in post; speed comes from choosing the take | `voice.pace` refuses any slow-down |
 | a paced take failed the tone gate that its unpaced take had passed (pitch movement 4.35 against 4.56, the same words): the pauses `voice.pace` lengthened were digital zero, and the pitch tracker then dropped most of the voiced frames of the short sentence after one | the silence put in is the pause's own room tone (its quietest 20 ms, never over -80 dB) | tone gate on the paced take |
+| 0.1 s of room tone put into a comma's pause cut a hole in a breath that ran through it at -25 to -53 dB, and the narration check passed it (no splice recorded) | `voice.pace` lengthens only a pause that falls silent (quietest 20 ms under -60 dB) and moves the rest to the next silent pause | `qa.voice_flaws` hole check |
 | a take slowed into the pace range by a `[slowly]` tag at the start of every section was heard at once as a different reading, "above all the first sentence, which sounds listless"; measured, its pitch median sat 2.3 Hz under the reference parts' lowest, its words' levels spread 3.6 dB against at most 3.28, and its opening line 0.4 dB under the take where theirs sat 0 to 1 dB over it | the reference parts are the standard for the narrator's tone as for the pace; no direction tag for speed; untagged seeds inside the tone first, then the slowest, then pauses for the overall pace | QA tone check; `voicestyle.py report` |
 | the same take's speech rate read 0.1 syllables a second apart between two runs, because gaps of exactly 0.12 s fell either side of a 0.12 s pause line; a re-alignment of a paced take read it 0.05 to 0.07 faster with no word changed | a pause is a gap over 0.125 s; the speech limit allows 0.05 for the alignment's noise; `voice.pace` moves the word timings with its silence instead of re-aligning | selftest; `voice.pace_measure` |
 | a part heard as rushed beside its four reference parts measured 5.22 syllables a second in speech, its picture moving 29 percent of the time in 2.81 movements per 10 s with a median hold of 2.03 s, every measure outside their range, where words a second had misled | the reference parts are the measured standard, in syllables for the voice and in movement for the picture | QA rhythm check; `rhythm.py report` |
@@ -56,6 +57,7 @@ new class of failure appears, in the same commit as the fix.
 | the bed sat near silence for 3 s under the hook, then came in at once | continuous pulse and a held low note from the first beat | hole test |
 | the last chord was cut off under the last word, leaving a silent end card | a held final chord through the end card (`tail_s`, `end_fade_s`) | hold test |
 | a section landed louder at a chunk seam | the same loudness and density in every chunk | seam test |
+| the bed climbed from -34 to -26 dB over the episode and sat 12.3 LU under the follow line against the house's about 15 | measure voice against bed per section; a cue-keyed step (`music.steps`, ramped over 1 s) where the bed climbs | per-section LU table |
 | the same effect sample twice running | several takes per effect, cycled | `mix.sfx_problems` |
 | a drop stopped lifting: later changes let the first half creep 2 dB over the drive | the first half at least about 9 dB under the drive, measured on every mix | loudness by section |
 | a bite cut at the aligner's word end lost the last syllable of "keyboard" | a bite ends where its sound falls into silence on the waveform | waveform at the cut |
@@ -65,6 +67,10 @@ new class of failure appears, in the same commit as the fix.
 
 | Failure | Rule | Check |
 |---|---|---|
+| every dot outside the group lit flashed back to full for half a second at each handover between groups, because each group's dimming window ended where the next began | one held dim from the first group to the end card, the groups lit over it | dark-pixel count across each handover |
+| a 200 km band drawn as a translucent stroke along the lines read as their casing, not as an area, and its round caps spilled past the map's outline | show an area by fading what lies outside it, clipped to the map's outline | still at phone size |
+| text started on the first word of a sentence whose own words came 0.6 to 2.7 s later ("The United States…" for "about 81%") | a line starts on its own first word, and its sound with it | cue table against the timeline |
+| the map faded out and the follow card faded in with four frames of empty page between, and a slide drawn under the end card's veil washed out and jumped back to colour | one move: the map slides into the card's window as it is clipped to it, drawn above the veil, and the card takes over on the same pixels | frames at 1/30 s through the handover |
 | the title still rising on frame 1 | the first frame is complete; reveals that must read at once start at -1.0 s | still at 0.0 |
 | a line swept through a caption during a camera move | nothing over captions; lines under the caption-clear mask | review frames |
 | "Equator" showed without its line, and stayed after the lines had gone | a line and its label come and go together; masks in frame units | audit; review |
@@ -145,6 +151,7 @@ new class of failure appears, in the same commit as the fix.
 | a cover froze island names mid-fade | look at every cover at full size after any re-timing | by eye |
 | a mask that did not move with the cover's picture hid a city's dot and cut a line short | masks move with the picture | cover look |
 | a level line left out of the measured subject | zero-height boxes count | `CoverProbe` |
+| a cover printed "Where are \| the cracks?" (a "\|" inside an accent not split), froze mid-reveal so the dots half-answered its question, and its dots vanished at grid size | "\|" split in every span; a question cover freezes before its answer, a statement cover on the finished picture; look at the 240 px tile | `covercheck` prints-markup rule; by eye in the tile |
 | a group of cut-out faces with one face hidden, one the audience would not know, and heights rising one way | two rows, staggered, every face whole and known | the cover at full size and in the tile |
 
 ## Release and posting

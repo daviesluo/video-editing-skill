@@ -98,7 +98,10 @@ the mix.
   750 ms); while the voice runs, 250 to 400 Hz dipped 3 dB and 1.5 to
   4 kHz dipped 4 dB. That puts the bed about 15 to 16 LU under the voice
   while it speaks; broadcast practice keeps commentary at least 10 LU over
-  music, and listeners prefer more.
+  music, and listeners prefer more. Measure it section by section: a
+  composed bed can climb (one rose from -34 to -26 dB and sat 12.3 LU under
+  the follow line); `music.steps` ([{"cue", "db"}] in episode.json) sets
+  the bed lower from a cue, ramped over 1 s and held.
 - The bed is high-passed at 110 Hz, low-passed at 14.5 kHz and levelled
   at 2:1 with slow attack and release, so sections step rather than jump.
 - A bed made for a slightly shorter narration is slowed (pitch kept) to

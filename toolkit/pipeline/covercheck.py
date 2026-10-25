@@ -54,6 +54,11 @@ def problems(png, layout_json, cfg=None):
     if not title:
         return ["the cover has no measured title"]
     out = []
+    # Markup printed as text: a cover read "Where are | the cracks?" (the
+    # bar inside an accent was not split).
+    for ch in ("|", "*"):
+        if ch in lay.get("text", ""):
+            out.append(f"the title prints {ch!r}: {lay['text']!r}")
     tl, tt, tr, tb = title
     if tt < top + margin or tb > bottom - margin:
         out.append(f"title spans y {tt} to {tb}, outside the grid tile's {top + margin} to {bottom - margin}")

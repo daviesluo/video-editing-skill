@@ -782,11 +782,14 @@ def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
     lengthened in its own silence (`pace_plan`), faded over 5 ms either
     side, so no word is touched or stretched. What goes in is noise at
     the level of the pause's quietest 20 ms (the take's room tone, about
-    -88 dB; never over -80 dB, since a comma's short pause may hold the
-    word's tail), not digital zero: zeros made the pitch tracker drop most
-    of the voiced frames of a short sentence after a lengthened pause, and
-    a tone gate read 4.35 semitones of movement against 4.56 for the same
-    words (a pitch-kept slow-down was
+    -88 dB), not digital zero: zeros made the pitch tracker drop most of
+    the voiced frames of a short sentence after a lengthened pause, and a
+    tone gate read 4.35 semitones of movement against 4.56 for the same
+    words. Only a pause that falls silent (quietest 20 ms under -60 dB) is
+    lengthened: a comma's short pause may be all breath or a word's tail,
+    and 0.1 s of room tone put into a breath at -25 to -53 dB cut a hole in
+    it; the seconds such a pause would have had go to the next silent
+    pause, so the pace holds (a pitch-kept slow-down was
     heard as unnatural; speed comes from choosing the take). A sentence end
     and a section break are brought up to the reference parts' typical
     pauses (brand.json `rhythm.pauses`, written by `rhythm.py standard`)
@@ -825,8 +828,19 @@ def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
         g1 = min([b for b in starts if b >= t], default=t)
         g = a[int(g0 * sr):int(g1 * sr)]
         levels = [float(np.sqrt(np.mean(g[j:j + win] ** 2))) for j in range(0, len(g) - win + 1, win // 2)]
-        return min(levels + [10 ** (-80 / 20)])
+        return min(levels) if levels else 1.0
 
+    # Only a pause that falls silent (its quietest 20 ms under -60 dB) is
+    # lengthened; the seconds a pause in sound would have had go to the next
+    # silent one, so the overall pace holds.
+    silent, carry = [], 0.0
+    for t, extra in inserts:
+        if room(t) < 10 ** (-60 / 20):
+            silent.append((t, extra + carry))
+            carry = 0.0
+        else:
+            carry += extra
+    inserts = silent
     out, last = [], 0
     for t, extra in inserts:
         i = int(t * sr)

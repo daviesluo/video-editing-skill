@@ -65,6 +65,7 @@ shows and checked by measurement.
 | the subject starts at least 32 px under the title, never under it | type over the subject it names |
 | on the bare page, what sits under the title is centred in the tile's space below it: neither gap more than 1.5 times the other, each at least 80 px | shapes bunched up under the title with an empty bottom looked unbalanced |
 | a full-bleed map or picture fills the tile and keeps its subject clear of the title | |
+| the title prints no markup ("\|" or "*") | a "\|" inside an accented span was printed as a bar ("Where are \| the cracks?") and no box check could see it; the probe reports the title's text |
 
 `node scripts/covers.mjs` (in `studio/`) renders every `Cover<NN>`
 composition from one bundle, measures each cover's title and subject in

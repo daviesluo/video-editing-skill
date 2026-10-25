@@ -205,6 +205,18 @@ def composed_bed(path, timeline, lead, n, work, cfg):
     k = min(len(a), n - off)
     track[off:off + k] = a[:k]
     dtrack[off:off + k] = b[:k]
+    # `steps` ([{"cue", "db"}]): from each cue the bed is set `db` lower or
+    # higher, ramped over 1 s and held, for a bed that climbs under the end
+    # (one rose from -34 to -26 dB, 12.3 LU under the follow line against
+    # the house's about 15).
+    for st in cfg.get("steps", []):
+        i = int((cue_time(timeline, st["cue"]) + lead) * RATE)
+        g = np.ones(n, np.float32)
+        r = min(RATE, n - i)
+        g[i:i + r] = np.linspace(1, 10 ** (st["db"] / 20), r, dtype=np.float32)
+        g[i + r:] = 10 ** (st["db"] / 20)
+        track *= g
+        dtrack *= g
     fade = int(cfg.get("end_fade_s", 0.3) * RATE)
     ramp = np.linspace(1, 0, fade, dtype=np.float32)
     track[n - fade:] *= ramp

@@ -134,12 +134,18 @@ take, so it is chosen, not processed:
   Then `pace-report` again, `recue.py` for any wording that changed, and
   the music re-made, since every segment now starts later. A slightly
   longer episode is fine; a rushed one is not. The silence put in is
-  noise at the pause's own room tone (its quietest 20 ms, about -88 dB,
-  never over -80 dB), not digital zero: zeros are not heard under the bed,
-  but they made the pitch tracker drop most of the voiced frames of a
-  short sentence after a lengthened pause ("And the gaps?": 35 frames to
-  10), and the tone gate failed a take that had passed it unpaced (4.35
-  semitones of movement against 4.56, the same words).
+  noise at the pause's own room tone (its quietest 20 ms, about -88 dB),
+  not digital zero: zeros are not heard under the bed, but they made the
+  pitch tracker drop most of the voiced frames of a short sentence after
+  a lengthened pause ("And the gaps?": 35 frames to 10), and the tone gate
+  failed a take that had passed it unpaced (4.35 semitones of movement
+  against 4.56, the same words). And only a pause that falls silent
+  (its quietest 20 ms under -60 dB) is lengthened: a comma's short pause
+  is often all breath ("map, and" ran at -25 to -53 dB throughout), and
+  0.1 s of room tone put into it cut a hole in the breath. The seconds
+  such a pause would have had go to the next silent pause, so the pace
+  holds and the later words keep their times. QA's narration check finds
+  a hole (`qa.voice_flaws`).
 
 ## Tone, measured against the reference parts
 

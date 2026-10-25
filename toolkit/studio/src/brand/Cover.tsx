@@ -61,15 +61,16 @@ export const Cover: React.FC<CoverProps> = (props) => {
             textWrap: "balance",
           }}
         >
-          {words.map((w, i) =>
-            w.startsWith("*") ? (
-              <span key={i} style={{ color: COLORS.accent }}>
-                {w.slice(1, -1)}
+          {/* "|" breaks the line in accented words too (a cover once
+              printed "Where are | the cracks?" with the bar). */}
+          {words.map((w, i) => {
+            const accent = w.startsWith("*");
+            return (
+              <span key={i} style={accent ? { color: COLORS.accent } : undefined}>
+                {(accent ? w.slice(1, -1) : w).split("|").map((part, j) => (j ? [<br key={j} />, part.trimStart()] : part))}
               </span>
-            ) : (
-              <span key={i}>{w.split("|").map((part, j) => (j ? [<br key={j} />, part.trimStart()] : part))}</span>
-            ),
-          )}
+            );
+          })}
         </div>
       </div>
       <CoverProbe />

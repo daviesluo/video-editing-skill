@@ -194,6 +194,11 @@ def voice_flaws(a, sr, timeline):
       word (the "T" of a replaced "Tokyo" stayed against the new one).
     - A click is a sample jump over 0.01 inside a pause more than 45 dB
       down; inside speech, sharp jumps are consonants.
+    - A hole is a flat stretch of 50 ms or more between two words (10 ms
+      levels within 2 dB of each other) that the sound steps down into and
+      up out of by over 20 dB, as a fill put into a breath makes (0.1 s at
+      -80 dB inside a breath at -25 to -53 dB). A natural pause falls and
+      rises gradually, and a consonant's closure is shorter.
     - The take's first and last samples are silence and its last 50 ms
       holds no sound: a take that ended on a cut-off fragment clicked on the
       quiet end card."""
@@ -225,6 +230,17 @@ def voice_flaws(a, sr, timeline):
     frame = np.arange(len(d)) // hop
     for i in np.nonzero((d > 0.01) & quiet[np.minimum(frame, n - 1)])[0][:20]:
         out.append(f"click at {i / sr:.3f} s (jump {d[i]:.3f} in a pause)")
+    db = 20 * np.log10(rms + 1e-9)
+    for w0, w1 in zip(timeline["words"], timeline["words"][1:]):
+        f, f1 = int(w0["end"] * sr / hop), min(int(w1["start"] * sr / hop), n - 1)
+        while f < f1:
+            g = f
+            while g + 1 < min(f1 + 3, n) and abs(db[g + 1] - db[f]) < 2:
+                g += 1
+            if g - f >= 4 and f > 0 and g + 1 < n and min(db[f - 1] - db[f], db[g + 1] - db[g]) > 20:
+                out.append(f"hole at {f * hop / sr:.2f} s, {(g - f + 1) * 10} ms flat at {db[f]:.0f} dB between "
+                           f"{w0['text']!r} and {w1['text']!r}")
+            f = g + 1
     if abs(float(a[0])) > 0.002:
         out.append(f"the take starts on sample {a[0]:.4f}, not silence")
     tail = a[-int(0.05 * sr):]
