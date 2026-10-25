@@ -126,7 +126,13 @@ Common to all:
   rather than stopping at them.
 - **Borders fine and quiet**, the same weight in every episode; disputed
   borders dashed, taking no side; a past era's map shows no modern
-  borders.
+  borders. Only Natural Earth's "International boundary" class is solid;
+  every other class (disputed, line of control, indefinite, indeterminate
+  frontier, unrecognized, lease and overlay limits) is dashed, on the
+  flat plates (`lib/plate.ts`, `data/ne50-boundaries.json`) and on the
+  globe's skin (`globetex.py`). A plate that drew one border mesh from a
+  world atlas had drawn the line of control in Kashmir as a settled border
+  for twelve episodes.
 - **Any colour that encodes a quantity has a legend** saying what it
   measures and its scale, on screen from the first frame for as long as
   the encoding is, never fading in later. The encoding must be the

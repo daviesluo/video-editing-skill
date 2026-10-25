@@ -1,7 +1,8 @@
 import { geoGraticule10, geoPath, type GeoProjection } from "d3-geo";
-import { feature, mesh } from "topojson-client";
+import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import countries50 from "world-atlas/countries-50m.json";
+import boundaries from "../data/ne50-boundaries.json";
 import { COLORS } from "../brand/tokens";
 
 // A "fixed map plate": the basemap is rasterised once per page into an image,
@@ -15,7 +16,11 @@ const topo = countries50 as unknown as Topology<{
 }>;
 export const LAND = feature(topo, topo.objects.land);
 export const COUNTRIES = feature(topo, topo.objects.countries);
-const BORDERS = mesh(topo, topo.objects.countries, (a, b) => a !== b);
+// Land borders from Natural Earth 1:50m boundary lines (data/
+// ne50-boundaries.json, written by `globetex.py borderlines`): a settled
+// international boundary solid, every other line (disputed, line of
+// control, indefinite, unrecognized) dashed, taking no side.
+const B = boundaries as unknown as Record<"solid" | "dashed", GeoJSON.MultiLineString>;
 
 export type PlateStyle = {
   ocean?: string;
@@ -58,11 +63,16 @@ export const renderPlate = (
   path(LAND);
   ctx.fillStyle = style.land ?? COLORS.land;
   ctx.fill();
-  ctx.beginPath();
-  path(BORDERS);
   ctx.strokeStyle = style.border ?? "rgba(120, 145, 190, 0.35)";
   ctx.lineWidth = Math.max(1, width / 1800);
+  ctx.beginPath();
+  path(B.solid);
   ctx.stroke();
+  ctx.beginPath();
+  path(B.dashed);
+  ctx.setLineDash([ctx.lineWidth * 4, ctx.lineWidth * 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
   ctx.beginPath();
   path(LAND);
   ctx.strokeStyle = style.coast ?? COLORS.landEdge;

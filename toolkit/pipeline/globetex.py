@@ -9,6 +9,7 @@ pipeline/textures.py downloads the sources and runs this; by hand:
 
     python pipeline/globetex.py relief <elev.png> <bath.png> <natural_earth_dir> <out_dir> [width] [globe|plates] [chroma lift land_chroma] [shading]
     python pipeline/globetex.py borders <natural_earth_dir> <out_dir> [width]
+    python pipeline/globetex.py borderlines <ne_50m_admin_0_boundary_lines_land.shp> studio/src/data/ne50-boundaries.json
     python pipeline/globetex.py grade <in.jpg> <rough.png> <out.jpg> <chroma> <lift> [land_chroma]
 
 The globe set is earth-relief.jpg, earth-bump.png and earth-rough.png in
@@ -30,6 +31,75 @@ def _ramp(x, stops):
     xs = [v for v, _ in stops]
     cols = np.array([[int(h[i:i + 2], 16) for i in (1, 3, 5)] for _, h in stops], np.float32) / 255
     return np.stack([np.interp(x, xs, cols[:, k]) for k in range(3)], axis=-1).astype(np.float32)
+
+
+# Natural Earth's boundary classes: only a settled international boundary
+# is drawn solid; every other class (disputed, line of control,
+# indefinite, indeterminate frontier, unrecognized, lease and overlay
+# limits) is dashed, taking no side.
+SETTLED = "International boundary (verify)"
+
+
+def boundary_lines(shp):
+    """Every land boundary line of a Natural Earth admin-0 boundary-lines
+    shapefile as (points [(lon, lat)], dashed)."""
+    import shapefile
+
+    out = []
+    r = shapefile.Reader(str(shp))
+    for shape, rec in zip(r.shapes(), r.records()):
+        dashed = rec["FEATURECLA"] != SETTLED
+        parts = list(shape.parts) + [len(shape.points)]
+        for p0, p1 in zip(parts[:-1], parts[1:]):
+            if p1 - p0 > 1:
+                out.append(([tuple(q) for q in shape.points[p0:p1]], dashed))
+    return out
+
+
+def _line(d, pts, fill, width, dash=None):
+    """A polyline, or its dashes: `dash` = (on, off) in pixels along it."""
+    if not dash:
+        d.line(pts, fill=fill, width=width)
+        return
+    on, off = dash
+    period, pos, run = on + off, 0.0, []
+    for (x0, y0), (x1, y1) in zip(pts[:-1], pts[1:]):
+        seg = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
+        s = 0.0
+        while s < seg - 1e-9:
+            phase = pos % period
+            drawing = phase < on - 1e-9
+            step = min(seg - s, (on - phase) if drawing else (period - phase))
+            a = (x0 + (x1 - x0) * s / seg, y0 + (y1 - y0) * s / seg)
+            s += step
+            pos += step
+            q = (x0 + (x1 - x0) * s / seg, y0 + (y1 - y0) * s / seg)
+            if drawing:
+                run = run or [a]
+                run.append(q)
+            elif run:
+                d.line(run, fill=fill, width=width)
+                run = []
+    if len(run) > 1:
+        d.line(run, fill=fill, width=width)
+
+
+def borderlines(shp, out_json):
+    """The plates' border vectors (lib/plate.ts): Natural Earth 1:50m land
+    boundary lines as two MultiLineStrings, `solid` and `dashed`, to 0.01
+    degrees."""
+    import hashlib
+    import json
+
+    lines = boundary_lines(shp)
+    pack = lambda dashed: [[[round(x, 2), round(y, 2)] for x, y in pts] for pts, d in lines if d == dashed]
+    data = {
+        "source": f"{Path(shp).name} (Natural Earth, public domain), SHA-256 {hashlib.sha256(Path(shp).read_bytes()).hexdigest()}",
+        "solid": {"type": "MultiLineString", "coordinates": pack(False)},
+        "dashed": {"type": "MultiLineString", "coordinates": pack(True)},
+    }
+    Path(out_json).write_text(json.dumps(data, separators=(",", ":")))
+    print(out_json, len(data["solid"]["coordinates"]), "solid,", len(data["dashed"]["coordinates"]), "dashed")
 
 
 def _raster(shp, W, H, S=2, outline=None):
@@ -163,12 +233,9 @@ def relief(elev_src, bath_src, ne_dir, out_dir, width="8192", mode="globe", chro
     d = ImageDraw.Draw(big)
     border = _calm(np.array([[[150, 140, 124]]], np.float32) / 255, np.zeros((1, 1, 1), np.float32), chroma, lift, land_chroma)
     border = tuple(int(c * 255 + 0.5) for c in border[0, 0])
-    for shape in shapefile.Reader(str(ne / "ne_10m_admin_0_boundary_lines_land/ne_10m_admin_0_boundary_lines_land.shp")).shapes():
-        parts = list(shape.parts) + [len(shape.points)]
-        for p0, p1 in zip(parts[:-1], parts[1:]):
-            line = [((x + 180) / 360 * W * S, (90 - y) / 180 * H * S) for x, y in shape.points[p0:p1]]
-            if len(line) > 1:
-                d.line(line, fill=border, width=S)
+    for pts, dashed in boundary_lines(ne / "ne_10m_admin_0_boundary_lines_land/ne_10m_admin_0_boundary_lines_land.shp"):
+        line = [((x + 180) / 360 * W * S, (90 - y) / 180 * H * S) for x, y in pts]
+        _line(d, line, border, S, (6 * S * W / 8192, 4 * S * W / 8192) if dashed else None)
     big.resize((W, H), Image.LANCZOS).save(out / "earth-relief.jpg", quality=90)
     print("earth-relief.jpg", (out / "earth-relief.jpg").stat().st_size)
 
@@ -195,12 +262,9 @@ def borders(ne_dir, out_dir, width=8192):
     S = 2
     big = Image.new("L", (W * S, H * S), 0)
     d = ImageDraw.Draw(big)
-    for shape in shapefile.Reader(str(Path(ne_dir) / "ne_10m_admin_0_boundary_lines_land/ne_10m_admin_0_boundary_lines_land.shp")).shapes():
-        parts = list(shape.parts) + [len(shape.points)]
-        for p0, p1 in zip(parts[:-1], parts[1:]):
-            line = [((x + 180) / 360 * W * S, (90 - y) / 180 * H * S) for x, y in shape.points[p0:p1]]
-            if len(line) > 1:
-                d.line(line, fill=255, width=S)
+    for pts, dashed in boundary_lines(Path(ne_dir) / "ne_10m_admin_0_boundary_lines_land/ne_10m_admin_0_boundary_lines_land.shp"):
+        line = [((x + 180) / 360 * W * S, (90 - y) / 180 * H * S) for x, y in pts]
+        _line(d, line, 255, S, (6 * S * W / 8192, 4 * S * W / 8192) if dashed else None)
     out = Path(out_dir) / "earth-borders.png"
     big.resize((W, H), Image.LANCZOS).save(out, optimize=True)
     print(out.name, out.stat().st_size)
@@ -234,6 +298,8 @@ if __name__ == "__main__":
         relief(*sys.argv[2:])
     elif sys.argv[1] == "borders":
         borders(*sys.argv[2:])
+    elif sys.argv[1] == "borderlines":
+        borderlines(*sys.argv[2:])
     elif sys.argv[1] == "grade":
         grade(*sys.argv[2:])
     else:
