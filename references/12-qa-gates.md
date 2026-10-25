@@ -51,11 +51,20 @@ its pitch, its words' levels and its first sentence's level were outside.
 | Gate | Command | Pass |
 |---|---|---|
 | orphans and safe zone | `ORPHANS=1 node scripts/stills.mjs <Comp> <dir> every:0.5` over the whole episode, and over every cover | "0 findings": no block with a line of one word anywhere in it ("ORPHAN"; a title set in forced lines once left one in its middle), no visible text outside `SAFE` ("UNSAFE"), no visible character the vendored face lacks ("GLYPH"), no dark page type running into a picture marked `data-picture` ("CLASH"), and the probe ran on every still (no "NO-PROBE") |
+| faces against the player's crops (a film cut from footage or photos) | the episode's picture export (where each picture's source pixels land, five samples a second), then `python pipeline/facecrop.py <samples.json> <public dir> --accept episodes/<id>/facecrop-accept.txt` | exit 0: no subject's eye, nose or mouth under the side crop or the top bar or outside its picture, no caption page across a mouth or chin, for more than 0.25 s, but those the owner chose to keep, listed with the reason; the line "subject faces seen" above zero |
 | caption pages | `node --experimental-strip-types scripts/caption-pages.ts <id>` | every page read; none flagged; no phrase the eye reads as one unit split |
 | music | `python pipeline/music.py check episodes/<id> <take>` on the take in use | `"passed": true` |
 | sound-effect plan | the `sfx:` lines `build.py ... mix` prints | none |
 | cover | `node scripts/covers.mjs` | "covers OK" |
 | release text | `python pipeline/publish.py check <release>` | "text and cover OK" |
+
+The face check finds each face on the uncut source, where it is whole
+(OpenCV's YuNet, with its five points), and maps the points through the
+shot's crop and push, so a face half out of the frame is still found. Its
+counterfactual: a shot whose profile ran under the side crop at one crop
+fails, and passes at the crop that fixed it. On its first run over a
+finished film it found three faces under the side crop that five
+exhaustive reviews had passed.
 
 Run the orphan scan over the whole episode before every render, not only
 the parts that changed: a fix in one scene moves labels in another. The

@@ -113,8 +113,13 @@ were in the code and the timeline before the first render. The pass:
    they cannot show a fault that a sequence builds up (a material compiled
    once and never rebuilt), so every change of state in the 3D scene is
    also seen on a short sequence render from a part's first frame.
-3. **The text scan and the covers**: the orphan and safe-zone scan over the
-   whole episode, `covers.mjs`, each cover looked at.
+3. **The text scan, the faces and the covers**: the orphan and safe-zone
+   scan over the whole episode; for a film cut from footage and photos,
+   every face measured against the player's crops (`pipeline/facecrop.py`,
+   `12-qa-gates.md`); `covers.mjs`, each cover looked at. Stills judged by
+   eye are looked at with the player's covered bands drawn on them (52 px
+   each side, the top bar): one film cut a face with the side crop in
+   three renders, each judged on clean stills.
 4. **The picture's rhythm from the code**: list every camera move with
    its start, its end and how far it goes, and every scene change with
    the moves it is made of. Compare each move's speed with its sibling

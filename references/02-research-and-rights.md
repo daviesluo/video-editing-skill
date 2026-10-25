@@ -26,6 +26,12 @@ Start from `templates/episode/research.md`. It holds:
 - **Rights**: every element that is not drawn by us, with its basis.
 - **Pitfalls**: readings the viewer could take that the facts do not
   support, and myths not to repeat.
+- **"No source says it" is a finding too**, checked as hard as a quote:
+  read the whole thread or document, not the line that matched. A fact
+  sheet said no source had application numbers "doubling"; the founder's
+  own answer, "A bit over 2x.", sat one reply down the same forum thread
+  (read through its API), and the line the reference had left unsourced
+  became the film's sourced one.
 - **Not verified, or dropped**: what was considered and why it is out.
 - **The draft script**, so wording is checked against the table.
 

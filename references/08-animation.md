@@ -288,9 +288,27 @@ worse than the original"; "every 0.5 s is not nearly enough"):
   hold, on both films by the same scene detection. A remade story reel
   cut at 28 shots, a 2.0 s median, 3.6 cuts per 10 s and holds of 5 to
   10 s, against a reference of 61 shots, 1.0 s and 8.4, was "far worse
-  than the original" at first sight. Match its pace at least: a long bite
-  or document is cut into at its phrases (a cutaway, the next line of the
-  document, the speaker's other camera), never held whole.
+  than the original" at first sight. Match its pace at least, with new
+  pictures: a long bite is cut into at its phrases with a cutaway or the
+  speaker's other camera, and a long stretch gets more shots of the story,
+  never a quote card cut into a second card of its own line, a shot
+  reframed and shown again, a picture brought back or a shot held for its
+  pull cut short. One remake reached the reference's 8 cuts per 10 s by
+  seven splits "from material already in the repository": four pictures
+  came back, a quote card zoomed to its key line, a quote card stopped a
+  sentence short, and the hook's party shot was split at a word; the owner
+  sent back every one ("replace any material that repeats", "show the quote
+  only once", "why isn't that line in the quote?", "don't cut it short").
+  Where new material runs out, the count yields: readability, every source
+  once and a shot's pull come first, and the report gives the numbers with
+  the reason (that film settled at about 6.8 cuts per 10 s against the
+  reference's 8, by the owner's own notes).
+- **A shot that pulls is held.** A hook shot chosen for its draw on the
+  audience runs its whole phrase; it is not split for pace or for a
+  literal match with the words. The owner, restoring a party crowd under
+  "a generation want to be founders" that a review had split at "want",
+  for an audience largely of young men: "don't cut it short; it's
+  eye-catching and will draw a lot of the male target audience".
 - **A bite is cut to the lines that carry the story.** The owner cut a
   writer's 10 s answer to its first sentence and its last ("after 'tragic
   hero' go straight to 'It wasn't my intention'"); the join is hidden on a

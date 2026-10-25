@@ -294,7 +294,8 @@ All of these, on the delivered file, every time:
   flaws, transcript word error rate ≤ 3 percent with every difference
   read, every fact verified and logged;
 - the orphan and safe-zone scan every 0.5 s over the whole episode and
-  every cover prints nothing;
+  every cover prints nothing; for a film cut from footage, every face
+  measured against the player's crops (`facecrop.py`) passes;
 - the picture audit, re-taken on this timeline, every row checked on a
   still at its word;
 - the caption pages listed and read;
@@ -312,8 +313,10 @@ All of these, on the delivered file, every time:
   timeline, release text, cover, the voice's pace and tone and the
   picture's rhythm against the reference parts, and
   design quality: "does this look designed, and does it look like what it
-  represents?", judged even where nothing is a fault), then a second
-  pass asking **"what would the owner still notice?"**
+  represents?", judged even where nothing is a fault, and strength: the
+  weakest shot, line and bite of each section and what would replace
+  it), then a second pass asking **"what would the owner still
+  notice?"**, which walks every note the owner has given on the series
 - Every problem with its time, evidence and exact fix (file, element,
   value, wording); blockers, nits, and "leave as is" with reasons; a "could
   not check" list that must be empty (listening aside, which a person does

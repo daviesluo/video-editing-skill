@@ -18,7 +18,13 @@ is fixed and confirmed on that file.
    (one proposed end time was said to clear a card's arrival and did not),
    and check that it brings no fault of another class (a map hidden under
    a veil, as asked, faded with the veil and crossed the card that came
-   in). Fix every finding of a round together, then render once.
+   in). Check it against every standard, not only the one it answers: a
+   pace fix names the new picture it cuts to, and one that brings a
+   picture back, cuts a quote card into a second card, cuts a quote short
+   or shortens a shot kept for its pull is turned down, however close it
+   brings the count (one review's seven pace splits "from material
+   already in the repository" became four of the owner's next notes).
+   Fix every finding of a round together, then render once.
 4. Re-render, re-run every gate, and send the new render back **to the
    same reviewer** for a re-check.
 5. Repeat until a pass finds nothing the owner would comment on. Only
@@ -308,8 +314,18 @@ Pass one, every category, in this order:
     rejected it at sight. Judge what each element is, not only whether it
     has a fault; and the reverse too: a modelled hole where a place
     wanted a dot sized for the view.
+12. Strength, section by section: the weakest shot, line and bite in each,
+    and what would replace it, from the series' own rules (a work the voice
+    names shown by its poster or cover, a person at work rather than
+    posing, a quote whole on its card, the stretch after a figure saying
+    more, the hook's shot that pulls held). "Too weak" was the owner's most
+    frequent note on one film (the title clip, a portrait, the stretch
+    after the numbers), and five reviews had passed each one: a fault-free
+    shot can still be the one to replace.
 Pass two: what would the owner still notice? Watch it once more as the owner
-would, and add anything that a viewer would see, hear or misread.
+would, and add anything that a viewer would see, hear or misread. Then
+walk every note the owner has given on this series (the series layer
+lists them), each checked on this render, and say which you checked.
 Then a comprehension pass: watch it as a first-time viewer with no
 background, and write in one plain sentence what that viewer has
 understood after each section. Any section where that sentence cannot be

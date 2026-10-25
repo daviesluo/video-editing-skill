@@ -31,7 +31,14 @@ it. Write slightly under the target: scripts run long when voiced.
    screen from frame 1 and spoken in the first second and a half, over the
    strongest picture already up.
 2. **Answer** by about 6 s.
-3. **Two or three layers**, each a new verified fact on a new picture.
+3. **Two or three layers**, each a new verified fact on a new picture,
+   and each saying more than the one before. A figure is followed by what
+   it meant (a voice that was there, a consequence, a second figure that
+   turns it), never by the same figure said again: the owner, on a stretch
+   that only restated an accelerator's applications, "what comes after the
+   numbers is too weak, it can say more"; it became the co-founder's "in it
+   for the prestige", its CEO's "some jocks in there too now" and how few
+   it funded.
 4. **Payoff**: the number, reveal or comparison worth sending to someone,
    on the story's own subject. A neat fact from beside the story stays
    out, however recent: a film about founders ended on its 2026 sequel's

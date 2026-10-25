@@ -247,6 +247,12 @@ Common to all:
   word and dims the rest; its credit is the source line. On a dark film a
   white page shows at about 0.9 of its brightness: cut in at full white
   from the black page, four documents were the film's hardest jolts.
+- **A person at work, not posing.** Someone the story quotes is shown
+  doing what the story credits them with (speaking, judging, on a stage),
+  at the moment their words come from or as near as the pictures allow;
+  a smiling head-and-shoulders photograph is the weakest picture of a
+  person. The owner, on a co-founder's portrait under her own words:
+  "change it for a more powerful one, for example one of her speaking".
 - **Portraits** carry the person's name and dates as a label, with the
   source line. No generated portraits of real people, no face-swaps, no
   "restoration" that invents detail.
@@ -310,7 +316,12 @@ Common to all:
   screen twice). An interview is cut so each of its camera set-ups is
   seen once: a cutaway carries the voice between them rather than a
   return to the same framing, and a wide shot that opens a bite does not
-  close it too. List every source and its uses from the code before the
+  close it too. Nor is the same thing shown twice from two sources: a
+  film's title as its title card in the hook and as its poster under a
+  later line read to the owner as a repeat ("these two repeat"). A camera
+  set-up counts by its look, not its file: the same desk at night, or the
+  same pose in the same light, from another stretch of the film, is the
+  set-up again. List every source and its uses from the code before the
   render and read it for repeats.
 - **A title the voice names is shown by its strongest image.** When the
   narration names a film, a book or a show, the picture is its poster or
