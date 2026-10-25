@@ -32,7 +32,11 @@ it. Write slightly under the target: scripts run long when voiced.
    strongest picture already up.
 2. **Answer** by about 6 s.
 3. **Two or three layers**, each a new verified fact on a new picture.
-4. **Payoff**: the number, reveal or comparison worth sending to someone.
+4. **Payoff**: the number, reveal or comparison worth sending to someone,
+   on the story's own subject. A neat fact from beside the story stays
+   out, however recent: a film about founders ended on its 2026 sequel's
+   box office, and the owner cut it ("the sequel has nothing to do with
+   startups, don't mention it"); it ends on what the founders did.
 5. **The end line**, one breath (`cta` segment): "Enjoy stories like
    this? Follow for part N: <the next episode's hook, word for word>."
    The insights of a series' first six parts showed why: the
