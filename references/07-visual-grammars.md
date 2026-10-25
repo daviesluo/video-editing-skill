@@ -290,7 +290,11 @@ Common to all:
   cards each zoomed to a closer card of their key line: "show the quote
   only once, highlight on it, no second one; otherwise the text jumps too
   fast to read and looks like different quotes". A long quote is held
-  long enough to read rather than cut into.
+  long enough to read rather than cut into. The card holds the whole quote
+  the narration reads, every sentence inside its quote marks: a sentence
+  left off the card and laid over other pictures reads as the narrator's
+  own words, not the speaker's (the owner, on a card that stopped one
+  sentence short: "why isn't that line in the quote?").
 - **Every source once.** No clip, shot, photograph or camera set-up
   appears twice in an episode, and no shot is shown twice back to back
   reframed (an upright slice of it, then the whole frame). The owner:
