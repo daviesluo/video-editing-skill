@@ -283,6 +283,18 @@ worse than the original"; "every 0.5 s is not nearly enough"):
 - Write the beat-by-beat plan against the reference's own times, build
   the first part, and show it beside the reference at the same moments
   before building the rest.
+- **Measure the edit against it before the first render**, not after the
+  owner has watched: shots, median shot, cuts per 10 s and the longest
+  hold, on both films by the same scene detection. A remade story reel
+  cut at 28 shots, a 2.0 s median, 3.6 cuts per 10 s and holds of 5 to
+  10 s, against a reference of 61 shots, 1.0 s and 8.4, was "far worse
+  than the original" at first sight. Match its pace at least: a long bite
+  or document is cut into at its phrases (a cutaway, the next line of the
+  document, the speaker's other camera), never held whole.
+- **A bite is cut to the lines that carry the story.** The owner cut a
+  writer's 10 s answer to its first sentence and its last ("after 'tragic
+  hero' go straight to 'It wasn't my intention'"); the join is hidden on a
+  picture cut.
 
 ## The finishing pass on collage footage
 
