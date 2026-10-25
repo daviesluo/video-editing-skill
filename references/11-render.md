@@ -160,6 +160,11 @@ To render several episodes at once, or while this session keeps working,
 send renders to standing helper sessions, each its own machine with
 identical settings, so its frames are the same frames.
 
+- **The briefs are printed by a script**, from the commit and the
+  composition's length as the renderer reports it, with each part's
+  frames, its expected frame count and its branch; the parts are fetched
+  and counted by the same script. A retyped brief once named the wrong
+  folder for a new image.
 - **Two standing helpers, named "video render helper - 1" and "video
   render helper - 2"**, created once and reused for every render by
   message. Never spawn a new helper per render: a fresh one has to set up

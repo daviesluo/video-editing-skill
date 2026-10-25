@@ -6,6 +6,34 @@ right thing is not evidence that it did. Green means every gate green;
 "passes except" is a fail. The gates are necessary, never sufficient:
 after them comes the independent review (`13-review-and-agents.md`).
 
+## One command per stage
+
+Every gate that a machine can judge runs from one command before the
+render and one on the delivered file, written in the project's own
+repository, which exits non-zero on any failure and on any check skipped,
+and writes a report: each check with its evidence, then the owner's notes
+as checks (the series layer's list), each row with its status, and the
+rows only eyes and ears can judge named for the reviewer's brief. Nothing
+the owner was promised rests on a session remembering to run it.
+
+- **A check that lives in a session's scratch folder does not exist.** A
+  series' QA wrapper, its "each shot inside its source's own shot" check,
+  its seam comparison and its ledger tool were all scratch files, gone
+  for the next session, until the owner asked for the films to be
+  post-ready without him.
+- **Freshness is proved by making it again.** The mix re-made into a
+  scratch folder and compared with the one in use sample by sample, and
+  its clock with the committed clock; a file's date proves nothing (an
+  edit that cannot touch the sound made the date check fail, and an edit
+  that could would pass it after a checkout).
+- **A gate's own output is read whole before its verdict is trusted.** A
+  script that printed its JSON to a pipe and exited at once cut it at
+  64 KB; the face check then read an error, not a pass. Scripts whose
+  output a gate reads write to a file.
+- **A finding the owner keeps is written down with who kept it**, keyed by
+  what does not move when the film is re-timed (the source file and the
+  source time, not the film time or a shot's index).
+
 ## 1. Automated (`build.py episodes/<id> qa`)
 
 Sixteen checks. Writes `out/qa.json` and `out/contact-sheet.png`, and

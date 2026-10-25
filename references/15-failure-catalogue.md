@@ -223,3 +223,7 @@ new class of failure appears, in the same commit as the fix.
 | four white documents cut in from the black page were the film's hardest jolts | white pages at about 0.9 brightness on a dark film | 07 "Documents" |
 | a re-alignment after a late re-voice moved five earlier words by 0.02 s | the words before a re-voiced phrase keep the rendered times | 04 |
 | the bed stopped on the beat tracker's beats, 30 to 50 ms after the hits' attacks: every stop chopped the next hit, a pop the owner heard after "He walked away." | cut at the attack found on the take, 4 ms before it, with a fade; a stab rings out | 05 "The music fits the cut" |
+| the checks that held a series to the owner's notes were scripts in a session's scratch folder: the next session would have had to remember and rewrite them | one command per stage in the repository, its report walking the owner's notes | 12 "One command per stage" |
+| a freshness check by file date failed on an edit that could not touch the mix | the mix re-made and compared sample by sample | 12 "Freshness is proved by making it again" |
+| a gate read a picture list printed to a pipe and cut at 64 KB, and reported the face check as broken | scripts a gate reads write to a file; a gate's output read whole | 12 |
+| a hand-written render brief named the wrong folder for a new image | briefs printed by a script from the commit | 11 "Render helper sessions" |
