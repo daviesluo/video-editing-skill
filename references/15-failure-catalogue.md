@@ -124,7 +124,8 @@ new class of failure appears, in the same commit as the fix.
 | one line carried two names in two scenes ("Mid-Atlantic Ridge", then "Mid-ocean ridge") and each label sat 200 px off it | one name per feature, the voice's; a label starts 20 to 40 px beside its line | stills |
 | a drained sea floor read as a flat sheet with the continents laid on it as lit cut-outs: the live relief lit the land only, so the old coast drew a step | anything revealed on a globe is lit from the same height field as the land beside it | 1:1 crops at the coast |
 | the line "Most of the rest is a rough estimate from satellites" had nothing in the picture for nine seconds | a payoff's point is shown with its data, not only written | picture audit |
-
+| three quote cards each zoomed to a second, closer card of their key line; the owner could not read the text before it jumped and took the close card for another quote | a quote is one card, its key words highlighted in place; no zoom to a second card | `07` "A quote is one card"; review |
+| a re-cut for pace showed the film's title, the accelerator's logo and two photographs twice, a broadcaster's wide shot opened and closed one bite, and one shot was shown upright then whole; the owner asked for every repeat to be replaced | every source once; cuts for pace take new material; the source list read for repeats before the render | `07` "Every source once"; review |
 
 ## Type and layout
 

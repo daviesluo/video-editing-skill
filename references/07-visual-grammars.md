@@ -282,6 +282,26 @@ Common to all:
   owner found it odd. The full frame gets an upright source, or a shot
   whose subject is whole and readable inside that slice; check the slice
   on a still before using it.
+- **A quote is one card.** A quoted passage is shown once, on its own
+  card with its source line, and the words that carry it are highlighted
+  in place on that card as they are read. No cut or zoom to a second card
+  of the same quote: the text jumps before it can be read, and the viewer
+  takes the second card for a different quote. The owner, on three quote
+  cards each zoomed to a closer card of their key line: "show the quote
+  only once, highlight on it, no second one; otherwise the text jumps too
+  fast to read and looks like different quotes". A long quote is held
+  long enough to read rather than cut into.
+- **Every source once.** No clip, shot, photograph or camera set-up
+  appears twice in an episode, and no shot is shown twice back to back
+  reframed (an upright slice of it, then the whole frame). The owner:
+  "replace any material that repeats in the video". A cut made for pace
+  takes new material, never a picture already used (a re-cut at a fast
+  reference's pace put the film's title, a logo and two photographs on
+  screen twice). An interview is cut so each of its camera set-ups is
+  seen once: a cutaway carries the voice between them rather than a
+  return to the same framing, and a wide shot that opens a bite does not
+  close it too. List every source and its uses from the code before the
+  render and read it for repeats.
 - **Moving footage where the series cuts on footage.** In an edit built on
   clips, a page that stands for a company or a person is a clip, not a
   photograph, from the company's own stage: a keynote or talk with its
