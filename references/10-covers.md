@@ -42,6 +42,19 @@ shows and checked by measurement.
   pick the frame by comparing the footage at 0.1 s steps around the
   moments the person looks up (the owner chose a cover and then saw one founder
   "with his eyes closed").
+- **Cut-outs joined without seams.** A cut-out from a frame that cut the
+  person off (a shoulder at the frame's edge) has a straight edge: place
+  it where the band's own faded side or a person in front hides it, and
+  check every overlap at full size. The feet fade as one group, never
+  each person on their own (each one's fade let the white shirt of the
+  one behind show through the one in front). Clean every cut-out before
+  use: keep its largest piece, drop stray islands, pull the edge in 1 to
+  2 px to lose the source's background fringe (a red line of a TV set's
+  carpet on a jacket). A low-key film frame is lifted to the others'
+  brightness, so no face sits in shadow beside lit ones.
+- **The title is measured whole.** A title set in parts (a line, then a
+  large last word) is checked as one block: the probe once measured only
+  the first part, and a cover whose last word ran into the faces passed.
 
 ## The rules, checked (`pipeline/covercheck.py`)
 
