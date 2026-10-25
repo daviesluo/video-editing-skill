@@ -212,6 +212,14 @@ once the owner has decided; keep logging every element as below.
   IP that the owner provides and approves for the machine, without
   cookies, or have the owner send the files; never settle for a lower
   copy because the better one was refused.
+- A clip arrives as the source's own file, untouched: whatever codec and
+  container the host served (AV1 or VP9 video, Opus audio, mp4, webm or
+  mkv), never transcoded or remuxed on the way, since every encode costs
+  picture and a cut is made here by stream copy. Remotion's own ffmpeg
+  decodes AV1 (dav1d), VP9 and Opus (checked 2026-10-25), so nothing
+  needs converting for the render. Whoever downloads for the project is
+  told so with the list; a delivery that was converted is asked for again
+  as the originals.
 - What a cloud machine could still fetch, when YouTube, Facebook and
   Wikimedia's API refused it (2026-10):
   - posts on X, through `api.fxtwitter.com` (a status gives every mp4
