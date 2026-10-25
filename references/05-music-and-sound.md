@@ -205,6 +205,27 @@ groups, one payoff was complete for six frames.
   chopped a hit's tail at -25 dBFS straight into the opening laugh, and a
   mux with `-shortest` dropped three frames of picture.
 
+## A bleep
+
+A word the story needs heard but not said in full (the owner, on a prop
+that reads "I'm CEO, Bitch.": "add it to the voice, but put a beep after
+'bi'; design it carefully") is voiced in full and bleeped in the mix:
+
+- the take keeps the whole word, so the transcript check still hears it,
+  and the mix replaces the rest of it with the beep;
+- the beep is the broadcast one, a 1 kHz sine, from the end of the first
+  syllable's vowel through the last consonant, read on the waveform (the
+  vowel's fall, the stop's closure, the fricative's high band), not on the
+  aligner's times; it ends before the next word's onset;
+- its edges are short raised cosines (6 ms in, 10 ms out) and the voice
+  is faded out and back in under it on equal-power curves, so neither
+  edge clicks and nothing of the hidden consonants is heard;
+- it sits about 2 dB under the first syllable's vowel: as loud as the
+  word it hides, no louder;
+- its times are guarded in the mix script (an assertion that the word is
+  still where they were read), since a re-voice moves them;
+- the caption shows what is heard (`09-captions.md`, "A bleeped word").
+
 ## The music fits the cut
 
 An owner heard a narrated reel's bed as not "fitting perfectly" though

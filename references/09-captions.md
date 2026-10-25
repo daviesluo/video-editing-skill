@@ -107,6 +107,19 @@ even when no rule fails. A spelled-out number too wide to share a line
 with its neighbour at any size cannot be kept whole; accept it and say so
 in the picture audit.
 
+## A bleeped word
+
+When the voice bleeps a word (below and `05-music-and-sound.md`, "A
+bleep"), its caption shows what is heard: the letters before the beep as
+spoken, then a bar in the series' accent colour over the place of the
+rest, swept in over two frames on the beep's first frame, as the
+highlights on quote cards are. The hidden letters are never drawn, not
+even for a frame before the bar (they are laid out transparent, so the
+page does not reflow); the bar covers the letters from the cap height to
+the baseline; the punctuation after the word stays. The page breaks where
+the voice pauses, so the bleeped word starts its page ("Bi▇▇” business
+cards." after "its “I’m CEO,").
+
 ## Captions on light footage
 
 White type never sits on near-white footage: a white caption on a white

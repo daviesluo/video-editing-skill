@@ -132,6 +132,8 @@ new class of failure appears, in the same commit as the fix.
 | one film cut a face with the player's side crop in three renders (a profile, four film shots, a night shot), each judged by eye on clean stills, and a first run of a measure found three more that five reviews had passed | faces found on the uncut source and measured through each shot's crop and push; stills judged with the covered bands drawn | `12` faces against the player's crops; `11` |
 | the owner's own notes were mostly "too weak" (the title clip, a portrait, the stretch after the numbers), each passed by five reviews | a strength pass in every review: the weakest shot, line and bite of each section, and its replacement | `13` brief, item 12 |
 | a fact sheet said no source had the numbers "doubling"; the founder's own "A bit over 2x." was one reply down the same thread | a negative finding is checked as hard as a quote, on the whole thread | `02` the fact sheet |
+| a co-founder's photograph caught mid-laugh with her hands raised in a clap was "too ugly" | a person at their best: sharp, composed, eyes open; a new set-up, not another frame of one in the film | `07` "A person at work, not posing" |
+| a hook shot held for its pull ran 0.1 s past its phrase to the next beat; "a little long" | a held shot leaves as its phrase ends | `08` "A shot that pulls is held" |
 | the poster first chosen had its title running down its edge, under the player's top bar, so the film the voice named was nowhere readable and had no caption either | the version whose title reads in the frame on the word; the scan of the player's covered bands checks image text too | `07` "A title the voice names"; stills |
 
 ## Type and layout

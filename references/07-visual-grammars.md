@@ -253,6 +253,11 @@ Common to all:
   a smiling head-and-shoulders photograph is the weakest picture of a
   person. The owner, on a co-founder's portrait under her own words:
   "change it for a more powerful one, for example one of her speaking".
+  And at their best: sharp, composed, eyes open, the mouth at rest or
+  speaking. Its replacement, a close-up caught mid-laugh with the hands
+  raised in a clap, was "too ugly"; the photograph of her judging,
+  attentive and still, from the same event, replaced it. Two more
+  photographs of a set-up already in the film do not count as new.
 - **Portraits** carry the person's name and dates as a label, with the
   source line. No generated portraits of real people, no face-swaps, no
   "restoration" that invents detail.

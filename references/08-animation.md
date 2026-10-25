@@ -308,7 +308,10 @@ worse than the original"; "every 0.5 s is not nearly enough"):
   literal match with the words. The owner, restoring a party crowd under
   "a generation want to be founders" that a review had split at "want",
   for an audience largely of young men: "don't cut it short; it's
-  eye-catching and will draw a lot of the male target audience".
+  eye-catching and will draw a lot of the male target audience". Held
+  does not mean overstaying: it leaves as its phrase ends, not on a later
+  beat ("it's a little long, cut it by 0.1 s"; it now cuts as the bed
+  falls quiet before the next hit).
 - **A bite is cut to the lines that carry the story.** The owner cut a
   writer's 10 s answer to its first sentence and its last ("after 'tragic
   hero' go straight to 'It wasn't my intention'"); the join is hidden on a
