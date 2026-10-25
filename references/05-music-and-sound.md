@@ -211,8 +211,12 @@ A word the story needs heard but not said in full (the owner, on a prop
 that reads "I'm CEO, Bitch.": "add it to the voice, but put a beep after
 'bi'; design it carefully") is voiced in full and bleeped in the mix:
 
-- the take keeps the whole word, so the transcript check still hears it,
-  and the mix replaces the rest of it with the beep;
+- the take keeps the whole word, and the mix replaces the rest of it with
+  the beep; the transcript check cannot prove the bleep, since a
+  recogniser completes a hidden syllable from context (it still wrote the
+  whole word when the beep was replaced by silence), so the bleep is
+  proved by measurement: the voice's samples under the tone, the tone's
+  band on a spectrogram, and the level either side;
 - the beep is the broadcast one, a 1 kHz sine, from the end of the first
   syllable's vowel through the last consonant, read on the waveform (the
   vowel's fall, the stop's closure, the fricative's high band), not on the
