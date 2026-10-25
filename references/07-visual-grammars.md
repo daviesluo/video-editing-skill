@@ -312,9 +312,12 @@ Common to all:
   its face or its title, not the work's own title card: white letters over
   a dark street read as text, not as the thing. The owner, on a film's
   title shot: "this would look better as the poster, with a zoom; design
-  it", and "that clip is too weak". The poster counts as a source like any
-  other: shown once, so a second appearance (a broadcaster's frame of it
-  later on) goes.
+  it", and "that clip is too weak". Pick the version whose title reads in
+  the frame while the voice names it: a teaser whose title ran down its
+  edge, under the player's top bar, left the name unseen, and the
+  one-sheet with its title box replaced it. The poster counts as a source
+  like any other: shown once, so a second appearance (a broadcaster's
+  frame of it later on) goes.
 - **Moving footage where the series cuts on footage.** In an edit built on
   clips, a page that stands for a company or a person is a clip, not a
   photograph, from the company's own stage: a keynote or talk with its
