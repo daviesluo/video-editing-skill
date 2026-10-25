@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { continueRender, delayRender, getInputProps } from "remotion";
 
 // QA only (input prop `coverProbe: true`, see scripts/covers.mjs): after the
-// cover is laid out, measures the title block (`data-cover-title`) and the
+// cover is laid out, measures the title block (every `data-cover-title`) and the
 // picture's subject, the union of everything visible inside
 // `data-cover-subject`, and logs them as "COVER|<json>", boxes as
 // [left, top, right, bottom] in frame pixels. pipeline/covercheck.py holds
@@ -56,11 +56,15 @@ const merge = (a: Box | null, b: Box | null): Box | null =>
   a && b ? [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])] : (a ?? b);
 
 const measure = () => {
-  const title = document.querySelector("[data-cover-title]");
+  // The title is every block marked `data-cover-title` (a title set in
+  // parts: only the first part was measured once, and a cover whose last
+  // line ran into its picture passed).
+  let title: Box | null = null;
+  for (const el of document.querySelectorAll("[data-cover-title]")) title = merge(title, textBox(el, 0.05));
   let subject: Box | null = null;
   for (const el of document.querySelectorAll("[data-cover-subject]")) subject = merge(subject, merge(shapeBox(el, 0.05), textBox(el, 0.05)));
   const round = (b: Box | null) => (b ? b.map((v) => Math.round(v)) : null);
-  console.log(`COVER|${JSON.stringify({ title: round(title ? textBox(title, 0.05) : null), subject: round(subject) })}`);
+  console.log(`COVER|${JSON.stringify({ title: round(title), subject: round(subject) })}`);
 };
 
 export const CoverProbe: React.FC = () => {
