@@ -780,7 +780,13 @@ def paced_time(t, tempo, inserts):
 def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
     """Brings a take to the series' rhythm by its pauses alone: each pause
     lengthened in its own silence (`pace_plan`), faded over 5 ms either
-    side, so no word is touched or stretched (a pitch-kept slow-down was
+    side, so no word is touched or stretched. What goes in is noise at
+    the level of the pause's quietest 20 ms (the take's room tone, about
+    -88 dB; never over -80 dB, since a comma's short pause may hold the
+    word's tail), not digital zero: zeros made the pitch tracker drop most
+    of the voiced frames of a short sentence after a lengthened pause, and
+    a tone gate read 4.35 semitones of movement against 4.56 for the same
+    words (a pitch-kept slow-down was
     heard as unnatural; speed comes from choosing the take). A sentence end
     and a section break are brought up to the reference parts' typical
     pauses (brand.json `rhythm.pauses`, written by `rhythm.py standard`)
@@ -809,13 +815,25 @@ def pace(public_dir, tempo=1.0, sentence=None, section=None, comma=0.1):
         r = np.linspace(0, 1, n, dtype=np.float32) if up else np.linspace(1, 0, n, dtype=np.float32)
         return r[:, None] if a.ndim == 2 else r
 
+    win = int(0.02 * sr)
+    rng = np.random.default_rng(0)
+    ends = [w["end"] / tempo for w in tl["words"]]
+    starts = [w["start"] / tempo for w in tl["words"]]
+
+    def room(t):
+        g0 = max([e for e in ends if e <= t], default=t)
+        g1 = min([b for b in starts if b >= t], default=t)
+        g = a[int(g0 * sr):int(g1 * sr)]
+        levels = [float(np.sqrt(np.mean(g[j:j + win] ** 2))) for j in range(0, len(g) - win + 1, win // 2)]
+        return min(levels + [10 ** (-80 / 20)])
+
     out, last = [], 0
     for t, extra in inserts:
         i = int(t * sr)
         seg = a[last:i].copy()
         if len(seg) > fade:
             seg[-fade:] *= ramp(fade, False)
-        out += [seg, np.zeros((int(extra * sr),) + a.shape[1:], np.float32)]
+        out += [seg, (rng.standard_normal((int(extra * sr),) + a.shape[1:]) * room(t)).astype(np.float32)]
         a[i:i + fade] *= ramp(len(a[i:i + fade]), True)
         last = i
     out.append(a[last:])

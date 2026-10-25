@@ -134,9 +134,12 @@ take, so it is chosen, not processed:
   Then `pace-report` again, `recue.py` for any wording that changed, and
   the music re-made, since every segment now starts later. A slightly
   longer episode is fine; a rushed one is not. The silence put in is
-  digital zero, below the take's own floor of about -85 dB; under the bed
-  (-20 to -37 dB in every pause) it is not heard, so a review notes it
-  and leaves it.
+  noise at the pause's own room tone (its quietest 20 ms, about -88 dB,
+  never over -80 dB), not digital zero: zeros are not heard under the bed,
+  but they made the pitch tracker drop most of the voiced frames of a
+  short sentence after a lengthened pause ("And the gaps?": 35 frames to
+  10), and the tone gate failed a take that had passed it unpaced (4.35
+  semitones of movement against 4.56, the same words).
 
 ## Tone, measured against the reference parts
 
