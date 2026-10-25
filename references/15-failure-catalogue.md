@@ -127,6 +127,7 @@ new class of failure appears, in the same commit as the fix.
 | three quote cards each zoomed to a second, closer card of their key line; the owner could not read the text before it jumped and took the close card for another quote | a quote is one card, its key words highlighted in place; no zoom to a second card | `07` "A quote is one card"; review |
 | a re-cut for pace showed the film's title, the accelerator's logo and two photographs twice, a broadcaster's wide shot opened and closed one bite, and one shot was shown upright then whole; the owner asked for every repeat to be replaced | every source once; cuts for pace take new material; the source list read for repeats before the render | `07` "Every source once"; review |
 | a quote card stopped one sentence short of the quote the narration read; the last sentence went over two other pictures and the owner asked why it was not in the quote | the card holds every sentence inside the quote marks, each key line swept as it is read | `07` "A quote is one card"; review |
+| a film the narration named was shown by its own title over a night street, and the owner found the clip too weak | a named film, book or show is shown by its poster or cover, whole and then pushed in; used once | `07` "A title the voice names"; review |
 
 ## Type and layout
 

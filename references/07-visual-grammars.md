@@ -306,6 +306,15 @@ Common to all:
   return to the same framing, and a wide shot that opens a bite does not
   close it too. List every source and its uses from the code before the
   render and read it for repeats.
+- **A title the voice names is shown by its strongest image.** When the
+  narration names a film, a book or a show, the picture is its poster or
+  cover, whole in the frame and then pushed in with the eased camera to
+  its face or its title, not the work's own title card: white letters over
+  a dark street read as text, not as the thing. The owner, on a film's
+  title shot: "this would look better as the poster, with a zoom; design
+  it", and "that clip is too weak". The poster counts as a source like any
+  other: shown once, so a second appearance (a broadcaster's frame of it
+  later on) goes.
 - **Moving footage where the series cuts on footage.** In an edit built on
   clips, a page that stands for a company or a person is a clip, not a
   photograph, from the company's own stage: a keynote or talk with its
