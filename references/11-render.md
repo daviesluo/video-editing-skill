@@ -49,6 +49,26 @@ npx remotion render <Composition> out/video.mp4 --gl=swangle --concurrency=2 \
   diffed with `git ls-tree` of the branch before every brief: a search of
   the code for file names missed paths built in code (cut-out busts named
   from a list), and two helpers' parts failed on them.
+- **4K footage** (2026-10-25, a film's 4K scenes in AV1):
+  - Remotion's compositor decoded 4K AV1 at about 14 s a frame, so a
+    still timed out; HD AV1 was fine. The 4K stretches used, each about a
+    second either side of its shot and inside the source's own shot, are
+    encoded once from the untouched originals to H.264 at CRF 10 (x264
+    slow, 4K kept, audio copied), visually lossless and decoded at speed;
+    everything else stays a stream copy. Log which cuts were encoded.
+  - Chrome writes its shared-memory files to `$TMPDIR` (Remotion passes
+    `--disable-dev-shm-usage`), and a 4K frame is tens of megabytes:
+    with the disk nearly full the frame requests failed ("Chrome rejecting
+    the request because the disk space is low"). Run stills and renders
+    with `TMPDIR=/dev/shm` where it is large.
+  - The compositor's frame cache defaults to half the memory; with 4K
+    frames it was killed for memory (SIGKILL) a third of the way into a
+    scan. Cap it (`offthreadVideoCacheSizeInBytes`, the stills script's
+    `$VIDEO_CACHE_MB`, `--offthreadvideo-cache-size-in-bytes` on the CLI;
+    1.5 GB held).
+  - Never delete the bundles in the temporary folder by wildcard while
+    another render runs: it deleted a running scan's own bundle. Each
+    script removes its own.
 
 ## Stills first
 

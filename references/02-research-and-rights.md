@@ -216,10 +216,12 @@ once the owner has decided; keep logging every element as below.
   container the host served (AV1 or VP9 video, Opus audio, mp4, webm or
   mkv), never transcoded or remuxed on the way, since every encode costs
   picture and a cut is made here by stream copy. Remotion's own ffmpeg
-  decodes AV1 (dav1d), VP9 and Opus (checked 2026-10-25), so nothing
-  needs converting for the render. Whoever downloads for the project is
-  told so with the list; a delivery that was converted is asked for again
-  as the originals.
+  decodes AV1 (dav1d), VP9 and Opus (checked 2026-10-25), and HD AV1
+  renders at speed; 4K AV1 does not (its compositor took about 14 s a
+  frame), so the 4K stretches used are encoded once here, from the
+  originals, to H.264 at CRF 10 (`11-render.md`). Whoever downloads for
+  the project is told to send originals with the list; a delivery that
+  was converted is asked for again as the originals.
 - What a cloud machine could still fetch, when YouTube, Facebook and
   Wikimedia's API refused it (2026-10):
   - posts on X, through `api.fxtwitter.com` (a status gives every mp4
