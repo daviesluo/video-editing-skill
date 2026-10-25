@@ -78,6 +78,17 @@ Make two seeds at least; takes of one plan differ a lot. Then listen to
 the opening, each lift and the ending of the mix; measurement finds the
 failures above, not taste.
 
+Once the owner has settled a style, every episode still gets two takes
+in it (A1 and A2, two seeds of its own plan), and the one that fits that
+episode is used, chosen on the bed as the mixer lays it: the least
+energy at 250 to 1000 Hz under the words, the drive of the open and of
+the stretches the story pushes, how its sections follow the story's
+turns. Never by nearness to an earlier episode's take (the owner: "it
+needn't match the last one, go with what fits this episode best"). Check
+what the take actually plays: two takes of one plan both ran a steady
+groove through the two drum drops it asked for, so the stops were made in
+the mix.
+
 ## Levels and ducking (`mix.py`)
 
 - Voice levelled to -16 LUFS first.

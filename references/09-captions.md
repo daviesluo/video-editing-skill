@@ -111,8 +111,12 @@ in the picture audit.
 
 White type never sits on near-white footage: a white caption on a white
 web page read as nothing. It moves to the page's black or to the shot's
-own dark area, with its shadow; check every caption on a still over its
-picture.
+own dark area, with its shadow; on a white page it can be set dark
+instead. Where nothing dark lies under the only free place (a white shirt
+or scarf below a face), the words get a soft dark fall-off behind them: a
+radial gradient about half black at its centre to nothing at its edge, of
+one fixed size for every page on that picture, from the picture's first
+frame; never a box. Check every caption on a still over its picture.
 
 ## Captions never cover a key label
 

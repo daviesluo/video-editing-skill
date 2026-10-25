@@ -77,7 +77,10 @@ page and `paper`, `accent`, `cool` and `warn` by role.
 - **Titles broken by meaning.** A headline, cover title or end-card title
   of more than one line is broken by hand (`|`) where the phrases break,
   not wherever the width runs out, and no line holds one word: "Drain
-  every ocean. / Where is / the longest / mountain range?".
+  every ocean. / Where is / the longest / mountain range?". Source and
+  credit lines too: a name, a title or a hyphenated word is never split
+  across lines ("co- / founder", "Y / Combinator", "The Hollywood /
+  Reporter" all shipped to a scan once), so they are broken by hand.
 
 ## No machine look
 

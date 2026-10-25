@@ -301,7 +301,10 @@ Common to all:
   safe top (y 250) and let the page show above it. A line set over a person
   sits on the body, never across the face.
 - **Credit lines** in the form each licence asks for, on screen as a
-  source line and in the caption's Sources.
+  source line and in the caption's Sources. A credit shows only over the
+  picture it credits: a photograph's credit kept running across a film
+  shot cut in between two photographs, crediting the film to the wrong
+  source.
 - **Reconstructions** of what no camera saw are labelled "AI
   reconstruction" on screen and with the platform's label, kept short, and
   never stand in for evidence.
