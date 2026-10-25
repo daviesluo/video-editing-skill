@@ -116,9 +116,9 @@ rest, swept in over two frames on the beep's first frame, as the
 highlights on quote cards are. The hidden letters are never drawn, not
 even for a frame before the bar (they are laid out transparent, so the
 page does not reflow); the bar covers the letters from the cap height to
-the baseline; the punctuation after the word lands with the bar, held in
-its place till then, so before the beep the page reads the kept letters
-alone, never the letters, a gap and a stray quote mark. The page breaks where
+the baseline; the punctuation after the word lands as the bar completes,
+held in its place till then, so the page reads the kept letters alone,
+never the letters, a gap and a stray quote mark. The page breaks where
 the voice pauses, so the bleeped word starts its page ("Bi▇▇” business
 cards." after "its “I’m CEO,").
 
