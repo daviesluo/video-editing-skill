@@ -5,16 +5,20 @@
 
 <samples.json> is the episode's picture export: a list with one entry per
 picture per sample (five a second), written by a small script beside the
-episode that reads its shots and pages: {"kind": "shot" or "page", "i":
-its index, "frame", "src": the file under <public dir>, "size": [w, h],
-"rect": [x, y, w, h] on the frame, "t": seconds into a video (null for a
-still), "k": screen pixels per source pixel, "mx", "my": the source point
-at the rect's centre, "caption": the page on screen as {"x", "w", "y" (its
-centre), "h", "text"} or null}.
+episode that reads its shots and pages: {"kind", "i": its index, "frame",
+"src": the file under <public dir>, "rect": [x, y, w, h] on the frame,
+"t": seconds into a video (null for a still), then either "size": [w, h],
+"k": screen pixels per source pixel and "mx", "my": the source point at
+the rect's centre, or "layer": {"crop": [W, H, x, y, w, h] or null,
+"fit": "cover" or "contain", "pos": "50% 50%", "zoom"}; and "caption":
+the page on screen as {"x", "w", "y" (its centre), "h", "text"} or null}.
 
 Each sample says where a picture's source pixels land on the 1080x1920
-frame at one frame of the film (the shot's crop, push and rect, or the
-page camera). The faces are found on the uncut source, where they are
+frame at one frame of the film (the shot's crop, push and rect, the page
+camera, or for a layer its rect and its crop or fit, placed here once
+the file's size is known). Pictures laid over one another are
+each checked alone: a face covered by the picture on top is not seen as
+covered. The faces are found on the uncut source, where they are
 whole (OpenCV's YuNet, models/face_detection_yunet_2023mar.onnx from
 opencv/opencv_zoo, MIT licence, SHA-256 8f2383e4…, with its
 five points: the eyes, the nose, the mouth's corners), and mapped onto the
@@ -59,6 +63,31 @@ MIN_FACE = 150
 DETECT_W = 1920  # sources are detected at most this wide
 
 
+def video_size(path):
+    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                          "-of", "csv=p=0", str(path)], capture_output=True, text=True, check=True).stdout
+    return [int(v) for v in out.strip().split(",")[:2]]
+
+
+def place_layer(s, size):
+    """A layer (a picture in a rect): its rect, then a crop, or the
+    file fitted to cover or contain the rect at its object position and
+    zoom; sets the sample's scale and centre as a shot's."""
+    x, y, w, h = s["rect"]
+    lay = s["layer"]
+    if lay["crop"]:
+        _, _, cx, cy, cw, ch = lay["crop"]
+        k, mx, my = max(w / cw, h / ch), cx + cw / 2, cy + ch / 2
+    else:
+        W, H = size
+        k0 = (max if lay["fit"] == "cover" else min)(w / W, h / H)
+        px, py = (float(v.rstrip("%")) / 100 for v in lay["pos"].split())
+        ox, oy = (w - W * k0) * px, (h - H * k0) * py
+        k, mx, my = k0, (w / 2 - ox) / k0, (h / 2 - oy) / k0
+    z = lay["zoom"]
+    s.update(size=size, k=k * z, mx=mx, my=my)
+
+
 def source_frame(public, s):
     path = public / s["src"]
     if s["t"] is None:
@@ -66,7 +95,7 @@ def source_frame(public, s):
         if im is None:
             raise SystemExit(f"cannot read {path}")
         return im
-    w, h = s["size"]
+    w, h = s.get("size") or video_size(path)
     # The last sample of a stretch can fall a frame past the file's end.
     for back in (0, 0.04, 0.08, 0.12):
         raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{max(0, s['t'] - back):.3f}", "-i", str(path), "-frames:v", "1",
@@ -165,6 +194,8 @@ def main():
         else:
             im = source_frame(public, s)
             found = faces(det, im)
+        if "layer" in s:
+            place_layer(s, [im.shape[1], im.shape[0]])
         for face in found:
             x0, _ = to_frame(s, face[0], face[1])
             x1, _ = to_frame(s, face[0] + face[2], face[1])
