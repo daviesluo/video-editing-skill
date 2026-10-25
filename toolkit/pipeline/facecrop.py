@@ -38,11 +38,12 @@ One film cut a face with the side crop in three renders (a profile, four
 film shots, a night shot), each judged by eye on stills without the crop
 drawn; that night shot at its first crop is this check's counterfactual
 (it fails it, and passes the crop that fixed it). Flags are grouped
-by shot (first and last time). A group shorter than 0.25 s (a face
-drifting to an edge in a shot's last frames) is printed as brief and does
-not fail. A flag the owner has chosen to keep is listed in the episode's
-accept file, one line each: "<shot|page> <index> <FLAG>: <the reason, with
-who chose it>"; it is printed as accepted and does not fail. With --out,
+by shot (first and last time). A group shorter than 0.25 s, timed frame
+by frame (a face drifting to an edge in a shot's last frames), is printed
+as brief and does not fail. A flag the owner has chosen to keep is listed
+in the episode's accept file, one line each, named by the picture's file
+so an inserted shot cannot move it: "<src> <FLAG>: <the reason, with who
+chose it>"; it is printed as accepted and does not fail. With --out,
 the first sample of each group is drawn there (the picture as the frame
 shows it, the covered bands darkened, the face boxed). Exits 1 when
 anything else is flagged.
@@ -166,6 +167,17 @@ def draw(s, im, box, path):
     cv2.imwrite(str(path), shade)
 
 
+def between(a, b, f):
+    """The sample of a picture at frame f, between its samples a and b: a
+    shot's push and its video time are linear in the frame; a page's eased
+    camera is close to it over six frames."""
+    u = (f - a["frame"]) / (b["frame"] - a["frame"])
+    mid = dict(a, frame=f, caption=a["caption"] if u < 0.5 else b["caption"])
+    for key in ("k", "mx", "my") + (("t",) if a["t"] is not None else ()):
+        mid[key] = a[key] + (b[key] - a[key]) * u
+    return mid
+
+
 def main():
     args = sys.argv[1:]
     opts = {k: args[args.index(k) + 1] for k in ("--out", "--accept") if k in args}
@@ -174,50 +186,78 @@ def main():
     out = Path(opts["--out"]) if "--out" in opts else None
     if out:
         out.mkdir(parents=True, exist_ok=True)
+    # Kept flags are named by the picture's file, which inserting a shot
+    # does not move: "<src> <FLAG>: <reason, with who chose it>".
     accepted = {}
     if "--accept" in opts:
         for line in Path(opts["--accept"]).read_text().splitlines():
             if line.strip() and not line.startswith("#"):
                 head, why = line.split(":", 1)
-                pk, i, kind = head.split()
-                accepted[(pk, int(i), kind)] = why.strip()
+                src, kind = head.split()
+                accepted[(src, kind)] = why.strip()
     det = cv2.FaceDetectorYN.create(str(MODEL), "", (320, 320), 0.7, 0.3, 5000)
     stills = {}  # a still's faces are found once; a video frame is read per sample
-    groups = {}  # (picture, flag) -> [first sample, last sample, count, why, box, image]
-    seen = 0  # subject-sized faces on the frame, so a clean run is known to have looked
-    for s in samples:
+
+    def look(s):
         if s["t"] is None:
             if s["src"] not in stills:
                 im = source_frame(public, s)
                 stills[s["src"]] = (im, faces(det, im))
-            im, found = stills[s["src"]]
-        else:
-            im = source_frame(public, s)
-            found = faces(det, im)
+            return stills[s["src"]]
+        im = source_frame(public, s)
+        return im, faces(det, im)
+
+    groups = {}  # (picture, flag) -> {first, last, count, whys, box, image}
+    seen = 0  # subject-sized faces on the frame, so a clean run is known to have looked
+    by_picture = {}
+    for s in samples:
+        im, found = look(s)
         if "layer" in s:
             place_layer(s, [im.shape[1], im.shape[0]])
+        by_picture.setdefault((s["kind"], s["i"]), []).append(s)
         for face in found:
             x0, _ = to_frame(s, face[0], face[1])
             x1, _ = to_frame(s, face[0] + face[2], face[1])
             seen += x1 - x0 >= MIN_FACE
             for kind, why, box in check(s, face):
-                g = groups.setdefault((s["kind"], s["i"], kind), [s, s, 0, why, box, im])
-                g[1] = s
-                g[2] += 1
+                g = groups.setdefault((s["kind"], s["i"], kind), {"first": s, "last": s, "count": 0, "whys": [], "box": box, "im": im})
+                g["last"] = s
+                g["count"] += 1
+                if why not in g["whys"]:
+                    g["whys"].append(why)
     failed = 0
-    for (pk, i, kind), (first, last, count, why, box, im) in sorted(groups.items(), key=lambda kv: kv[1][0]["frame"]):
+    for (pk, i, kind), g in sorted(groups.items(), key=lambda kv: kv[1]["first"]["frame"]):
+        first, last = g["first"], g["last"]
+        span = (last["frame"] - first["frame"] + 1) / 30
+        if span < 0.25:
+            # Samples are six frames apart, so one flagged sample can stand
+            # for up to 0.37 s: look at every frame from the sample before
+            # to the sample after, and time the flag exactly.
+            run = by_picture[(pk, i)]
+            j0, j1 = run.index(first), run.index(last)
+            a, b = run[max(0, j0 - 1)], run[min(len(run) - 1, j1 + 1)]
+            hit = []
+            for f in range(a["frame"], b["frame"] + 1):
+                lo = max((x for x in run if x["frame"] <= f), key=lambda x: x["frame"])
+                hi = min((x for x in run if x["frame"] >= f), key=lambda x: x["frame"])
+                m = lo if lo is hi else between(lo, hi, f)
+                _, found = look(m)
+                if any(k == kind for face in found for k, _, _ in check(m, face)):
+                    hit.append(f)
+            span = (max(hit) - min(hit) + 1) / 30 if hit else span
         where = first["src"] if first["t"] is None else f"{first['src']} @ {first['t']:.2f}"
-        if (pk, i, kind) in accepted:
-            status = f"accepted: {accepted[(pk, i, kind)]}"
-        elif (last["frame"] - first["frame"]) / 30 < 0.25:
-            status = "brief"
+        if (first["src"], kind) in accepted:
+            status = f"accepted: {accepted[(first['src'], kind)]}"
+        elif span < 0.25:
+            status = f"brief, {round(span * 30)} frames"
         else:
             status, failed = "FAIL", failed + 1
-        print(f"{kind:8} {first['frame'] / 30:6.2f} to {last['frame'] / 30:6.2f} s ({count} samples)  {pk} {i}  {where}: {why}  [{status}]")
+        print(f"{kind:8} {first['frame'] / 30:6.2f} to {last['frame'] / 30:6.2f} s ({g['count']} samples)  {pk} {i}  {where}: {'; '.join(g['whys'])}  [{status}]")
         if out:
-            draw(first, im, box, out / f"{kind.lower()}-{first['frame']:05}.jpg")
+            draw(first, g["im"], g["box"], out / f"{kind.lower()}-{first['frame']:05}.jpg")
     print(f"{len(samples)} samples, {seen} subject faces seen, {len(groups)} flagged, {failed} failing")
     sys.exit(1 if failed else 0)
+
 
 if __name__ == "__main__":
     main()
