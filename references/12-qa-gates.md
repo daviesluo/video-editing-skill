@@ -33,6 +33,30 @@ the owner was promised rests on a session remembering to run it.
 - **A finding the owner keeps is written down with who kept it**, keyed by
   what does not move when the film is re-timed (the source file and the
   source time, not the film time or a shot's index).
+- **The owner's notes are gathered from the owner's own words**, every
+  message since the series began, read by the main session itself (the
+  conversation's transcript where the platform keeps one, the project's
+  ledger beside it), and each note gets a check or a named review row. A
+  gate written from the latest film's notes alone missed the first films'
+  cut points, bite tails, the bed's chopped hit and the flicker.
+- **Each measure is proved both ways on real films**: it passes the
+  approved film and fails the fault it was written for, rebuilt (the
+  bed's cuts moved back 35 ms to the tracker's beat fail; a cut moved
+  0.1 s into its word fails). Read what it flags before trusting it:
+  - a cut belongs to the word after it, so one in the tail of the word
+    before, ahead of the next by the cut rule's window, is on time;
+  - a recogniser writes "and" in front of a fragment that opens on a word
+    (two models heard "and these people" from inside "These"), so a word
+    heard before a bite's first is a cue to listen, not a fault; one heard
+    after its last is a fault;
+  - a cut of the music is judged where the sharpest rise of the take's
+    level falls against it, not by how sharp a rise is near it (the hats
+    rise as fast), and only where the music stops or starts, not where it
+    hands over to itself;
+  - the brightness of the delivered frames moves with the source's own
+    light (a card turning in a hand read as a 12 percent step), so it is a
+    warning for eyes; the darkening that caused the owner's flicker is
+    caught in the code, before the render.
 
 ## 1. Automated (`build.py episodes/<id> qa`)
 
