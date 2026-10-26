@@ -150,24 +150,41 @@ nothing: read the final music stem on its sixteenth-note grid (the phase
 where its beats sum loudest), sum the onsets of the low, middle and high
 bands at every grid point, average each of the sixteen positions over two
 bars, and keep the positions at least about a third as strong as the
-strongest, each with its strength, nudged onto its onset. Keep two sets:
-the beat points (accents of about half the strongest or more, on the
-eighth-note grid) for pictures and line pieces, and the lighter hits (a
-third or more) for line pieces only; never a ghost note between them. A
-section then opens on its downbeat with its first words and its first
-picture together; its pictures spread evenly over the beat points up to
-a beat before its end, so the page holds complete to be read; further
-pieces of the line take the free light hits, and extra pictures pair up
-on the last points. Where the music has one hit a beat (before a drop),
-a four-beat line holds three pictures one to a hit, or more in pairs.
+strongest, each with its strength, nudged onto its onset. Every pop
+lands on a beat point (an accent of about half the strongest or more, on
+the eighth-note grid); where the music has one hit a beat (before a
+drop), on the beat itself. Never on the quiet hit between two: a piece of
+a line once had that allowance, and the owner heard "$5 trillion",
+"Netflix for $50 million" and "rewarded size." land off the beat ("make
+sure every pop and every page change lands on the beat").
+
+A section opens on its downbeat with its first words and its first
+picture together, the line's next piece with the next picture, the rest
+of its pictures one a beat point, and the next section on the beat after
+its last pop: **no beat inside a section on which nothing changes**,
+unless a full-width clip (a bite, a launch) or the one clip the line ends
+on carries the frame. Spreading a section's pictures evenly over its
+beats left a beat with no change in the middle of three sections, and
+the owner heard every one ("a spare beat in the middle"). A beat taken
+out moves everything after it up and the film is that much shorter: the
+owner had a clip cut a beat shorter "because nothing changed on that
+beat", and the edit that kept the next sections on their old beats only
+moved the empty beat further on. Before a drop, where the music is a loop
+running into it, that costs nothing: the opening starts further into the
+loop. A line leaves with the pictures it was over; left a beat alone on
+the black page after a cut away, it was "a basic error".
+
 Taking turns (never a word and a picture on one hit) made the pages slow,
 and the owner lifted it: "pictures and words may pop together". A script
-lists every pop against the points and fails any more than a frame off;
-measure the delivered file against both the list and the audio itself. A
-fixed rate on the beat grid is not the same thing: where the track's hits
-are syncopated, half the words fall between them, and the owner heard it
-at once. A section the owner approved off the grid (a closing sequence)
-keeps its approved times.
+lists every pop against the points and fails any more than a frame off,
+any on a quiet hit, any beat with no change inside a section, and any
+line left alone after its pictures; measure the delivered file against
+both the list and the audio itself. A fixed rate on the beat grid is not
+the same thing: where the track's hits are syncopated, half the words
+fall between them, and the owner heard it at once. A section the owner
+approved off the grid (a closing sequence) keeps its approved times, on
+the music's clock: when the film's start moved 20 frames, a closing line
+left on its old seconds stood alone for two-thirds of a second.
 
 A statement or payoff line ("With just 146 employees.") is not typed: it
 lands whole on its beat and stays whole for at least 0.9 s. Typed in
