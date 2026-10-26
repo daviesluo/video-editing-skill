@@ -319,10 +319,14 @@ fix on: only the fix's own span may differ.
   picture jumps in a few blocks and comes straight back (A, B, A) is
   rendered again as a still; if the still shows A, the render got the
   frame wrong and the film fails. If the still shows B, the frame is the
-  footage's own: a stray frame inside an upload (a launch film held one
-  frame of another moment), which is cut around by moving the in-point,
-  or a cut inside a bite, which stays. Crowds and fast motion give a few
-  such jumps that match their stills and pass.
+  footage's own (a camera flash in a crowd, a cut inside a bite, fast
+  motion) and stays: the owner, shown a cheering team's two bright frames
+  that had been taken for strays and cleaned out, said "no problem at all,
+  it's only a camera flash lighting it up; don't change it". A change to
+  footage the owner has already seen is put to the owner first, with the
+  frames, never made on a guess. The check looks at runs of one to three
+  frames, since a jump held for two frames (one a duplicate of a
+  telecine) slipped past a test for one.
 
 ## After the render
 
