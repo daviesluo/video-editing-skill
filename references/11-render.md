@@ -277,6 +277,18 @@ rendered at.
 A round of partial re-renders is still a round: find everything first
 (above).
 
+A fix that changes the length of something early in the film (a bite
+trimmed, a line re-voiced) moves everything after it. Make the change a
+whole number of frames (a bite's in-point moved by 7/30 s, not 0.23 s), so
+every cue after it lands exactly that many frames later and the rest of
+the film is, frame for frame, what the owner already saw. A shift of 6.9
+frames instead rounds each cue to one of two frames, puts every slow move
+a tenth of a frame out of phase and samples footage at other instants, so
+the comparison with the approved cut can no longer prove that nothing else
+changed. Then compare the new master with the one the owner last saw,
+every frame, with the earlier one read that many frames later from the
+fix on: only the fix's own span may differ.
+
 ## Shortcuts that save a render
 
 - **Only the music or the effects changed** (code, voice and timeline
