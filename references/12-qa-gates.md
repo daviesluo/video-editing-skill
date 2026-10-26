@@ -57,6 +57,12 @@ the owner was promised rests on a session remembering to run it.
     light (a card turning in a hand read as a 12 percent step), so it is a
     warning for eyes; the darkening that caused the owner's flicker is
     caught in the code, before the render.
+- **Words inside a picture are read too.** The safe-zone probe sees only
+  the type the composition sets; a web page, a screenshot or a sign is
+  pixels to it, and its words ran under the player's side crops on two
+  pages a review caught by eye. Every scan still's side strips are read by
+  a local text recogniser, and a word starting or ending under a crop is a
+  finding (proved on the faulty frames, clean on the fixed ones).
 
 ## 1. Automated (`build.py episodes/<id> qa`)
 
