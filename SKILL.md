@@ -278,7 +278,8 @@ resume from the repository alone.
   before joining without re-encoding. Every seam is compared with stills
   of the frames either side. A part is kept from an earlier commit only
   when the change provably leaves its frames as they were (a moved end
-  time once almost left eight frames out of step at a seam).
+  time once almost left eight frames out of step at a seam), and a kept
+  part is compared with fresh stills of the new commit every 0.5 s.
 - An interrupt sent to a helper by mistake is followed at once by a
   message: its background render survives, and nothing reports it.
 - Only the music changed: remux the new mix under the rendered picture.

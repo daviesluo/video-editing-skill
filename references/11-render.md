@@ -260,8 +260,15 @@ end, a duration, a shared component) work out the frames it reaches. A
 move whose end time changed reaches every frame up to that end: one fix
 moved a slide's end by a fraction of a second into the next part, which
 would have left eight frames of the kept part out of step with the new
-code at the seam, and the part had to be re-rendered too. When in doubt,
-re-render it. Then prove it on the result: decode the re-rendered part
+code at the seam, and the part had to be re-rendered too. Another kept a
+part that a re-framed shot ran into for a second of its frames, which the
+session had judged from the edit alone; only the seam check caught it.
+So list each changed shot's span from the shot list, not from memory,
+and gate the result: every part not rendered at the commit being shipped
+is compared with fresh stills of that commit every 0.5 s (the part's
+commit recorded when it is fetched; on that occasion the stale frames
+differed by 167 in a 60 px block against at most 6.5 of encoding noise).
+When in doubt, re-render it. Then prove it on the result: decode the re-rendered part
 and the one it replaces, and only the frames worked out may differ (a
 change to one caption page re-rendered one quarter, and exactly that
 page's 87 frames differed). The seam check above then runs on every seam,
