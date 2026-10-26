@@ -302,6 +302,28 @@ fix on: only the fix's own span may differ.
   Then every QA gate, and compare every 0.5 s frame with the previous
   release: only the intended region may change.
 
+## Flashes the renderer makes
+
+- **Every video layer reads its file at an address of its own.** Three
+  tiles of one source file on the same page, each from another moment,
+  made Remotion's frame extractor hand one tile another's frame every
+  fourth frame, from the moment the third tile landed; the owner saw the
+  tile flash ("why is that picture flashing?", "make sure this kind of
+  flicker never happens again"). Rendering those frames alone did not
+  reproduce it; rendering the part from its first frame did, every time.
+  A query of its own per layer on the source URL (the frame it enters and
+  the frame of the file it starts from, `?layer=<at>-<from>`) gives each
+  its own extractor; the file served is the same, and the flashes went.
+  The kit's video components all build their source that way.
+- **Gate every delivered film for one-frame flashes**: a frame whose
+  picture jumps in a few blocks and comes straight back (A, B, A) is
+  rendered again as a still; if the still shows A, the render got the
+  frame wrong and the film fails. If the still shows B, the frame is the
+  footage's own: a stray frame inside an upload (a launch film held one
+  frame of another moment), which is cut around by moving the in-point,
+  or a cut inside a bite, which stays. Crowds and fast motion give a few
+  such jumps that match their stills and pass.
+
 ## After the render
 
 `build.py episodes/<id> qa` on the delivered `final.mp4`, then the rest of

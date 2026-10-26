@@ -324,6 +324,14 @@ pictures cutting in on the drums, not a drawn explainer), these lift it
 from assembled to finished; an owner asked for all of them after seeing
 the edit "a level below" a reference reel:
 
+- **A sound bite comes in over its section's pictures**, not on a page of
+  its own: the speaker's band laid over the lower part of the pile, under
+  the logos and the line that name the story, so the page reads as one
+  thought (an owner, of a founder's bite that cut to a new black page:
+  "put it over the page before it, like the other interviews, below the
+  first photo's and the second photo's logos"). The pile is laid out for
+  it: the pictures that carry the names high, the rest low, where the band
+  will cover them.
 - **One grade over every picture and clip**, not over the page or the
   type: a touch more contrast, a little less saturation, a slight warmth,
   so footage from five decades and four broadcasters reads as one film,
