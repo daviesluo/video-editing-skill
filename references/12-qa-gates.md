@@ -134,7 +134,9 @@ that fault rebuilt:
   recogniser over every scan still (cached by the strip's pixels).
 - **Letters cut by a picture's own edge**, where that edge lies inside the
   frame: a strip just inside each edge read for words with ink on its last
-  rows (a band's foot took the tails of "p" and "g").
+  rows (a band's foot took the tails of "p" and "g"). The words a shot is
+  there for stay whole; a screenshot's other rows or a broadcast's ticker
+  may be cut, and such a finding is kept with the owner's reason.
 - **Blocks of text too close**: two blocks sharing any width under a
   floor apart; every pair under 40 px is listed for reading.
 - **Every number on screen is said or logged**: page and still pictures
@@ -168,7 +170,8 @@ that fault rebuilt:
   least 6 frames; every video shot's stretch inside its file (a clip that
   ran out held its last frame); a shot's first 0.2 s at least 0.4 of its
   sharpest frames' detail (a pile once opened inside its source's own
-  defocus, a warning since a blur can be the shot).
+  defocus, a warning since a blur can be the shot: a film's own move at a
+  shot's start, a card turning in to camera, stays).
 - **The same picture twice**: two shots from one source within 60 s that
   look alike (an image embedding's similarity) are a warning; the same
   person is allowed, the same picture is not.
