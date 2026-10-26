@@ -119,6 +119,18 @@ its pitch, its words' levels and its first sentence's level were outside.
   glyph the face lacks, a chart off its scale, a highlight a second late,
   machine-written copy), and the gate fails when any of them goes the
   wrong way; two checks once went dead without anyone knowing.
+- **An unchanged picture is not scanned again.** The scan's stills and
+  probe lines are kept beside a key of everything that draws them (the
+  compositions' code, the probe, the stills script, every file the page
+  can load with its size and date, the times); a run after a caption or
+  an accept line reads them again (one film: 254 s with a fresh scan,
+  59 s without). The short checks run side by side, those that read
+  another's results in turn.
+- **The live post is read back.** After posting, the reel's public record
+  (its embed page) is compared with the release: the caption word for
+  word, the audio name, the length, the cover, frames every 2 s and the
+  loudness. On its first run it found a curled apostrophe that had gone
+  up three days before.
 - **A report says which checks made it.** It carries a fingerprint of the
   gate, the probe and the stills script; the release check refuses a
   report made by other checks, so a film passed under yesterday's checks
@@ -172,6 +184,20 @@ that fault rebuilt:
   sharpest frames' detail (a pile once opened inside its source's own
   defocus, a warning since a blur can be the shot: a film's own move at a
   shot's start, a card turning in to camera, stays).
+- **People at their best**: every face of subject size on the scan's
+  stills read by a face-landmark model; both eyes shut on a sharp face
+  that is not smiling, on a photograph or on two stills running of a
+  video (a blink is shorter), is a warning; a wide laugh on a photograph
+  or a shot's first frame is listed for the reviewer, who judges it in
+  context. A grimace measure (brows down, a sneer) read smiles as it.
+- **The picture goes with its words**: each still's picture band against
+  the words of its moment (the narration's sentence, or the bite being
+  spoken) by an image-text model, ranked among all the film's stills for
+  those words; a shot in the bottom 15 percent is listed for the
+  reviewer. A film whose words are set on its pictures is not measured,
+  since the model reads the words.
+- **A real voice's picture and credit 3 frames ahead of it**, within a
+  frame.
 - **The same picture twice**: two shots from one source within 60 s that
   look alike (an image embedding's similarity) are a warning; the same
   person is allowed, the same picture is not.
