@@ -104,6 +104,103 @@ its pitch, its words' levels and its first sentence's level were outside.
 | facts | every fact in `episode.json` marked verified |
 | fact log | every fact id has a row in `verification.md` |
 
+- **The probe measures only a settled page.** A web font is added to the
+  page's font list only once it has loaded, so waiting for the fonts the
+  list holds can still measure a line in the fallback face: under load a
+  probe read captions up to 16 px off on one still in three while the
+  pictures came out right. The probe waits until every other delay of the
+  frame (fonts, images, video frames) has cleared, then until two readings
+  of the layout agree; a pixel finding is kept only when the frame,
+  rendered again on its own, shows it too.
+- **The checks are replayed on their stored cases.** Each check that reads
+  the probe's lines has a bad case and a clean case kept beside the gate
+  (a word that moves as the next lands, a quote shown at two sizes, a line
+  ending on a number whose unit starts the next, type under 29 px, a
+  glyph the face lacks, a chart off its scale, a highlight a second late,
+  machine-written copy), and the gate fails when any of them goes the
+  wrong way; two checks once went dead without anyone knowing.
+- **A report says which checks made it.** It carries a fingerprint of the
+  gate, the probe and the stills script; the release check refuses a
+  report made by other checks, so a film passed under yesterday's checks
+  is gated again before it goes out.
+
+### Measures any series can use
+
+Each was written for a fault an owner or a reviewer found, and fails on
+that fault rebuilt:
+
+- **Picture text under the player.** The side crops, and two strips read
+  across the top bar's and the bottom band's edges, by a local text
+  recogniser over every scan still (cached by the strip's pixels).
+- **Letters cut by a picture's own edge**, where that edge lies inside the
+  frame: a strip just inside each edge read for words with ink on its last
+  rows (a band's foot took the tails of "p" and "g").
+- **Blocks of text too close**: two blocks sharing any width under a
+  floor apart; every pair under 40 px is listed for reading.
+- **Every number on screen is said or logged**: page and still pictures
+  read whole by the recogniser; each percentage, sum or multiple is in the
+  narration or in a row of the verification log.
+- **A quote is one card**, whole, put up once at one size, its key lines
+  highlighted in place; never a zoom to a second card of its own line.
+- **A highlight lands on its words**: each highlight within 0.3 s of the
+  first word it marks, on the film's clock (the take's times plus every
+  insert cut in before them).
+- **White pages at 0.9**: an image that is mostly white is set no brighter;
+  a video frame drawn as an image is footage, not a page.
+- **Reading time**: a block not read by the voice stays whole at least
+  0.9 s and at most 7 words a second.
+- **Words built in stay in place**: each word of a line that builds word by
+  word is where it first landed on every later still, and no page is up
+  with no word on it.
+- **Breaks by meaning**: no line ends on an article, a preposition, a
+  conjunction, a possessive or a hyphen, and a number keeps its unit.
+- **Light type has contrast**: in a light text box, the share of
+  colourless light pixels (every channel over 200, within 40 of each
+  other) at most 0.6; white on near-white reads near 1.
+- **Small type and glow**: no visible run under 29 px; no light blurred
+  shadow or painted letters on type.
+- **Captions off faces**: a text box against the faces of the picture on
+  screen, from the brow to the chin (the chin set from the mouth and the
+  eyes, not the face box, which runs down a close-up's neck).
+- **Heads clear of the top bar**: a face box whose crown rises above the
+  safe top is a warning.
+- **No flash frames, no frozen frames, no blurred landing**: every shot at
+  least 6 frames; every video shot's stretch inside its file (a clip that
+  ran out held its last frame); a shot's first 0.2 s at least 0.4 of its
+  sharpest frames' detail (a pile once opened inside its source's own
+  defocus, a warning since a blur can be the shot).
+- **The same picture twice**: two shots from one source within 60 s that
+  look alike (an image embedding's similarity) are a warning; the same
+  person is allowed, the same picture is not.
+- **Credits on their voice**: each real voice named as it starts (at most
+  0.2 s early), no name past its voice.
+- **Charts at true scale**: each bar's length, or each square's area, over
+  its value is the same for every mark of a chart within 1 percent.
+- **Licence credits**: every picture under a licence that asks for credit
+  has its author in the post's caption or on screen.
+- **Plain copy**: the narration, the type on screen and the post texts
+  searched for the measurable tells of machine-written prose (its
+  vocabulary, "serves as", "not just X, but Y", em dashes, filler), quoted
+  speech left out.
+- **The cover**: in the series' style (read on its pixels), and the stored
+  file the same, pixel for pixel, as a fresh render of the chosen
+  variant; every face on it whole and readable, its eyes open (a blink
+  score read by a face-landmark model), its crown inside the grid tile;
+  every number and name on it said in the film.
+- **The bleep**: the tone fitted out of the voice leaves nothing above
+  -50 dBFS; the bleeped word's caption read frame by frame: no hidden
+  letter drawn, the punctuation after it landing with the bar.
+- **Sound**: each real voice within 2 LU of the narration; a word after a
+  pause starting within 0.07 s of its voiced onset; one question per hook
+  and kicker, with no pause inside it over 0.3 s; the bed's low end under
+  every bite and its notches measured against the take's own level; the
+  bed through a phone speaker (a 300 Hz high-pass) losing at most about
+  6.5 dB.
+- **The delivered file**: the encoder's own settings read back from the
+  stream (CRF 16, a high subpixel search), sound from the first 0.1 s, a
+  silent last 50 ms, picture and sound the same length within a frame,
+  and 1 to 6 empty frames at most between two pictures.
+
 ## 2. Measured scans
 
 | Gate | Command | Pass |
