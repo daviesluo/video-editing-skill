@@ -131,7 +131,9 @@ episode that drops `Finish` mounts `<OrphanProbe />` itself): it logs
 that it ran on every still, and `stills.mjs` fails any still without that
 line ("NO-PROBE"). An episode once stopped mounting it, and its scans
 printed nothing with six texts outside the box. A line that types in
-(marked `data-typing` while incomplete) is judged once it is whole. Mark
+(marked `data-typing` while incomplete) is judged once it is whole, and a
+news excerpt set large in a narrow column (`data-excerpt`) is not judged
+for orphans at all, its safe zone still is. Mark
 every photo or clip layer `data-picture`: a new framing once laid a
 photo's edge across the tops of the last line's letters for 2.3 s, which
 only a reviewer saw. Before trusting a new check, run it once where the

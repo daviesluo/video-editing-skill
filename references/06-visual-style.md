@@ -73,7 +73,12 @@ page and `paper`, `accent`, `cool` and `warn` by role.
   colour (`THEME.haloStrong`), so a badge, label or source reads on any
   map, chart or photograph without a box behind it.
 - **No orphans**: a line never ends with one word alone. Checked by
-  measurement (`OrphanProbe`), because the eye misses it.
+  measurement (`OrphanProbe`), because the eye misses it. The exception
+  is a news excerpt set large in a narrow column (an article's opening
+  words zoomed under a highlighter), where one word a line is normal; mark
+  it `data-excerpt` and the probe leaves it (the owner, 2026-10-26: "in a
+  news excerpt that isn't wide to begin with, one word on a line is
+  normal").
 - **Titles broken by meaning.** A headline, cover title or end-card title
   of more than one line is broken by hand (`|`) where the phrases break,
   not wherever the width runs out, and no line holds one word: "Drain

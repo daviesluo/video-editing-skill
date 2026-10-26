@@ -49,7 +49,9 @@ const scan = () => {
   for (const el of document.querySelectorAll("div, span, p, b")) {
     // A line still typing in (marked data-typing) is judged once it is
     // whole: lines that grow from the centre leave a word alone for a beat.
-    if (el.closest("[data-typing]")) continue;
+    // A news excerpt set large in a narrow column (marked data-excerpt)
+    // holds one word a line as a matter of course (the owner, 2026-10-26).
+    if (el.closest("[data-typing], [data-excerpt]")) continue;
     const cs = getComputedStyle(el);
     let words: Word[] = [];
     if (cs.display.includes("flex") && cs.flexWrap === "wrap") {
