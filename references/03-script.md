@@ -29,7 +29,13 @@ it. Write slightly under the target: scripts run long when voiced.
 
 1. **Hook** (0 to 1.5 s): the question, in full and in plain words, on
    screen from frame 1 and spoken in the first second and a half, over the
-   strongest picture already up.
+   strongest picture already up. The first seconds decide the skip: the
+   opening must catch the eye from its first frame, or the skip rate is
+   high (the owner, 2026-10-29). So the hook's picture is the most
+   striking one the topic has (a surprising map, a bold line, a face,
+   something already moving), and something visibly changes within the
+   first second; a still picture that waits for the voice loses the
+   viewer before the question lands.
 2. **Answer** by about 6 s.
 3. **Two or three layers**, each a new verified fact on a new picture,
    and each saying more than the one before. A figure is followed by what

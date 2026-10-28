@@ -131,7 +131,9 @@ resume from the repository alone.
 - Length planned at about 2.3 to 2.4 words a second: 70 for 30 s, 105
   for 45 s, 140 for 60 s. The pace itself is held to the reference parts
   in syllables (Voice, below).
-- Hook (the question, in full, in the first 1.5 s), answer by 6 s, two or
+- Hook (the question, in full, in the first 1.5 s, over a picture that
+  catches the eye from frame 0 and moves within the first second: the
+  first seconds decide the skip), answer by 6 s, two or
   three layers, a payoff worth sending, then one end line that asks for
   the follow and says the next part's hook in the same breath ("Enjoy
   stories like this? Follow for part N: <the next hook>"): viewers leave

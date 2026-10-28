@@ -220,6 +220,13 @@ never the caption.
 - **The first frame is complete**: the title fully set, the subject up. A
   title meant to be read on frame 0 starts its reveal at -1.0 s; a title
   still rising on frame 1 was a review blocker.
+- **The first seconds catch the eye** (the owner, 2026-10-29: the very
+  start and the first few seconds must grab attention, or the skip rate
+  is high). Frame 0 is already a striking picture, not a plain page or a
+  slow fade-in, and the picture moves or changes within the first second
+  (the line starts drawing, the camera starts its move, the first mark
+  lands) while the hook is spoken. The review judges frame 0 and the first
+  three seconds as a stranger scrolling past would.
 - **The last frame** is the end card ("Coming up" and the part, the next
   title), clean, with the bed still sounding under it. Its title is broken
   into lines by meaning, phrase by phrase, with no word alone ("Drain
