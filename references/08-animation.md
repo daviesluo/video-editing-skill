@@ -231,20 +231,13 @@ never the caption.
   - something new lands every 0.5 to 1 s in the first 3 s (a cut, a
     number, a second face), and the first answer-teasing turn comes by
     3 s;
-  - the open is checked like a cover: the first frame and the frames at
-    0.5, 1, 2 and 3 s looked at on their own at phone size, each one
-    able to stop a scroll; one that could not is redesigned before the
-    render.
+  - the open is checked like a cover, as a stranger scrolling past would
+    see it: the first frame and the frames at 0.5, 1, 2 and 3 s looked at
+    on their own at phone size, each one able to stop a scroll; one that
+    could not is redesigned before the render.
 - **The first frame is complete**: the title fully set, the subject up. A
   title meant to be read on frame 0 starts its reveal at -1.0 s; a title
   still rising on frame 1 was a review blocker.
-- **The first seconds catch the eye** (the owner, 2026-10-29: the very
-  start and the first few seconds must grab attention, or the skip rate
-  is high). Frame 0 is already a striking picture, not a plain page or a
-  slow fade-in, and the picture moves or changes within the first second
-  (the line starts drawing, the camera starts its move, the first mark
-  lands) while the hook is spoken. The review judges frame 0 and the first
-  three seconds as a stranger scrolling past would.
 - **The last frame** is the end card ("Coming up" and the part, the next
   title), clean, with the bed still sounding under it. Its title is broken
   into lines by meaning, phrase by phrase, with no word alone ("Drain
