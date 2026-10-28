@@ -55,6 +55,17 @@ Measure; do not guess what will travel.
   counts the pages show, never as material to copy; a fact already viral
   this month scores lower on novelty (the owner of one series asked for
   this, 2026-10-28).
+- **How to read them without a login** (worked 2026-10-28 from a cloud
+  machine): Instagram's topic pages (`instagram.com/popular/<tag>/`, a
+  dozen reels each) render in a headless browser; each reel's public
+  embed (`/reel/<code>/embed/captioned/`) carries its owner, views, likes,
+  comments and caption, and an account's embed (`/<account>/embed/`) its
+  latest posts; a reel's date is in its shortcode (base64 to the media
+  id; `(id >> 23) + 1314220021721` is milliseconds since 1970). Reddit
+  refuses its pages and JSON to such machines but serves RSS:
+  `/r/<sub>/top/.rss?t=month`, and `/r/todayilearned/search.rss?q=...
+  &restrict_sr=1&sort=top&t=month` for stories people did not know.
+  Keep the scripts in the project and the reading in a dated topic note.
 - **What could not be measured is listed.** Short-video platforms rarely
   expose view counts to a script; say so rather than inventing a figure.
 
