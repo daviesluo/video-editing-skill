@@ -217,6 +217,24 @@ never the caption.
 
 ## First frame, last frame, covers
 
+- **The first seconds stop the thumb** (an owner, 2026-10-28: "the very
+  start and the first few seconds must grab the eye, or the skip rate is
+  high"). Viewers decide in about a second, so the opening is designed
+  as the film's strongest moment, not its warm-up:
+  - frame 0 already shows the most arresting picture the story has (a
+    face mid-reaction, a number at full size, a famous name in an unlikely
+    place), moving, never a black frame, a logo, a title card or a slow
+    fade in;
+  - the hook's first word is spoken by 0.3 s, and the line on screen
+    states the contrast in its first words ("$2.7 billion", "an eighth of
+    a dollar");
+  - something new lands every 0.5 to 1 s in the first 3 s (a cut, a
+    number, a second face), and the first answer-teasing turn comes by
+    3 s;
+  - the open is checked like a cover: the first frame and the frames at
+    0.5, 1, 2 and 3 s looked at on their own at phone size, each one
+    able to stop a scroll; one that could not is redesigned before the
+    render.
 - **The first frame is complete**: the title fully set, the subject up. A
   title meant to be read on frame 0 starts its reveal at -1.0 s; a title
   still rising on frame 1 was a review blocker.
