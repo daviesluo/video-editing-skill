@@ -47,6 +47,14 @@ Measure; do not guess what will travel.
 - **Perennial interest.** Wikipedia pageviews of the topic's article over
   the last twelve months (Wikimedia REST API, user agents only), against
   comparators the series already knows.
+- **Recent hits in the niche, each time topics are chosen.** Look at what
+  has travelled lately in the same niche on Instagram Reels, TikTok and
+  YouTube Shorts (the last few weeks; accounts of the series' size and a
+  few above it): which questions, formats and openings carried the views.
+  Use them for inspiration and as demand evidence, with the links and the
+  counts the pages show, never as material to copy; a fact already viral
+  this month scores lower on novelty (the owner of one series asked for
+  this, 2026-10-28).
 - **What could not be measured is listed.** Short-video platforms rarely
   expose view counts to a script; say so rather than inventing a figure.
 
