@@ -235,7 +235,12 @@ never the caption.
     question names, never a line, route, arrow or option that gives the
     answer away (the owner, 2026-10-29, on an opening that drew the short
     way and the whole circle under "Which way do you go?": "show only the
-    territories of Pakistan and Russia, or it gives the answer away");
+    territories of Pakistan and Russia, or it gives the answer away"); and
+    while a route is told, nothing ahead of the voice: the far end is
+    marked when the line reaches it on its name, and no faint line shows
+    the way not yet travelled (the owner, the same day: "don't mark the
+    port in Russia, that's still a spoiler; and don't show the pale red
+    line not yet sailed");
   - the open is checked like a cover, as a stranger scrolling past would
     see it: the first frame and the frames at 0.5, 1, 2 and 3 s looked at
     on their own at phone size, each one able to stop a scroll; one that
