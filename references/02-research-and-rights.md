@@ -52,6 +52,12 @@ Start from `templates/episode/research.md`. It holds:
   equal-area projection or ellipsoidal areas for areas), the year, nominal
   or inflation-adjusted money (index and base year), fiscal or calendar
   year, median or mean.
+- **The newest data.** Use the latest release of a dataset and the latest
+  period it covers; a figure that ends years ago reads as stale to a
+  viewer, however standard it is (the owner, of a 1991-2020 climate
+  normal when the source ran to 2025: "data only to 2020 is rather old").
+  Where a standard period is the right measure, say why on screen or in
+  the caption, and check that the latest period tells the same story.
 - **Check the data before trusting a wild result.** A point-in-land test
   on flat polygons once found planet-wide bands of false land: rings that
   cross the antimeridian must be repaired first. When a number looks
