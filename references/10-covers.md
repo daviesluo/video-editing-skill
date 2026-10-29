@@ -41,6 +41,13 @@ shows and checked by measurement.
   audience will not know, wastes the place (the owner, on a series cover:
   "staggered like before, not rising one way; it must look designed", "who
   is that, isn't he unknown? use someone like Netflix's founder").
+- **Faces in a group are the same size, or nearly**: measured with a
+  face detector on the rendered cover, within about 5 percent of each
+  other, each cut-out scaled to its face, not to its picture (the owner,
+  of a cover where one face stood half again as tall as the other: "the
+  two faces must be the same size or nearly, or it is unbalanced"). A
+  close portrait beside a waist-up frame needs the portrait shrunk and
+  the other enlarged, within what its source's resolution allows.
 - **Every face has its eyes open** and its mouth at rest. A speaker
   looking down between words reads as eyes closed once cut out small;
   pick the frame by comparing the footage at 0.1 s steps around the
