@@ -229,8 +229,8 @@ never the caption.
     states the contrast in its first words ("$2.7 billion", "an eighth of
     a dollar");
   - something new lands every 0.5 to 1 s in the first 3 s (a cut, a
-    number, a second face), and the first answer-teasing turn comes by
-    3 s;
+    number, a second face), and the first turn comes by 3 s: something
+    the question names lights, moves or is revealed;
   - until the voice gives the answer, the picture shows only what the
     question names, never a line, route, arrow or option that gives the
     answer away (the owner, 2026-10-29, on an opening that drew the short
