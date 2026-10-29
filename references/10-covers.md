@@ -46,6 +46,13 @@ shows and checked by measurement.
   pick the frame by comparing the footage at 0.1 s steps around the
   moments the person looks up (the owner chose a cover and then saw one founder
   "with his eyes closed").
+- **Every face looks its best.** Take the person from a photograph or a
+  studio-lit interview at high resolution, facing the camera or nearly,
+  sharp, flattering, never from a webcam call, a news window or a soft
+  frame blown up: a cut-out shows every flaw of its source. Look through
+  every source of the person before choosing, and offer the best two or
+  three (the owner, of a founder cut out of a webcam interview and a
+  profile shot: "neither photo looks good, find others").
 - **Cut-outs joined without seams.** A cut-out from a frame that cut the
   person off (a shoulder at the frame's edge) has a straight edge: place
   it where the band's own faded side or a person in front hides it, and
