@@ -36,7 +36,12 @@ it. Write slightly under the target: scripts run long when voiced.
    something already moving), and something visibly changes within the
    first second; a still picture that waits for the voice loses the
    viewer before the question lands.
-2. **Answer** by about 6 s.
+2. **Answer** by about 6 s, going straight to the answer's first
+   concrete step (where you set off, what happened first), not framed by
+   the alternative it beats (the owner, 2026-10-29, on "the long way
+   round. The short way, north-east, is nearly all land": "don't mention
+   the long way and the short way; after the question, go straight to
+   where you set sail").
 3. **Two or three layers**, each a new verified fact on a new picture,
    and each saying more than the one before. A figure is followed by what
    it meant (a voice that was there, a consequence, a second figure that

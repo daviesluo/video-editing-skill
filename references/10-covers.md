@@ -20,7 +20,11 @@ shows and checked by measurement.
 - **The cover does not answer its own question** any more than the
   episode's opening does (`08-animation.md`): over a question of where
   something lies, the frozen frame shows the picture before the answer's
-  evidence is drawn.
+  evidence is drawn. It shows only what the question names (the owner,
+  2026-10-29, on a cover with the finished route across the planet:
+  "the cover too": the two countries alone), and its title asks the
+  question ("How do you sail from Pakistan to Russia in a straight
+  line?"), not the result.
 - **One subject**: the route, the shapes, the circle, the bars, the page:
   marked in the episode with `data-cover-subject` so the probe measures
   it. Mark the overlay that is the subject, not a full-bleed base map.

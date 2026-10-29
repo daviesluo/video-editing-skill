@@ -231,6 +231,11 @@ never the caption.
   - something new lands every 0.5 to 1 s in the first 3 s (a cut, a
     number, a second face), and the first answer-teasing turn comes by
     3 s;
+  - until the voice gives the answer, the picture shows only what the
+    question names, never a line, route, arrow or option that gives the
+    answer away (the owner, 2026-10-29, on an opening that drew the short
+    way and the whole circle under "Which way do you go?": "show only the
+    territories of Pakistan and Russia, or it gives the answer away");
   - the open is checked like a cover, as a stranger scrolling past would
     see it: the first frame and the frames at 0.5, 1, 2 and 3 s looked at
     on their own at phone size, each one able to stop a scroll; one that
