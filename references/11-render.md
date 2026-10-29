@@ -56,6 +56,18 @@ npx remotion render <Composition> out/video.mp4 --gl=swangle --concurrency=2 \
     encoded once from the untouched originals to H.264 at CRF 10 (x264
     slow, 4K kept, audio copied), visually lossless and decoded at speed;
     everything else stays a stream copy. Log which cuts were encoded.
+  - A 4K H.264 encode with one keyframe a clip still stalled Remotion's
+    frame server (over 28 s for one frame, the scan stopped): encode such
+    cuts at most 1920 wide with a keyframe every 12 frames, and keep the
+    shots' crops in the source's own pixels (the declared size), so the
+    framing does not move.
+- **A stream copy starts where the frames say, not where the keyframe
+  list says.** From Matroska sources ffprobe's keyframe list put several
+  cuts 3 to 7 s later than ffmpeg's seek began them, so the first stills
+  showed the wrong shots and the bites would have played the wrong words.
+  Find each cut's real start by matching its frames against the source's
+  (small grey frames, steps of 1/120 s around the start its length
+  implies), and record that start, never the requested one.
   - Chrome writes its shared-memory files to `$TMPDIR` (Remotion passes
     `--disable-dev-shm-usage`), and a 4K frame is tens of megabytes:
     with the disk nearly full the frame requests failed ("Chrome rejecting
