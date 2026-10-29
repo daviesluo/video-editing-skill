@@ -66,7 +66,11 @@ a frame of the cut's lead counts as landing with it). A page lives on one
 picture: split it at the cut, or move the cut to the page's first word.
 A subtitle line leads its first word by no more than the captions' lead
 plus the alignment's error, 0.2 s in all (lines 7 to 12 frames early once
-passed a looser limit). It is trusted once it has failed on the faults it was written for (two
+passed a looser limit), measured on the frame it shows on, not its
+nominal time (read off the nominal time, lines 6 frames early passed).
+It never takes the band while the line before is still sounding its last
+word (beyond the same lead a page handed on may take), and never comes up
+before the cut that starts its picture. It is trusted once it has failed on the faults it was written for (two
 pages leaving early, "is worth" said over an empty band).
 
 ## Pages (`kit/paginate.ts`)
