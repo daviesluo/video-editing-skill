@@ -59,8 +59,14 @@ The sync is a script, not a look, run after every timing change: it
 fails on a word shown after its start, a page that leaves before its last
 word ends (beyond the lead when the next page takes over, past a frame
 when the band empties), a narrated word said over an empty band that the
-picture does not show, and a page or subtitle outliving its picture's cut.
-It is trusted once it has failed on the faults it was written for (two
+picture does not show, a page or subtitle outliving its picture's cut,
+and a page that comes up on one picture and types its words onto the next
+(a cut inside the page before its last word shows; a page landing within
+a frame of the cut's lead counts as landing with it). A page lives on one
+picture: split it at the cut, or move the cut to the page's first word.
+A subtitle line leads its first word by no more than the captions' lead
+plus the alignment's error, 0.2 s in all (lines 7 to 12 frames early once
+passed a looser limit). It is trusted once it has failed on the faults it was written for (two
 pages leaving early, "is worth" said over an empty band).
 
 ## Pages (`kit/paginate.ts`)

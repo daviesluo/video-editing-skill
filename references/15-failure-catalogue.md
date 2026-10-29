@@ -28,6 +28,7 @@ new class of failure appears, in the same commit as the fix.
 | a correction and a second example ran on as one list when heard | connectives carry the turns ("Actually,", "And", "However,"), each voiced with its line | cold read; listen |
 | a teaser ("What if we drained the ocean?") sounded odd and promised nothing | the teaser states the next question in full with something concrete to look forward to; its fact verified | cold read; release review |
 | the owner's wording read awkwardly in English | offered back with one or two natural phrasings that keep the meaning; the owner picks | before voicing |
+| a payoff called a company's first-listed creditor its "biggest", when the filing listed only the twenty largest unsecured claims and its liabilities ran far past their sum | say what the document shows ("first on its list of creditors"), never a superlative the document cannot prove | fact check; review |
 
 ## Voice
 
@@ -152,6 +153,8 @@ new class of failure appears, in the same commit as the fix.
 | an end card's title left to wrap put "longest" alone on a line | titles broken by hand where the phrases break, no word alone | `ORPHAN` scan; by eye |
 | a bar's "100", set inside a thin bar, rode over its top edge, white on the page | a bar's number is sized to the bar and centred on it, inside only where there is no room beside it | `barNumber` self-test; stills |
 | a name with a letter the face lacked (Łódź) would fall back to another face | the full font is vendored; every visible character is checked against it | `GLYPH` scan |
+| a caption page came up on one picture and typed its last words onto the next ("it paid went bankrupt." over the app, then the filing's headline) | a page lives on one picture: split it at the cut, or move the cut to the page's first word | `capsync` CROSS |
+| bite subtitles came up 7 to 12 frames before the speaker's words and passed a 0.45 s tolerance | a subtitle line leads its first word by the captions' own lead, within forced alignment's error (0.2 s) | gate `subs` |
 
 ## Covers
 
@@ -229,3 +232,4 @@ new class of failure appears, in the same commit as the fix.
 | a freshness check by file date failed on an edit that could not touch the mix | the mix re-made and compared sample by sample | 12 "Freshness is proved by making it again" |
 | a gate read a picture list printed to a pipe and cut at 64 KB, and reported the face check as broken | scripts a gate reads write to a file; a gate's output read whole | 12 |
 | a hand-written render brief named the wrong folder for a new image | briefs printed by a script from the commit | 11 "Render helper sessions" |
+| the narrator's pace and tone rows read "n/a" because the account had no measured standard, and the gate printed PASSED over a take outside the reference reels | a narrated film's pace and tone are always measured; a missing standard fails; a take kept outside it is kept by the owner, in writing, with the numbers | gate `qa` |
