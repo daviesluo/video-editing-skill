@@ -252,7 +252,11 @@ never the caption.
   title), clean, with the bed still sounding under it. Its title is broken
   into lines by meaning, phrase by phrase, with no word alone ("Drain
   every ocean. / Where is / the longest / mountain range?"; left to wrap,
-  "longest" fell alone on a line).
+  "longest" fell alone on a line). When the voice reads the next title
+  out, its words rise with the voice, each a little ahead of its own
+  spoken word, never staggered in all at once: a five-line title written
+  out on the teaser's first word stood complete 4.7 s before the voice
+  reached its question, and the owner asked for it changed.
 - **Covers never catch a fade**: after any re-timing, look at each cover
   at full size for half-transparent type or a shape mid-move.
 
