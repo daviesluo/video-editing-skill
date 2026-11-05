@@ -59,6 +59,15 @@ start is moved back over the hiss. A hiss that runs on unbroken from a
 word ending in a hiss or burst ("straight south") stays with that word.
 Spot-check disputed words on a spectrogram.
 
+Measure a seed only after `realign`. Synthesis timings fold the pauses
+into the words around them, so a take measured on them reads wrong on
+every word-based measure: one part's takes read 4.2 to 4.4 syllables a
+second in speech, a sentence pause of 0.08 s and a word-level spread of
+3.6 to 6.5 dB, all outside the reference parts, and after `realign` the
+same audio read 5.0, 0.37 s and 3.1 dB, inside. Six new seeds were made
+for a fault that was the measurement's. The order for every take: voice,
+realign, then `voicestyle.py report` and the pace measure, then pace.
+
 ## Pace, measured against the reference parts
 
 A take can pass every check and two exhaustive reviews and still be
