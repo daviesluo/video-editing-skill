@@ -23,14 +23,20 @@ every time in them comes from a word cue.
   stays in view as a card above the profile in the follow beat.
 - **The screen is never empty while the voice talks about something**:
   hold the last picture until the next arrives.
-- **A headline says what the voice says, in its words**, and names what
-  the voice names: "Whole continents fool us too" over a voice saying
-  "Whole continents fool us the same way" showed two wordings of one
-  sentence at once, and "Memory lines them up" left "them" without the
-  continents the voice had named. A headline starts on its own first word
-  (a little ahead, as any reveal), never on the start of a sentence whose
-  opening words are not in it: one began on "Actually," and was written
-  out a second before the voice reached it.
+- **A headline sums up what the voice says; it does not repeat it.**
+  The captions already carry the voice word for word, so a headline
+  that copies the sentence says everything twice (the owner: "shouldn't
+  each page's title be a summary of the narration? It is the same as the
+  voice word for word, so the two repeat each other"). A headline is the
+  point of its section in a few words (about 3 to 7), in the voice's
+  terms and naming what the voice names, never a different claim: over
+  "In 1940, Spain moved its clocks an hour forward and never moved them
+  back", a headline such as "Spain: an hour ahead since 1940". It comes
+  up whole as its section starts (a little ahead, as any reveal) and
+  stays through the section; never ahead of the fact it states, so a
+  headline whose fact the voice reaches later waits for that word. Two
+  wordings of one sentence on screen at once remain wrong: the headline
+  is short enough that it cannot read as a second transcript.
 - **A line built word by word is laid out whole from its first frame**,
   each word shown in its final place: a title assembled from the words
   so far ("It blew both.") re-centred at every word and dropped its
