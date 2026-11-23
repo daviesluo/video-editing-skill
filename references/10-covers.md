@@ -25,6 +25,30 @@ shows and checked by measurement.
   "the cover too": the two countries alone), and its title asks the
   question ("How do you sail from Pakistan to Russia in a straight
   line?"), not the result.
+- **The title is one sentence a person would say aloud**: a complete
+  clause with a verb, usually one question, with nothing glued on by
+  colons or commas ("X: where?", "A, B. Which?"). Headline shorthand
+  that drops verbs reads as unclear and stilted even when every fact in
+  it is right (the owner, of a run of covers in that style: "it isn't
+  clear and doesn't read smoothly; none of the titles are good"). It is
+  accurate to the logged fact: "most" only for a share over half,
+  otherwise "the most"; a relationship the right way round (land drains
+  into an ocean, an ocean does not drain land); never more than the
+  source supports. It names what the picture shows, so the picture never
+  misleads, and it does not give the answer. It is faithful to the hook,
+  cut to about 7 to 11 words with the key words first so it fits two or
+  three lines in the 3:4 tile. Write three candidates, read each aloud,
+  and keep the one that needs no second reading; then check it as a
+  180 px tile. Before and after:
+  - "Which ocean drains the most land?" → "Which ocean does the most
+    land drain into?"
+  - "Portugal to China, dead straight: which way?" → "How do you walk
+    from Portugal to China in a straight line?"
+  - "Half of everyone, seven countries. Which ones?" → "Which seven
+    countries are home to half of humanity?"
+  - "Most people, 1% of the land: where is it?" → "Which 1% of the land
+    is home to most people?"
+  The same holds for an episode's opening headline and end-card title.
 - **One subject**: the route, the shapes, the circle, the bars, the page:
   marked in the episode with `data-cover-subject` so the probe measures
   it. Mark the overlay that is the subject, not a full-bleed base map.
