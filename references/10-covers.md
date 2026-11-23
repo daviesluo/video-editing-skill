@@ -49,6 +49,14 @@ shows and checked by measurement.
   - "Most people, 1% of the land: where is it?" → "Which 1% of the land
     is home to most people?"
   The same holds for an episode's opening headline and end-card title.
+- **A cover that must not answer still has a full picture.** A bare map
+  with nothing on it reads as plain in the grid (the owner, of three such
+  covers: "the picture is too plain"). Fill it with the question's
+  candidates, each in its own colour and none in the accent (every
+  country, every continent), or with the data's continuous texture with
+  no threshold and no mark. Leave the data off only when its texture
+  alone shows the answer at a glance (a fire map where one continent
+  plainly dominates).
 - **One subject**: the route, the shapes, the circle, the bars, the page:
   marked in the episode with `data-cover-subject` so the probe measures
   it. Mark the overlay that is the subject, not a full-bleed base map.
